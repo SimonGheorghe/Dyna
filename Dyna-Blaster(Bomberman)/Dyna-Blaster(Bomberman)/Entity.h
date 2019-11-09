@@ -15,9 +15,10 @@ public:
 	};
 
 public:
-	Entity(Block block, Block::Type type);
+	Entity(Block::Type type);
 	Entity(Bomb bomb);
-	Entity(Monster monster, Monster::Type type);
+	Entity(Monster::Type type);
+	Entity();
 
 private:
 	Type m_type;

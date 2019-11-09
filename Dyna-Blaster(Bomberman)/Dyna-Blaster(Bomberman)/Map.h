@@ -2,8 +2,9 @@
 #include<iostream>
 #include<cstdint>
 #include<vector>
-#include"Block.h"
+#include"Entity.h"
 #include<array>
+
 
 class Map
 {
@@ -19,22 +20,28 @@ public:
 		InsideOfTheCastlePartII,
 		InsideOfTheCastlePartIII	
 	};
+
 	enum class Width
 	{
 		Narrow = 15,
 		Wide = 31
 	};
+
 	enum class Length
 	{
 		Short = 13,
 		Long = 29
 	};
 
+	using Position = std::pair<uint16_t, uint16_t>;
+
 public:
 	Map(Stage Stage, uint16_t Level);
 	void GenerateMapDimensions();
+	void GenerateBlocks();
 	friend std::istream& operator>>(std::istream& in, Map& map);
-
+	const Entity& operator[](const Position& position) const;
+	Entity& operator[](const Position& position);
 private:
 	static const uint16_t noOfStagesAndLevels = 8;
 	std::array<std::array<std::string, noOfStagesAndLevels>, noOfStagesAndLevels> mapSize;
@@ -44,6 +51,6 @@ private:
 	uint16_t m_level;
 	Width m_width;
 	Length m_length;
-	std::vector<std::vector<Block>> m_map;
+	std::vector<std::vector<Entity>> m_map;
 };
 

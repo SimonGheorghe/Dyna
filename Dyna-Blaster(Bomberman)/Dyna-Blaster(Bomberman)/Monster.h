@@ -41,6 +41,7 @@ public:
 	uint16_t GetScore();
 	bool GetPassingAbility();
 
+
 private:
 	Type m_type;
 	Speed m_speed;

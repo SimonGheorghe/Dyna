@@ -16,6 +16,7 @@ private:
 
 public:
 	Bomb(size_t, size_t, size_t, size_t);
+	Bomb();
 	~Bomb();
 
 public:

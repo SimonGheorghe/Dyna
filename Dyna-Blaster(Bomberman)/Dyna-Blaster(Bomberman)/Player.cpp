@@ -1,31 +1,65 @@
 #include "Player.h"
 
-Player::Player(uint8_t nrBombs, uint8_t nrLifes, uint32_t score, Speed speed) :
-	m_numberBombs(nrBombs), m_numberLifes(nrLifes), m_score(score), m_speed(speed)
+Player::Player(uint16_t numberBombs, uint16_t health, uint32_t score, uint16_t speed) :m_noOfBombs(numberBombs), m_health(health), m_score(score), m_speed(speed)
 {
 }
 
-uint8_t Player::GetNumberBombs()
+void Player::SetFire(uint16_t up)
 {
-	return m_numberBombs;
+	m_fire = up;
 }
 
-uint8_t Player::GetNumberLifes()
+uint16_t Player::GetFire()
 {
-	return m_numberLifes;
+	return m_fire;
 }
 
-uint32_t Player::GetScore()
+void Player::SetNoOfBombs(uint16_t up)
 {
-	return m_score;
+	m_noOfBombs = up;
 }
 
-Player::Speed Player::GetSpeed()
+uint16_t Player::GetNoOfBombs()
+{
+	return m_noOfBombs;
+}
+
+uint16_t Player::GetSpeed()
 {
 	return m_speed;
 }
 
-Player::~Player()
+void Player::SetSpeed(uint16_t up)
 {
-	delete this;
+	m_speed = up;
+}
+
+void Player::SetSoftBlockPass(bool up)
+{
+	m_softBlockPass = up;
+}
+
+void Player::SetBombPass(bool up)
+{
+	m_bombPass = up;
+}
+
+void Player::SetHealth(uint16_t up)
+{
+	m_health = up;
+}
+
+uint16_t Player::GetHealth()
+{
+	return m_health;
+}
+
+void Player::SetVest(bool up)
+{
+	m_vest = up;
+}
+
+void Player::SetRemoteControl(bool up)
+{
+	m_remoteControl = up;
 }

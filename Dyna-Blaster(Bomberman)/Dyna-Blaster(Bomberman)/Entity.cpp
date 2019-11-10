@@ -1,4 +1,5 @@
 #include "Entity.h"
+#include "Bomb.h"
 
 Entity::Entity(Block::Type type)
 {

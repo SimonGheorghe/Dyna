@@ -7,6 +7,11 @@ Bomb::Bomb(int X, int Y)
 
 }
 
+Bomb::Bomb()
+{
+	//empty
+}
+
 //destructor is important for destroying old bomb objects after they have detonated!
 Bomb::~Bomb() {
 

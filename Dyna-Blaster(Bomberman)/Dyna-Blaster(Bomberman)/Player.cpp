@@ -1,6 +1,7 @@
 #include "Player.h"
+#include <conio.h>
 
-Player::Player(uint16_t numberBombs, uint16_t health, uint32_t score, uint16_t speed) :m_noOfBombs(numberBombs), m_health(health), m_score(score), m_speed(speed)
+Player::Player(uint16_t numberBombs, uint16_t health, uint32_t score, uint16_t speed, uint16_t coordX, uint16_t coordY) :m_noOfBombs(numberBombs), m_health(health), m_score(score), m_speed(speed), m_coordX(coordX), m_coordY(coordY)
 {
 }
 
@@ -62,4 +63,44 @@ void Player::SetVest(bool up)
 void Player::SetRemoteControl(bool up)
 {
 	m_remoteControl = up;
+}
+
+void Player::Move()
+{
+	char ch = 0;
+	std::cout << "Press Q to quit\n";
+	do
+	{
+		ch = _getch();
+
+		switch (ch)
+		{
+		case 'W':
+		case 'w':
+		{
+			--m_coordY;
+		}
+			break;
+		case 'A':
+		case 'a':
+		{
+			--m_coordX;
+		}
+			break;
+		case 's':
+		case 'S':
+		{
+			++m_coordY;
+		}
+			break;
+		case 'D':
+		case 'd':
+		{
+			++m_coordX;
+		}
+			break;
+
+		}
+
+	} while (ch != 'Q' && ch != 'q');
 }

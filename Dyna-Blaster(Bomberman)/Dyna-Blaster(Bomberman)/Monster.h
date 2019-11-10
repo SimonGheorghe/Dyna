@@ -40,9 +40,15 @@ public:
 	uint16_t GetHitPoints();
 	uint16_t GetScore();
 	bool GetPassingAbility();
+	void MoveUp();
+	void MoveDown();
+	void MoveRight();
+	void MoveLeft();
 
 
 private:
+	uint16_t m_coordX;
+	uint16_t m_coordY;
 	Type m_type;
 	Speed m_speed;
 	uint16_t m_hitPoints;

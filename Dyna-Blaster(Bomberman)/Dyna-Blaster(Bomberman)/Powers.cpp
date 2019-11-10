@@ -49,7 +49,7 @@ void Powers::UpdatePlayerPower(Player player, Power power)
 		player.SetVest(true);
 		break;
 	case Powers::Power::RemoteControl:
-		player.SetRemoteComtrol(true);
+		player.SetRemoteControl(true);
 		break;
 	default:
 		break;

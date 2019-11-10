@@ -176,3 +176,25 @@ bool Monster::GetPassingAbility()
 {
 	return m_passingAbility;
 }
+
+void Monster::MoveUp()
+{
+	--m_coordY;
+}
+
+void Monster::MoveDown()
+{
+	++m_coordY;
+}
+
+void Monster::MoveRight()
+{
+	++m_coordX;
+}
+
+void Monster::MoveLeft()
+{
+	--m_coordX;
+}
+
+

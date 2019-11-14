@@ -39,9 +39,11 @@ public:
 	Map(Stage Stage, uint16_t Level);
 	void GenerateMapDimensions();
 	void GenerateBlocks();
+
 	friend std::istream& operator>>(std::istream& in, Map& map);
-	const Entity& operator[](const Position& position) const;
-	Entity& operator[](const Position& position);
+
+	const Entity* operator[](const Position& position) const;
+	Entity* operator[](const Position& position);
 private:
 	static const uint16_t noOfStagesAndLevels = 8;
 	std::array<std::array<std::string, noOfStagesAndLevels>, noOfStagesAndLevels> mapSize;
@@ -51,6 +53,6 @@ private:
 	uint16_t m_level;
 	Width m_width;
 	Length m_length;
-	std::vector<std::vector<Entity>> m_map;
+	std::vector<std::vector<Entity*>> m_map;
 };
 

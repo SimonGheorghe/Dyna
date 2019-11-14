@@ -1,5 +1,10 @@
 #include "Bomb.h"
 
+bool Bomb::isBlock()
+{
+	return false;
+}
+
 Bomb::Bomb(int X, int Y)
 {
 	//this is a blastlet

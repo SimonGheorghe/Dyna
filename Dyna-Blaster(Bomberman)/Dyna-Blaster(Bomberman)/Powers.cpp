@@ -55,3 +55,8 @@ void Powers::UpdatePlayerPower(Player player, Power power)
 		break;
 	}
 }
+
+bool Powers::isBlock()
+{
+	return false;
+}

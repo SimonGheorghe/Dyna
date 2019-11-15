@@ -86,4 +86,17 @@ std::istream& operator>>(std::istream& in, Map& map)
 	return in;
 }
 
+std::ostream& operator<<(std::ostream& out, const Map& map)
+{
+	for (int index1 = 0; index1 < (uint16_t)map.m_length; ++index1)
+	{
+		for (int index2 = 0; index2 < (uint16_t)map.m_width; ++index2)
+		{
 
+			Block* block = dynamic_cast<Block*>(map.m_map[index1][index2]);
+			out << *block;
+		}
+		out << std::endl;
+	}
+	return out;
+}

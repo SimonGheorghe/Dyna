@@ -15,6 +15,7 @@ public:
 	bool isBlock();
 	Type GetType();
 
+	friend std::ostream& operator<<(std::ostream& out, const Block& block);
 
 
 private:

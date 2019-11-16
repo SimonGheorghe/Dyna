@@ -20,8 +20,9 @@ public:
 
 public:
 	Powers(Power power);
-	void UpdatePlayerPower(Player player,Power power); //class player don't have implementation
+	void UpdatePlayerPower(Player player,Power power);
 	bool isBlock();
+
 private:
 	Power m_power;
 

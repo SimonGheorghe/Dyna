@@ -152,49 +152,99 @@ Monster::Monster(Type type) :
 	}
 }
 
-Monster::Type Monster::GetType()
+Monster::Type Monster::GetType() const
 {
 	return m_type;
 }
 
-Monster::Speed Monster::GetSpeed()
+Monster::Speed Monster::GetSpeed() const
 {
 	return m_speed;
 }
 
-uint16_t Monster::GetHitPoints()
+uint16_t Monster::GetHitPoints() const
 {
 	return m_hitPoints;
 }
 
-uint16_t Monster::GetScore()
+uint16_t Monster::GetScore() const
 {
 	return m_score;
 }
 
-bool Monster::GetPassingAbility()
+bool Monster::GetPassingAbility() const
 {
 	return m_passingAbility;
 }
 
-void Monster::MoveUp()
+void Monster::Place(const Map& map)
 {
-	--m_coordY;
+	do {
+		m_coordX = rand() % (map.GetLength() - 2) + 1;
+		m_coordY = rand() % (map.GetWidth() - 2) + 1;
+	} while (map[{m_coordX, m_coordY}] != nullptr);
+	m_lastX = m_coordX;
+	m_lastY = m_coordY;
 }
 
-void Monster::MoveDown()
+std::ostream& operator<<(std::ostream& out, const Monster& monster)
 {
-	++m_coordY;
+	switch (monster.GetType())
+	{
+	case Monster::Type::Ballom:
+		out << "Ba";
+		break;
+	case Monster::Type::Ekutopu:
+		out << "Ek";
+		break;
+	case Monster::Type::Boyon:
+		out << "Bo";
+		break;
+	case Monster::Type::Pass:
+		out << "Pa";
+		break;
+	case Monster::Type::Telpio:
+		out << "Te";
+		break;
+	case Monster::Type::Pomori:
+		out << "Po";
+		break;
+	case Monster::Type::Onil:
+		out << "On";
+		break;
+	case Monster::Type::Gacha:
+		out << "Ga";
+		break;
+	case Monster::Type::Minvo:
+		out << "Mi";
+		break;
+	case Monster::Type::Buffer:
+		out << "Bu";
+		break;
+	case Monster::Type::Peggi:
+		out << "Pe";
+		break;
+	case Monster::Type::Flapper:
+		out << "Fl";
+		break;
+	case Monster::Type::BakeBake:
+		out << "Bk";
+		break;
+	case Monster::Type::Korisuke:
+		out << "Ko";
+		break;
+	case Monster::Type::Maron:
+		out << "Ma";
+		break;
+	case Monster::Type::Ojin:
+		out << "Oj";
+		break;
+	case Monster::Type::Pontan:
+		out << "Po";
+		break;
+	default:
+		out << "??";
+		break;
+	}
+	return out;
 }
-
-void Monster::MoveRight()
-{
-	++m_coordX;
-}
-
-void Monster::MoveLeft()
-{
-	--m_coordX;
-}
-
-

@@ -10,13 +10,13 @@ public:
 		SoftBlock,
 		NoneBlock
 	};
+
 public:
 	Block(Type type);
 	bool isBlock();
-	Type GetType();
+	Type GetType() const;
 
 	friend std::ostream& operator<<(std::ostream& out, const Block& block);
-
 
 private:
 	Type m_type;

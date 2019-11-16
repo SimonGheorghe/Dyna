@@ -10,7 +10,7 @@ void Player::SetFire(uint16_t up)
 	m_fire = up;
 }
 
-uint16_t Player::GetFire()
+uint16_t Player::GetFire() const
 {
 	return m_fire;
 }
@@ -20,12 +20,12 @@ void Player::SetNoOfBombs(uint16_t up)
 	m_noOfBombs = up;
 }
 
-uint16_t Player::GetNoOfBombs()
+uint16_t Player::GetNoOfBombs() const
 {
 	return m_noOfBombs;
 }
 
-uint16_t Player::GetSpeed()
+uint16_t Player::GetSpeed() const
 {
 	return m_speed;
 }
@@ -50,9 +50,19 @@ void Player::SetHealth(uint16_t up)
 	m_health = up;
 }
 
-uint16_t Player::GetHealth()
+uint16_t Player::GetHealth() const
 {
 	return m_health;
+}
+
+uint16_t Player::GetCoordX() const
+{
+	return m_coordX;
+}
+
+uint16_t Player::GetCoordY() const
+{
+	return m_coordY;
 }
 
 void Player::SetVest(bool up)
@@ -65,42 +75,61 @@ void Player::SetRemoteControl(bool up)
 	m_remoteControl = up;
 }
 
-void Player::Move()
+void Player::Place(Map& map)
 {
-	char ch = 0;
-	std::cout << "Press Q to quit\n";
-	do
+	map.SetBlock(Block::Type::NoneBlock, m_coordX, m_coordY);
+	if (dynamic_cast<Block*>(map[{m_coordX - 1, m_coordY}])->GetType() == Block::Type::SoftBlock)
+		map.SetBlock(Block::Type::NoneBlock, m_coordX - 1, m_coordY);
+	if (dynamic_cast<Block*>(map[{m_coordX + 1, m_coordY}])->GetType() == Block::Type::SoftBlock)
+		map.SetBlock(Block::Type::NoneBlock, m_coordX + 1, m_coordY);
+	if (dynamic_cast<Block*>(map[{m_coordX, m_coordY - 1}])->GetType() == Block::Type::SoftBlock)
+		map.SetBlock(Block::Type::NoneBlock, m_coordX, m_coordY - 1);
+	if (dynamic_cast<Block*>(map[{m_coordX, m_coordY + 1}])->GetType() == Block::Type::SoftBlock)
+		map.SetBlock(Block::Type::NoneBlock, m_coordX, m_coordY + 1);
+		
+	
+	
+	
+}
+
+void Player::Move(Map& map)
+{
+	char ch = _getch();
+	switch (ch)
 	{
-		ch = _getch();
-
-		switch (ch)
-		{
-		case 'W':
-		case 'w':
-		{
-			--m_coordY;
-		}
-			break;
-		case 'A':
-		case 'a':
-		{
+	case 'W':
+	case 'w':
+	{
+		if (dynamic_cast<Block*>(map[{m_coordX - 1, m_coordY}])->GetType() == Block::Type::NoneBlock)
 			--m_coordX;
-		}
-			break;
-		case 's':
-		case 'S':
-		{
-			++m_coordY;
-		}
-			break;
-		case 'D':
-		case 'd':
-		{
+	}
+	break;
+	case 'A':
+	case 'a':
+	{
+		if (dynamic_cast<Block*>(map[{m_coordX, m_coordY - 1}])->GetType() == Block::Type::NoneBlock)
+			--m_coordY;
+	}
+	break;
+	case 's':
+	case 'S':
+	{
+		if (dynamic_cast<Block*>(map[{m_coordX + 1, m_coordY}])->GetType() == Block::Type::NoneBlock)
 			++m_coordX;
-		}
-			break;
+	}
+	break;
+	case 'D':
+	case 'd':
+	{
+		if (dynamic_cast<Block*>(map[{m_coordX, m_coordY + 1}])->GetType() == Block::Type::NoneBlock)
+			++m_coordY;
+	}
+	break;
 
-		}
+	}
+}
 
-	} while (ch != 'Q' && ch != 'q');
+std::ostream& operator<<(std::ostream& out, const Player& player)
+{
+	return out << "[]";
 }

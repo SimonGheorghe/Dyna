@@ -28,7 +28,7 @@ void Bomb::SetUsed(bool u) {
 	IsUsed = u;
 }
 
-bool Bomb::GetBlast() {
+bool Bomb::GetBlast() const {
 
 	return IsBlast;
 }
@@ -38,7 +38,7 @@ void Bomb::SetBlast(bool i) {
 	IsBlast = i;
 }
 
-bool Bomb::GetIgnite() {
+bool Bomb::GetIgnite() const {
 
 	return Ignition;
 }
@@ -48,19 +48,22 @@ void Bomb::SetIgnite(bool i) {
 	Ignition = i;
 }
 
-bool Bomb::GetUsed() {
+bool Bomb::GetUsed() const
+{
 
 	return IsUsed;
 }
 
 
-uint16_t Bomb::GetBombTicks() {
+uint16_t Bomb::GetBombTicks() const
+{
 
 	return m_bombTicks;
 }
 
 //returns length of blast
-uint16_t Bomb::GetFlame() {
+uint16_t Bomb::GetFlame() const
+{
 
 	return m_flame;
 }

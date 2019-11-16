@@ -4,6 +4,7 @@
 #include<vector>
 #include"Entity.h"
 #include<array>
+#include"Block.h"
 
 
 class Map
@@ -37,14 +38,22 @@ public:
 
 public:
 	Map(Stage Stage, uint16_t Level);
-	void GenerateMapDimensions();
-	void GenerateBlocks();
 
-	friend std::istream& operator>>(std::istream& in, Map& map);
+	//friend std::istream& operator>>(std::istream& in, Map& map);
 	friend std::ostream& operator<<(std::ostream& out, const Map& map);
 
 	const Entity* operator[](const Position& position) const;
 	Entity* operator[](const Position& position);
+
+	uint16_t GetWidth() const;
+	uint16_t GetLength() const;
+
+	void SetBlock(Block::Type type, uint16_t coordX, uint16_t coordY);
+
+private:
+	void GenerateMapDimensions();
+	void GenerateBlocks();
+
 private:
 	static const uint16_t noOfStagesAndLevels = 8;
 	std::array<std::array<std::string, noOfStagesAndLevels>, noOfStagesAndLevels> mapSize;

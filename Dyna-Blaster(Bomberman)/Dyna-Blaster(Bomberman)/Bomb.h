@@ -17,8 +17,8 @@ public:
 	~Bomb();
 
 	//getters for returning ticks time and flame size
-	uint16_t GetBombTicks();
-	uint16_t GetFlame();
+	uint16_t GetBombTicks() const;
+	uint16_t GetFlame() const;
 
 	//sets timer on newbombs
 	void SetBombTicks(uint16_t _T);
@@ -33,14 +33,14 @@ public:
 
 	//Setter and getter for bomb if it has been used
 	void SetUsed(bool u);
-	bool GetUsed();
+	bool GetUsed() const;
 
 	//Setter and getter for bomb ignition flag
 	void SetIgnite(bool i);
-	bool GetIgnite();
+	bool GetIgnite() const;
 
 	//Get if blast or not
-	bool GetBlast();
+	bool GetBlast() const;
 	void SetBlast(bool i);
 
 	private:

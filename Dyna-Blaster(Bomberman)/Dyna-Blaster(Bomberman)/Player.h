@@ -9,19 +9,27 @@ class Player
 public:
 
 	Player(uint16_t numberBombs, uint16_t health, uint32_t score, uint16_t speed, uint16_t coordX, uint16_t coordY);
+	
+	uint16_t GetFire() const;
+	uint16_t GetNoOfBombs() const;
+	uint16_t GetSpeed() const;
+	uint16_t GetHealth() const;
+	uint16_t GetCoordX() const;
+	uint16_t GetCoordY() const;
+
 	void SetFire(uint16_t up);
-	uint16_t GetFire();
 	void SetNoOfBombs(uint16_t up);
-	uint16_t GetNoOfBombs();
-	uint16_t GetSpeed();
 	void SetSpeed(uint16_t up);
 	void SetSoftBlockPass(bool up);
 	void SetBombPass(bool up);
 	void SetHealth(uint16_t up);
-	uint16_t GetHealth();
 	void SetVest(bool up);
 	void SetRemoteControl(bool up);
-	void Move();
+	
+	void Place(Map& map);
+	void Move(Map& map);
+
+	friend std::ostream& operator<<(std::ostream& out, const Player& player);
 
 private:
 	uint16_t m_coordX;

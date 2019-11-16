@@ -2,7 +2,6 @@
 #include <iostream>
 #include <cstdint>
 #include "Map.h"
-
 class Bomb
 {
 public:
@@ -35,7 +34,7 @@ public:
 	bool GetBlast() const;
 	void SetBlast(bool i);
 
-	void Explode(Map& map, uint16_t fire);
+	bool Explode(Map& map, uint16_t fire, uint16_t playerCoordX, uint16_t playerCoordY);
 
 	friend std::ostream& operator<<(std::ostream& out, const Bomb& bomb);
 

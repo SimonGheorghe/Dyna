@@ -1,6 +1,7 @@
 #include "Bomb.h"
 
 
+
 bool Bomb::isBlock()
 {
 	return false;
@@ -38,19 +39,25 @@ void Bomb::SetBlast(bool i) {
 	IsBlast = i;
 }
 
-void Bomb::Explode(Map& map, uint16_t fire)
+bool Bomb::Explode(Map& map, uint16_t fire, uint16_t playerCoordX, uint16_t playerCoordY)
 {
 	map.SetBlock(Block::Type::ExplodedBomb, m_coordX, m_coordY);
-	int index1 = m_coordX;
-	int index2 = m_coordY;
+	uint16_t index1 = m_coordX;
+	uint16_t index2 = m_coordY;
 	uint16_t flame = fire;
+	bool playerIsHit = 0;
+	if (playerCoordX == index1 && playerCoordY == index2)
+		playerIsHit = 1;
 	while (dynamic_cast<Block*>(map[{index1 - 1, index2}])->GetType() == Block::Type::NoneBlock && flame != 0)
 	{
 		map.SetBlock(Block::Type::VerticalFire, --index1, index2);
 		flame--;
+		if (playerCoordX == index1 && playerCoordY == index2)
+			playerIsHit = 1;
 	}
 	if(dynamic_cast<Block*>(map[{index1 - 1, index2}])->GetType() == Block::Type::SoftBlock && flame != 0)
 		map.SetBlock(Block::Type::ExplodedBlock, --index1, index2);
+	
 	index1 = m_coordX;
 	index2 = m_coordY;
 	flame = fire;
@@ -58,6 +65,8 @@ void Bomb::Explode(Map& map, uint16_t fire)
 	{
 		map.SetBlock(Block::Type::VerticalFire, ++index1, index2);
 		flame--;
+		if (playerCoordX == index1 && playerCoordY == index2)
+			playerIsHit = 1;
 	}
 	if (dynamic_cast<Block*>(map[{index1 + 1, index2}])->GetType() == Block::Type::SoftBlock && flame != 0)
 		map.SetBlock(Block::Type::ExplodedBlock, ++index1, index2);
@@ -68,6 +77,8 @@ void Bomb::Explode(Map& map, uint16_t fire)
 	{
 		map.SetBlock(Block::Type::HorizontalFire, index1, --index2);
 		flame--;
+		if (playerCoordX == index1 && playerCoordY == index2)
+			playerIsHit = 1;
 	}
 	if (dynamic_cast<Block*>(map[{index1, index2 - 1}])->GetType() == Block::Type::SoftBlock && flame != 0)
 		map.SetBlock(Block::Type::ExplodedBlock, index1, --index2);
@@ -78,10 +89,15 @@ void Bomb::Explode(Map& map, uint16_t fire)
 	{
 		map.SetBlock(Block::Type::HorizontalFire, index1, ++index2);
 		flame--;
+		if (playerCoordX == index1 && playerCoordY == index2)
+			playerIsHit = 1;
 	}
 	if (dynamic_cast<Block*>(map[{index1, index2 + 1}])->GetType() == Block::Type::SoftBlock && flame != 0)
 		map.SetBlock(Block::Type::ExplodedBlock, index1, ++index2);
+	return playerIsHit;
 }
+
+
 
 bool Bomb::GetIgnite() const {
 

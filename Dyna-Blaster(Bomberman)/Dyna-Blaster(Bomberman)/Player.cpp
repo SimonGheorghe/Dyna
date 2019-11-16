@@ -1,6 +1,7 @@
 #include "Player.h"
 
-Player::Player(uint16_t fire, uint16_t numberBombs, uint16_t health, uint32_t score, uint16_t speed, uint16_t coordX, uint16_t coordY) :m_fire(fire), m_noOfBombs(numberBombs), m_health(health), m_score(score), m_speed(speed), m_coordX(coordX), m_coordY(coordY)
+Player::Player(uint16_t fire, uint16_t numberBombs, uint16_t health, uint32_t score, uint16_t speed) :
+	m_fire(fire), m_noOfBombs(numberBombs), m_health(health), m_score(score), m_speed(speed)
 {
 }
 
@@ -79,8 +80,10 @@ void Player::SetRemoteControl(bool up)
 	m_remoteControl = up;
 }
 
-void Player::Place(Map& map)
+void Player::Place(Map& map, uint16_t coordX, uint16_t coordY)
 {
+	m_coordX = coordX;
+	m_coordY = coordY;
 	map.SetBlock(Block::Type::NoneBlock, m_coordX, m_coordY);
 	if (dynamic_cast<Block*>(map[{m_coordX - 1, m_coordY}])->GetType() == Block::Type::SoftBlock)
 		map.SetBlock(Block::Type::NoneBlock, m_coordX - 1, m_coordY);
@@ -90,10 +93,6 @@ void Player::Place(Map& map)
 		map.SetBlock(Block::Type::NoneBlock, m_coordX, m_coordY - 1);
 	if (dynamic_cast<Block*>(map[{m_coordX, m_coordY + 1}])->GetType() == Block::Type::SoftBlock)
 		map.SetBlock(Block::Type::NoneBlock, m_coordX, m_coordY + 1);
-		
-	
-	
-	
 }
 
 void Player::Move(Map& map, char ch)

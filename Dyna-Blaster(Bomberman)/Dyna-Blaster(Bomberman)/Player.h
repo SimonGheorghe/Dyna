@@ -8,7 +8,7 @@ class Player
 {
 public:
 
-	Player(uint16_t fire, uint16_t numberBombs, uint16_t health, uint32_t score, uint16_t speed, uint16_t coordX, uint16_t coordY);
+	Player(uint16_t fire, uint16_t numberBombs, uint16_t health, uint32_t score, uint16_t speed);
 	
 	uint16_t GetFire() const;
 	uint16_t GetNoOfBombs() const;
@@ -27,15 +27,13 @@ public:
 	void SetVest(bool up);
 	void SetRemoteControl(bool up);
 	
-	void Place(Map& map);
+	void Place(Map& map, uint16_t coordX, uint16_t coordY);
 	void Move(Map& map, char ch);
 	void PlaceBomb(Map& map, uint16_t coordX, uint16_t coordY);
 	void DeleteBomb(int index);
 
 	Bomb* operator[](int index);
 	friend std::ostream& operator<<(std::ostream& out, const Player& player);
-	
-public:
 
 private:
 	uint16_t m_coordX;

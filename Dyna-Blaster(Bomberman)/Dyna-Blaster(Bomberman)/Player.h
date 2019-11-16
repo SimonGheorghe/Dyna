@@ -1,14 +1,14 @@
 #pragma once
 #include <cstdint>
 #include<string>
-#include"Map.h"
+#include "Bomb.h"
 
 using pair = std::pair<uint8_t, uint8_t>;
 class Player
 {
 public:
 
-	Player(uint16_t numberBombs, uint16_t health, uint32_t score, uint16_t speed, uint16_t coordX, uint16_t coordY);
+	Player(uint16_t fire, uint16_t numberBombs, uint16_t health, uint32_t score, uint16_t speed, uint16_t coordX, uint16_t coordY);
 	
 	uint16_t GetFire() const;
 	uint16_t GetNoOfBombs() const;
@@ -16,6 +16,7 @@ public:
 	uint16_t GetHealth() const;
 	uint16_t GetCoordX() const;
 	uint16_t GetCoordY() const;
+	uint16_t GetNoOfPlacedBombs() const;
 
 	void SetFire(uint16_t up);
 	void SetNoOfBombs(uint16_t up);
@@ -27,9 +28,14 @@ public:
 	void SetRemoteControl(bool up);
 	
 	void Place(Map& map);
-	void Move(Map& map);
+	void Move(Map& map, char ch);
+	void PlaceBomb(Map& map, uint16_t coordX, uint16_t coordY);
+	void DeleteBomb(int index);
 
+	Bomb* operator[](int index);
 	friend std::ostream& operator<<(std::ostream& out, const Player& player);
+	
+public:
 
 private:
 	uint16_t m_coordX;
@@ -38,9 +44,12 @@ private:
 	uint16_t m_fire;
 	uint16_t m_noOfBombs;
 	uint16_t m_speed;
+	uint16_t m_health;
+
+	std::vector<Bomb*> m_placedBombs;
+
 	bool m_softBlockPass=false;
 	bool m_bombPass=false;
-	uint16_t m_health;
 	bool m_vest=false;
 	bool m_remoteControl=false;
 };

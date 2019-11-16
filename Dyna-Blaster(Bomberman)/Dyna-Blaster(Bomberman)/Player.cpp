@@ -1,7 +1,6 @@
 #include "Player.h"
-#include <conio.h>
 
-Player::Player(uint16_t numberBombs, uint16_t health, uint32_t score, uint16_t speed, uint16_t coordX, uint16_t coordY) :m_noOfBombs(numberBombs), m_health(health), m_score(score), m_speed(speed), m_coordX(coordX), m_coordY(coordY)
+Player::Player(uint16_t fire, uint16_t numberBombs, uint16_t health, uint32_t score, uint16_t speed, uint16_t coordX, uint16_t coordY) :m_fire(fire), m_noOfBombs(numberBombs), m_health(health), m_score(score), m_speed(speed), m_coordX(coordX), m_coordY(coordY)
 {
 }
 
@@ -65,6 +64,11 @@ uint16_t Player::GetCoordY() const
 	return m_coordY;
 }
 
+uint16_t Player::GetNoOfPlacedBombs() const
+{
+	return m_placedBombs.size();
+}
+
 void Player::SetVest(bool up)
 {
 	m_vest = up;
@@ -92,41 +96,112 @@ void Player::Place(Map& map)
 	
 }
 
-void Player::Move(Map& map)
+void Player::Move(Map& map, char ch)
 {
-	char ch = _getch();
 	switch (ch)
 	{
 	case 'W':
 	case 'w':
 	{
 		if (dynamic_cast<Block*>(map[{m_coordX - 1, m_coordY}])->GetType() == Block::Type::NoneBlock)
-			--m_coordX;
+		{
+			bool ok = 1;
+			if (!m_bombPass)
+				for (int index = 0; index < m_placedBombs.size(); ++index)
+					if (m_placedBombs[index]->GetCoordX() == m_coordX - 1 && m_placedBombs[index]->GetCoordY() == m_coordY)
+						ok = 0;
+			if (ok)
+				--m_coordX;
+		}
 	}
 	break;
 	case 'A':
 	case 'a':
 	{
 		if (dynamic_cast<Block*>(map[{m_coordX, m_coordY - 1}])->GetType() == Block::Type::NoneBlock)
-			--m_coordY;
+		{
+			bool ok = 1;
+			if (!m_bombPass)
+				for (int index = 0; index < m_placedBombs.size(); ++index)
+					if (m_placedBombs[index]->GetCoordX() == m_coordX && m_placedBombs[index]->GetCoordY() == m_coordY - 1)
+						ok = 0;
+			if (ok)
+				--m_coordY;
+		}
 	}
 	break;
 	case 's':
 	case 'S':
 	{
 		if (dynamic_cast<Block*>(map[{m_coordX + 1, m_coordY}])->GetType() == Block::Type::NoneBlock)
-			++m_coordX;
+		{
+			bool ok = 1;
+			if (!m_bombPass)
+				for (int index = 0; index < m_placedBombs.size(); ++index)
+					if (m_placedBombs[index]->GetCoordX() == m_coordX + 1 && m_placedBombs[index]->GetCoordY() == m_coordY)
+						ok = 0;
+			if (ok)
+				++m_coordX;
+		}
 	}
 	break;
 	case 'D':
 	case 'd':
 	{
 		if (dynamic_cast<Block*>(map[{m_coordX, m_coordY + 1}])->GetType() == Block::Type::NoneBlock)
-			++m_coordY;
+		{
+			bool ok = 1;
+			if (!m_bombPass)
+				for (int index = 0; index < m_placedBombs.size(); ++index)
+					if (m_placedBombs[index]->GetCoordX() == m_coordX && m_placedBombs[index]->GetCoordY() == m_coordY + 1)
+						ok = 0;
+			if (ok)
+				++m_coordY;
+		}
+	}
+	break;
+	case 'E':
+	case 'e':
+	{
+		// no movement
+	}
+	break;
+	case ' ':
+	{
+		
 	}
 	break;
 
 	}
+}
+
+void Player::PlaceBomb(Map& map, uint16_t coordX, uint16_t coordY)
+{
+	bool ok = 1;
+	for (int index = 0; index < m_placedBombs.size(); ++index)
+		if (m_placedBombs[index]->GetCoordX() == m_coordX && m_placedBombs[index]->GetCoordY() == m_coordY)
+			ok = 0;
+	if (ok) 
+	{
+		Bomb* bomb= new Bomb(m_coordX, m_coordY, m_placedBombs.size());
+		m_placedBombs.push_back(bomb);
+	}
+	m_noOfBombs--;
+}
+
+void Player::DeleteBomb(int bombId)
+{
+	//m_placedBombs.erase(m_placedBombs.begin() + bombId -1);
+	delete m_placedBombs[bombId];
+	for (int index = bombId; index < m_placedBombs.size() - 1; ++index)
+		m_placedBombs[index] = m_placedBombs[1 + index];
+	m_placedBombs.resize(m_placedBombs.size() - 1);
+	m_noOfBombs++;
+}
+
+Bomb* Player::operator[](int index)
+{
+	return m_placedBombs[index];
 }
 
 std::ostream& operator<<(std::ostream& out, const Player& player)

@@ -8,9 +8,13 @@ public:
 	{
 		HardBlock,
 		SoftBlock,
-		NoneBlock
+		NoneBlock,
+		ExplodedBlock,
+		HorizontalFire,
+		VerticalFire,
+		ExplodedBomb
 	};
-
+	
 public:
 	Block(Type type);
 	bool isBlock();

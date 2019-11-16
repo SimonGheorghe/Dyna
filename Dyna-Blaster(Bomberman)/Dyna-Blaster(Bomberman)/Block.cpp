@@ -13,26 +13,46 @@ bool Block::isBlock()
 Block::Type Block::GetType() const
 {
 	return m_type;
+	
 }
 
 std::ostream& operator<<(std::ostream& out, const Block& block)
 {
 	char ch;
-	
-	if (block.m_type == Block::Type::HardBlock)
+	switch (block.m_type)
 	{
+	case Block::Type::HardBlock:
 		ch = 178;
 		out << ch << ch;
-	}
-	if (block.m_type == Block::Type::SoftBlock)
-	{
+		break;
+	case Block::Type::SoftBlock:
 		ch = 177;
 		out << ch << ch;
-	}
-	if (block.m_type == Block::Type::NoneBlock)
-	{
-		ch = 176;
+		break;
+	case Block::Type::NoneBlock:
 		out << "  ";
+		break;
+	case Block::Type::ExplodedBlock:
+		ch = 176;
+		out << ch << ch;
+		break;
+	case Block::Type::HorizontalFire:
+		ch = 205;
+		out << ch<<ch;
+		break;
+	case Block::Type::VerticalFire:
+		ch = 179;
+		out << ch << ch;
+		/*
+		ch=186;
+		out<<ch<<" ";
+		*/
+		break;
+	case Block::Type::ExplodedBomb:
+		out << "{}";
+		break;
+	default:
+		break;
 	}
 	return out;
 }

@@ -1,31 +1,31 @@
 #include "Bomb.h"
 
+
 bool Bomb::isBlock()
 {
 	return false;
 }
 
-Bomb::Bomb(int X, int Y)
+Bomb::Bomb(uint16_t coordX, uint16_t coordY, uint16_t id) :
+	m_coordX(coordX), m_coordY(coordY), m_id(id)
 {
-	//this is a blastlet
-	SetBlast(true);
-
-}
-
-Bomb::Bomb()
-{
-	//empty
+	m_ticks = 6;
 }
 
 //destructor is important for destroying old bomb objects after they have detonated!
-Bomb::~Bomb() {
+//Bomb::~Bomb() {
+//
+//	delete this;
+//}
 
-	delete this;
+uint16_t Bomb::GetCoordX() const
+{
+	return m_coordX;
 }
 
-void Bomb::SetUsed(bool u) {
-
-	IsUsed = u;
+uint16_t Bomb::GetCoordY() const
+{
+	return m_coordY;
 }
 
 bool Bomb::GetBlast() const {
@@ -38,6 +38,51 @@ void Bomb::SetBlast(bool i) {
 	IsBlast = i;
 }
 
+void Bomb::Explode(Map& map, uint16_t fire)
+{
+	map.SetBlock(Block::Type::ExplodedBomb, m_coordX, m_coordY);
+	int index1 = m_coordX;
+	int index2 = m_coordY;
+	uint16_t flame = fire;
+	while (dynamic_cast<Block*>(map[{index1 - 1, index2}])->GetType() == Block::Type::NoneBlock && flame != 0)
+	{
+		map.SetBlock(Block::Type::VerticalFire, --index1, index2);
+		flame--;
+	}
+	if(dynamic_cast<Block*>(map[{index1 - 1, index2}])->GetType() == Block::Type::SoftBlock && flame != 0)
+		map.SetBlock(Block::Type::ExplodedBlock, --index1, index2);
+	index1 = m_coordX;
+	index2 = m_coordY;
+	flame = fire;
+	while (dynamic_cast<Block*>(map[{index1 + 1, index2}])->GetType() == Block::Type::NoneBlock && flame != 0)
+	{
+		map.SetBlock(Block::Type::VerticalFire, ++index1, index2);
+		flame--;
+	}
+	if (dynamic_cast<Block*>(map[{index1 + 1, index2}])->GetType() == Block::Type::SoftBlock && flame != 0)
+		map.SetBlock(Block::Type::ExplodedBlock, ++index1, index2);
+	index1 = m_coordX;
+	index2 = m_coordY;
+	flame = fire;
+	while (dynamic_cast<Block*>(map[{index1, index2 - 1}])->GetType() == Block::Type::NoneBlock && flame != 0)
+	{
+		map.SetBlock(Block::Type::HorizontalFire, index1, --index2);
+		flame--;
+	}
+	if (dynamic_cast<Block*>(map[{index1, index2 - 1}])->GetType() == Block::Type::SoftBlock && flame != 0)
+		map.SetBlock(Block::Type::ExplodedBlock, index1, --index2);
+	index1 = m_coordX;
+	index2 = m_coordY;
+	flame = fire;
+	while (dynamic_cast<Block*>(map[{index1, index2 + 1}])->GetType() == Block::Type::NoneBlock && flame != 0)
+	{
+		map.SetBlock(Block::Type::HorizontalFire, index1, ++index2);
+		flame--;
+	}
+	if (dynamic_cast<Block*>(map[{index1, index2 + 1}])->GetType() == Block::Type::SoftBlock && flame != 0)
+		map.SetBlock(Block::Type::ExplodedBlock, index1, ++index2);
+}
+
 bool Bomb::GetIgnite() const {
 
 	return Ignition;
@@ -48,17 +93,15 @@ void Bomb::SetIgnite(bool i) {
 	Ignition = i;
 }
 
-bool Bomb::GetUsed() const
+uint16_t Bomb::GetTicks() const
 {
 
-	return IsUsed;
+	return m_ticks;
 }
 
-
-uint16_t Bomb::GetBombTicks() const
+void Bomb::SetTicks(uint16_t ticks)
 {
-
-	return m_bombTicks;
+	m_ticks = ticks;
 }
 
 //returns length of blast
@@ -68,16 +111,15 @@ uint16_t Bomb::GetFlame() const
 	return m_flame;
 }
 
-//sets timer on newbombs
-void Bomb::SetBombTicks(uint16_t T)
-{
-
-	m_bombTicks = T;
-}
 
 //sets flame size on new bombs
 void Bomb::SetFlame(uint16_t F) 
 {
 
 	m_flame = F;
+}
+
+std::ostream& operator<<(std::ostream& out, const Bomb& bomb)
+{
+	return out << "* ";
 }

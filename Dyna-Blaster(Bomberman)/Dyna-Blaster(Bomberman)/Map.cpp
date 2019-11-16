@@ -85,12 +85,21 @@ uint16_t Map::GetLength() const
 	return uint16_t(m_length);
 }
 
+Map::Stage Map::GetStage() const
+{
+	return m_stage;
+}
+
+uint16_t Map::GetLevel() const
+{
+	return m_level;
+}
+
 void Map::SetBlock(Block::Type type, uint16_t coordX, uint16_t coordY)
 {
 	delete m_map[coordX][coordY];
 	m_map[coordX][coordY] = new Block(type);
 }
-
 
 /*std::istream& operator>>(std::istream& in, Map& map)
 {

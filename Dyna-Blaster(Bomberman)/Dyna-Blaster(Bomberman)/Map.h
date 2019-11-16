@@ -2,10 +2,8 @@
 #include<iostream>
 #include<cstdint>
 #include<vector>
-#include"Entity.h"
 #include<array>
 #include"Block.h"
-
 
 class Map
 {
@@ -47,7 +45,9 @@ public:
 
 	uint16_t GetWidth() const;
 	uint16_t GetLength() const;
-
+	Stage GetStage() const;
+	uint16_t GetLevel() const;
+	
 	void SetBlock(Block::Type type, uint16_t coordX, uint16_t coordY);
 
 private:

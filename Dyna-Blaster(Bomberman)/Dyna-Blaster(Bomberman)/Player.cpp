@@ -165,11 +165,6 @@ void Player::Move(Map& map, char ch)
 		// no movement
 	}
 	break;
-	case ' ':
-	{
-		
-	}
-	break;
 
 	}
 }
@@ -193,12 +188,17 @@ void Player::DeleteBomb(int bombId)
 	//m_placedBombs.erase(m_placedBombs.begin() + bombId -1);
 	delete m_placedBombs[bombId];
 	for (int index = bombId; index < m_placedBombs.size() - 1; ++index)
-		m_placedBombs[index] = m_placedBombs[1 + index];
+		m_placedBombs[index] = m_placedBombs[(uint16_t)1 + index];
 	m_placedBombs.resize(m_placedBombs.size() - 1);
 	m_noOfBombs++;
 }
 
 Bomb* Player::operator[](int index)
+{
+	return m_placedBombs[index];
+}
+
+const Bomb* Player::operator[](int index) const
 {
 	return m_placedBombs[index];
 }

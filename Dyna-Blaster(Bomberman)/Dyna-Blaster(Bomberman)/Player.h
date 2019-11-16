@@ -33,6 +33,7 @@ public:
 	void DeleteBomb(int index);
 
 	Bomb* operator[](int index);
+	const Bomb* operator[](int index) const;
 	friend std::ostream& operator<<(std::ostream& out, const Player& player);
 
 private:

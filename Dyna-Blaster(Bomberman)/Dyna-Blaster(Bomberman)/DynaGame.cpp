@@ -26,7 +26,7 @@ std::vector<Monster*> GenerateMonster(const Map& map)
 			enemies.resize(3);
 			enemies[0] = new Monster(Monster::Type::Ballom);
 			enemies[1] = new Monster(Monster::Type::Ballom);
-			enemies[2] = new Monster(Monster::Type::Ekutopu);
+			enemies[2] = new Monster(Monster::Type::BakeBake);
 			break;
 		case 2:
 			enemies.resize(3);
@@ -113,7 +113,25 @@ void DynaGame::Run()
 							{
 								std::cout << *enemies[index];
 								ok = 0;
+								for (int index = 0; index < enemies.size(); ++index)
+								{
+									int x = enemies[index]->GetCoordX();
+									int y = enemies[index]->GetCoordY();
+									if (dynamic_cast<Block*>(map[{x, y}])->GetType() == Block::Type::HorizontalFire ||
+										dynamic_cast<Block*>(map[{x, y}])->GetType() == Block::Type::ExplodedBomb ||
+										dynamic_cast<Block*>(map[{x, y}])->GetType() == Block::Type::VerticalFire)
+									{
+										delete enemies[index];
+										for (int index1 = index; index1 < enemies.size() - 1; ++index1)
+										{
+											enemies[index1] = enemies[1 + index1];
+										}
+										enemies.resize(enemies.size() - 1);
+										map.SetBlock(Block::Type::NoneBlock, x, y);
+									}
+								}
 								break;
+
 							}
 						if (ok)
 						{
@@ -169,6 +187,7 @@ void DynaGame::Run()
 					player.DeleteBomb(index);
 				}
 			}
+		
 		}
 	}
 	if (endRound)

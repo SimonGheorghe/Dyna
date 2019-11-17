@@ -256,6 +256,8 @@ void Monster::Move(Map map, const Player& player)
 	}
 }
 
+
+
 void Monster::Alg1(Map map, const Player& player)
 {
 	bool moved[4] = { 1, 1, 1, 1 };

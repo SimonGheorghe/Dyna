@@ -1,7 +1,5 @@
 #include "Bomb.h"
 
-
-
 bool Bomb::isBlock()
 {
 	return false;

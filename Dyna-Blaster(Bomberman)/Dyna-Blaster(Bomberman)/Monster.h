@@ -55,10 +55,12 @@ public:
 
 private:
 
-	void Alg1();
-	void Alg2(Map map,const Player& player);
-	void Alg3();
-	void Alg4();
+	void Alg1(Map map, const Player& player);
+	void Alg2(Map map, const Player& player);
+	bool MoveVerif(uint16_t step, Map map,const Player& player);
+	void Alg3(Map map, const Player& player);
+	void Alg4(Map map, const Player& player);
+
 private:
 	uint16_t m_coordX;
 	uint16_t m_coordY;

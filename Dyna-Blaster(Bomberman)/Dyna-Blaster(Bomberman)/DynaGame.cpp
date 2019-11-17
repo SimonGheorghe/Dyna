@@ -81,7 +81,7 @@ void DynaGame::Run()
 		uint16_t playerCoordY = 1;
 		player.Place(map, playerCoordX, playerCoordY);
 		std::cout << "The Wall, round 2";
-		std::this_thread::sleep_for(std::chrono::seconds(3));
+		std::this_thread::sleep_for(std::chrono::seconds(0));
 		bool playerIsHit = 0;
 		std::vector<Monster*> enemies;
 		enemies=GenerateMonster(map);
@@ -89,7 +89,6 @@ void DynaGame::Run()
 		{
 			enemies[index]->Place(map);
 		}
-
 
 		while (true)
 		{
@@ -110,6 +109,7 @@ void DynaGame::Run()
 							{
 								std::cout << *enemies[index];
 								ok = 0;
+								break;
 							}
 						if (ok)
 						{
@@ -160,7 +160,6 @@ void DynaGame::Run()
 					player.DeleteBomb(index);
 				}
 			}
-			
 		}
 	}
 }

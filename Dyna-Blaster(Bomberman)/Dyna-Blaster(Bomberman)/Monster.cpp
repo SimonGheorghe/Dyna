@@ -208,13 +208,13 @@ void Monster::Move(Map map, const Player& player)
 	switch (m_type)
 	{
 	case Monster::Type::Ballom:
-		Alg2(map, player);
+		Alg1(map, player);
 		break;
 	case Monster::Type::Ekutopu:
-		Alg2(map, player);
+		Alg1(map, player);
 		break;
 	case Monster::Type::Boyon:
-		Alg2(map, player);
+		Alg1(map, player);
 		break;
 	case Monster::Type::Pass:
 
@@ -251,75 +251,150 @@ void Monster::Move(Map map, const Player& player)
 	}
 }
 
+void Monster::Alg1(Map map, const Player& player)
+{
+	bool moved[4] = { 1, 1, 1, 1 };
+	bool ok = 0;
+	uint16_t step;
+	do {
+		if (m_coordX == m_lastX && m_coordY == m_lastY) // start position
+			step = rand() % 4;
+
+		//do the same move or a random one if the same is not possible
+		if (m_lastY == m_coordY + 1)
+			if (moved[0] == 1)
+				step = 0;
+			else
+				step = rand() % 3 + 1;
+
+		if (m_lastY == m_coordY - 1)
+			if (moved[1] == 1)
+				step = 1;
+			else
+				do {
+					step = rand() % 4;
+				} while (step == 1);
+
+		if (m_lastX == m_coordX + 1)
+			if (moved[2] == 1)
+				step = 2;
+			else
+				do {
+					step = rand() % 4;
+				} while (step == 2);
+
+		if (m_lastX == m_coordX - 1)
+			if (moved[3] == 1)
+				step = 3;
+			else
+				step = rand() % 3;
+
+		moved[step] = MoveVerif(step, map, player);
+
+		//monster has moved or he can't move
+		if (moved[step] == 1 || (moved[0] == 0 && moved[1] == 0 && moved[2] == 0 && moved[3] == 0))
+			ok = 1;
+	} while (!ok);
+}
+
 void Monster::Alg2(Map map, const Player& player)
 {
-	bool moved = false;
+	bool moved[4] = { 1, 1, 1, 1 };
+	bool ok = 0;
 	do {
-		uint16_t posibility = rand() % 4;
-		switch (posibility)
+		uint16_t step = rand() % 4;
+		moved[step]=MoveVerif(step, map, player);
+
+		//monster has moved or he can't move
+		if (moved[step] == 1 || (moved[0] == 0 && moved[1] == 0 && moved[2] == 0 && moved[3] == 0))
+			ok = 1;
+	} while (!ok);
+}
+
+void Monster::Alg3(Map map, const Player& player)
+{
+	
+}
+
+bool Monster::MoveVerif(uint16_t step, Map map, const Player& player)
+{
+	bool moved = false;
+	//step=0 -> left
+	//step=1 -> right
+	//step=2 -> up
+	//step=3 -> down
+	switch (step)
+	{
+	case 0:
+		if (dynamic_cast<Block*>(map[{m_coordX, m_coordY - 1}])->GetType() == Block::Type::NoneBlock ||
+			(dynamic_cast<Block*>(map[{m_coordX, m_coordY - 1}])->GetType() != Block::Type::HardBlock && m_passingAbility))
 		{
-		case 0:
-			if (dynamic_cast<Block*>(map[{m_coordX, m_coordY - 1}])->GetType() == Block::Type::NoneBlock ||
-				(dynamic_cast<Block*>(map[{m_coordX, m_coordY - 1}])->GetType() != Block::Type::HardBlock && m_passingAbility))
+			bool ok = 1;
+			for (int index = 0; index < player.GetNoOfPlacedBombs(); ++index)
+				if (player[index]->GetCoordX() == m_coordX && player[index]->GetCoordY() == m_coordY - 1)
+					ok = 0;
+			if (ok)
 			{
-				bool ok = 1;
-				for (int index = 0; index < player.GetNoOfPlacedBombs(); ++index)
-					if (player[index]->GetCoordX() == m_coordX && player[index]->GetCoordY() == m_coordY - 1)
-						ok = 0;
-				if (ok)
-				{
-					--m_coordY;
-					moved = true;
-				}
+				m_lastY = m_coordY;
+				m_lastX = m_coordX;
+				--m_coordY;
+				moved = true;
 			}
-			break;
-		case 1:
-			if (dynamic_cast<Block*>(map[{m_coordX, m_coordY + 1}])->GetType() == Block::Type::NoneBlock ||
-				(dynamic_cast<Block*>(map[{m_coordX, m_coordY +1}])->GetType() != Block::Type::HardBlock && m_passingAbility))
-			{
-				bool ok = 1;
-				for (int index = 0; index < player.GetNoOfPlacedBombs(); ++index)
-					if (player[index]->GetCoordX() == m_coordX && player[index]->GetCoordY() == m_coordY + 1)
-						ok = 0;
-				if (ok)
-				{
-					++m_coordY;
-					moved = true;
-				}
-			}
-			break;
-		case 2:
-			if (dynamic_cast<Block*>(map[{m_coordX-1, m_coordY}])->GetType() == Block::Type::NoneBlock ||
-				(dynamic_cast<Block*>(map[{m_coordX-1, m_coordY}])->GetType() != Block::Type::HardBlock && m_passingAbility))
-			{
-				bool ok = 1;
-				for (int index = 0; index < player.GetNoOfPlacedBombs(); ++index)
-					if (player[index]->GetCoordX() == m_coordX-1 && player[index]->GetCoordY() == m_coordY)
-						ok = 0;
-				if (ok)
-				{
-					--m_coordX;
-					moved = true;
-				}
-			}
-			break;
-		case 3:
-			if (dynamic_cast<Block*>(map[{m_coordX + 1, m_coordY}])->GetType() == Block::Type::NoneBlock ||
-				(dynamic_cast<Block*>(map[{m_coordX + 1, m_coordY}])->GetType() != Block::Type::HardBlock && m_passingAbility))
-			{
-				bool ok = 1;
-				for (int index = 0; index < player.GetNoOfPlacedBombs(); ++index)
-					if (player[index]->GetCoordX() == m_coordX + 1 && player[index]->GetCoordY() == m_coordY)
-						ok = 0;
-				if (ok)
-				{
-					++m_coordX;
-					moved = true;
-				}
-			}
-			break;
 		}
-	} while (!moved);
+		break;
+	case 1:
+		if (dynamic_cast<Block*>(map[{m_coordX, m_coordY + 1}])->GetType() == Block::Type::NoneBlock ||
+			(dynamic_cast<Block*>(map[{m_coordX, m_coordY + 1}])->GetType() != Block::Type::HardBlock && m_passingAbility))
+		{
+			bool ok = 1;
+			for (int index = 0; index < player.GetNoOfPlacedBombs(); ++index)
+				if (player[index]->GetCoordX() == m_coordX && player[index]->GetCoordY() == m_coordY + 1)
+					ok = 0;
+			if (ok)
+			{
+				m_lastY = m_coordY;
+				m_lastX = m_coordX;
+				++m_coordY;
+				moved = true;
+			}
+		}
+		break;
+	case 2:
+		if (dynamic_cast<Block*>(map[{m_coordX - 1, m_coordY}])->GetType() == Block::Type::NoneBlock ||
+			(dynamic_cast<Block*>(map[{m_coordX - 1, m_coordY}])->GetType() != Block::Type::HardBlock && m_passingAbility))
+		{
+			bool ok = 1;
+			for (int index = 0; index < player.GetNoOfPlacedBombs(); ++index)
+				if (player[index]->GetCoordX() == m_coordX - 1 && player[index]->GetCoordY() == m_coordY)
+					ok = 0;
+			if (ok)
+			{
+				m_lastX = m_coordX;
+				m_lastY = m_coordY;
+				--m_coordX;
+				moved = true;
+			}
+		}
+		break;
+	case 3:
+		if (dynamic_cast<Block*>(map[{m_coordX + 1, m_coordY}])->GetType() == Block::Type::NoneBlock ||
+			(dynamic_cast<Block*>(map[{m_coordX + 1, m_coordY}])->GetType() != Block::Type::HardBlock && m_passingAbility))
+		{
+			bool ok = 1;
+			for (int index = 0; index < player.GetNoOfPlacedBombs(); ++index)
+				if (player[index]->GetCoordX() == m_coordX + 1 && player[index]->GetCoordY() == m_coordY)
+					ok = 0;
+			if (ok)
+			{
+				m_lastX = m_coordX;
+				m_lastY = m_coordY;
+				++m_coordX;
+				moved = true;
+			}
+		}
+		break;
+	}
+	return moved;
 }
 
 std::ostream& operator<<(std::ostream& out, const Monster& monster)

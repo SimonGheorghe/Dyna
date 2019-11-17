@@ -29,7 +29,7 @@ public:
 	
 	void Place(Map& map, uint16_t coordX, uint16_t coordY);
 	void Move(Map& map, char ch);
-	void PlaceBomb(Map& map, uint16_t coordX, uint16_t coordY);
+	void PlaceBomb(Map& map);
 	void DeleteBomb(int index);
 
 	Bomb* operator[](int index);

@@ -47,6 +47,8 @@ public:
 	uint16_t GetCoordX() const;
 	uint16_t GetCoordY() const;
 
+	void DropHitPoints();
+
 	friend std::ostream& operator<<(std::ostream& out, const Monster& monster);
 
 	//void GenerateMonster(std::vector<Monster*>& enemies, const Map& map);
@@ -57,7 +59,7 @@ private:
 
 	void Alg1(Map map, const Player& player);
 	void Alg2(Map map, const Player& player);
-	bool MoveVerif(uint16_t step, Map map,const Player& player);
+	bool MoveVerif(uint16_t step, Map map, const Player& player);
 	void Alg3(Map map, const Player& player);
 	void Alg4(Map map, const Player& player);
 

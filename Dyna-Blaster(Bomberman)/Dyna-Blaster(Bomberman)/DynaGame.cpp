@@ -7,6 +7,7 @@
 
 #include "DynaGame.h"
 #include "Monster.h"
+
 std::vector<Monster*> GenerateMonster(const Map& map)
 {
 	std::vector<Monster*> enemies;
@@ -74,8 +75,10 @@ void DynaGame::Run()
 	uint32_t playerScore = 0;
 	uint16_t playerSpeed = 2;
 	Player player(playerFire, playerNoOfBombs, playerHealth, playerScore, playerSpeed);
-	while (player.GetHealth() != 0)
+	bool endRound = 0;
+	while (player.GetHealth() != 0 && endRound == 0)
 	{
+
 		Map map(Map::Stage::TheWall, 1);
 		uint16_t playerCoordX = 1;
 		uint16_t playerCoordY = 1;
@@ -85,6 +88,7 @@ void DynaGame::Run()
 		bool playerIsHit = 0;
 		std::vector<Monster*> enemies;
 		enemies=GenerateMonster(map);
+		
 		for (int index = 0; index < enemies.size(); ++index)
 		{
 			enemies[index]->Place(map);
@@ -141,11 +145,16 @@ void DynaGame::Run()
 				std::cout << "You are dead. You have " << player.GetHealth() << " lifes left!\n\n";
 				break;
 			}
+			if (enemies.size() == 0 && dynamic_cast<Block*>(map[{player.GetCoordX(), player.GetCoordY()}])->GetType() == Block::Type::Exit)
+			{
+				endRound = 1;
+				break;
+			}
 			char ch = _getch();
 			if (ch == ' ')
 			{
 				if (player.GetNoOfBombs() != 0)
-					player.PlaceBomb(map, player.GetCoordX(), player.GetCoordY());
+					player.PlaceBomb(map);
 			}
 			else
 				player.Move(map, ch);
@@ -162,4 +171,8 @@ void DynaGame::Run()
 			}
 		}
 	}
+	if (endRound)
+		std::cout << "\nYou finished the round! Now prepare yourself for more!\n";
+	else
+		std::cout << "\nYou are out of lifes!\n";
 }

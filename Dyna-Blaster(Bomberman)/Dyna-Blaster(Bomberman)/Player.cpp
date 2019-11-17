@@ -102,7 +102,8 @@ void Player::Move(Map& map, char ch)
 	case 'W':
 	case 'w':
 	{
-		if (dynamic_cast<Block*>(map[{m_coordX - 1, m_coordY}])->GetType() == Block::Type::NoneBlock)
+		if (dynamic_cast<Block*>(map[{m_coordX - 1, m_coordY}])->GetType() == Block::Type::NoneBlock || 
+			dynamic_cast<Block*>(map[{m_coordX - 1, m_coordY}])->GetType() == Block::Type::Exit)
 		{
 			bool ok = 1;
 			if (!m_bombPass)
@@ -117,7 +118,8 @@ void Player::Move(Map& map, char ch)
 	case 'A':
 	case 'a':
 	{
-		if (dynamic_cast<Block*>(map[{m_coordX, m_coordY - 1}])->GetType() == Block::Type::NoneBlock)
+		if (dynamic_cast<Block*>(map[{m_coordX, m_coordY - 1}])->GetType() == Block::Type::NoneBlock ||
+			dynamic_cast<Block*>(map[{m_coordX, m_coordY - 1}])->GetType() == Block::Type::Exit)
 		{
 			bool ok = 1;
 			if (!m_bombPass)
@@ -132,7 +134,8 @@ void Player::Move(Map& map, char ch)
 	case 's':
 	case 'S':
 	{
-		if (dynamic_cast<Block*>(map[{m_coordX + 1, m_coordY}])->GetType() == Block::Type::NoneBlock)
+		if (dynamic_cast<Block*>(map[{m_coordX + 1, m_coordY}])->GetType() == Block::Type::NoneBlock ||
+			dynamic_cast<Block*>(map[{m_coordX + 1, m_coordY}])->GetType() == Block::Type::Exit)
 		{
 			bool ok = 1;
 			if (!m_bombPass)
@@ -147,7 +150,8 @@ void Player::Move(Map& map, char ch)
 	case 'D':
 	case 'd':
 	{
-		if (dynamic_cast<Block*>(map[{m_coordX, m_coordY + 1}])->GetType() == Block::Type::NoneBlock)
+		if (dynamic_cast<Block*>(map[{m_coordX, m_coordY + 1}])->GetType() == Block::Type::NoneBlock ||
+			dynamic_cast<Block*>(map[{m_coordX, m_coordY + 1}])->GetType() == Block::Type::Exit)
 		{
 			bool ok = 1;
 			if (!m_bombPass)
@@ -169,18 +173,20 @@ void Player::Move(Map& map, char ch)
 	}
 }
 
-void Player::PlaceBomb(Map& map, uint16_t coordX, uint16_t coordY)
+void Player::PlaceBomb(Map& map)
 {
 	bool ok = 1;
 	for (int index = 0; index < m_placedBombs.size(); ++index)
 		if (m_placedBombs[index]->GetCoordX() == m_coordX && m_placedBombs[index]->GetCoordY() == m_coordY)
 			ok = 0;
+	if (dynamic_cast<Block*>(map[{m_coordX, m_coordY}])->GetType() == Block::Type::Exit)
+		ok = 0;
 	if (ok) 
 	{
 		Bomb* bomb= new Bomb(m_coordX, m_coordY, m_placedBombs.size());
 		m_placedBombs.push_back(bomb);
+		m_noOfBombs--;
 	}
-	m_noOfBombs--;
 }
 
 void Player::DeleteBomb(int bombId)

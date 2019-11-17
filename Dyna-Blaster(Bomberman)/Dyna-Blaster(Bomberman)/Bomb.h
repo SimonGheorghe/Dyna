@@ -1,8 +1,10 @@
 #pragma once
 #include <iostream>
 #include <cstdint>
+#include "Entity.h"
 #include "Map.h"
-class Bomb
+
+class Bomb: public Entity
 {
 public:
 	bool isBlock();
@@ -35,7 +37,7 @@ public:
 	void SetBlast(bool i);
 
 	bool Explode(Map& map, uint16_t fire, uint16_t playerCoordX, uint16_t playerCoordY);
-
+	
 	friend std::ostream& operator<<(std::ostream& out, const Bomb& bomb);
 
 private:

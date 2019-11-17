@@ -44,6 +44,9 @@ bool Bomb::Explode(Map& map, uint16_t fire, uint16_t playerCoordX, uint16_t play
 	uint16_t index2 = m_coordY;
 	uint16_t flame = fire;
 	bool playerIsHit = 0;
+	/*for (int index = 0; index < enemies.size(); ++index)
+		if (enemies[index]->GetCoordX() == index1 && enemies[index]->GetCoordY() == index2)
+			enemies[index]->DropHitPoints();*/
 	if (playerCoordX == index1 && playerCoordY == index2)
 		playerIsHit = 1;
 	while (dynamic_cast<Block*>(map[{index1 - 1, index2}])->GetType() == Block::Type::NoneBlock && flame != 0)
@@ -52,10 +55,16 @@ bool Bomb::Explode(Map& map, uint16_t fire, uint16_t playerCoordX, uint16_t play
 		flame--;
 		if (playerCoordX == index1 && playerCoordY == index2)
 			playerIsHit = 1;
+		/*for (int index = 0; index < enemies.size(); ++index)
+			if (enemies[index]->GetCoordX() == index1 && enemies[index]->GetCoordY() == index2)
+				enemies[index]->DropHitPoints();*/
 	}
 	if(dynamic_cast<Block*>(map[{index1 - 1, index2}])->GetType() == Block::Type::SoftBlock && flame != 0)
 		map.SetBlock(Block::Type::ExplodedBlock, --index1, index2);
-	
+	else
+	if (dynamic_cast<Block*>(map[{index1 - 1, index2}])->GetType() == Block::Type::Exit && flame != 0)
+		dynamic_cast<Block*>(map[{index1 - 1, index2}])->SetExitStatus(false);
+
 	index1 = m_coordX;
 	index2 = m_coordY;
 	flame = fire;
@@ -65,9 +74,15 @@ bool Bomb::Explode(Map& map, uint16_t fire, uint16_t playerCoordX, uint16_t play
 		flame--;
 		if (playerCoordX == index1 && playerCoordY == index2)
 			playerIsHit = 1;
+		/*for (int index = 0; index < enemies.size(); ++index)
+			if (enemies[index]->GetCoordX() == index1 && enemies[index]->GetCoordY() == index2)
+				enemies[index]->DropHitPoints();*/
 	}
 	if (dynamic_cast<Block*>(map[{index1 + 1, index2}])->GetType() == Block::Type::SoftBlock && flame != 0)
 		map.SetBlock(Block::Type::ExplodedBlock, ++index1, index2);
+	else
+	if (dynamic_cast<Block*>(map[{index1 + 1, index2}])->GetType() == Block::Type::Exit && flame != 0)
+		dynamic_cast<Block*>(map[{index1 + 1, index2}])->SetExitStatus(false);
 	index1 = m_coordX;
 	index2 = m_coordY;
 	flame = fire;
@@ -77,9 +92,15 @@ bool Bomb::Explode(Map& map, uint16_t fire, uint16_t playerCoordX, uint16_t play
 		flame--;
 		if (playerCoordX == index1 && playerCoordY == index2)
 			playerIsHit = 1;
+	/*	for (int index = 0; index < enemies.size(); ++index)
+			if (enemies[index]->GetCoordX() == index1 && enemies[index]->GetCoordY() == index2)
+				enemies[index]->DropHitPoints();*/
 	}
 	if (dynamic_cast<Block*>(map[{index1, index2 - 1}])->GetType() == Block::Type::SoftBlock && flame != 0)
 		map.SetBlock(Block::Type::ExplodedBlock, index1, --index2);
+	else
+	if (dynamic_cast<Block*>(map[{index1, index2 - 1}])->GetType() == Block::Type::Exit && flame != 0)
+		dynamic_cast<Block*>(map[{index1, index2 - 1}])->SetExitStatus(false);
 	index1 = m_coordX;
 	index2 = m_coordY;
 	flame = fire;
@@ -89,9 +110,15 @@ bool Bomb::Explode(Map& map, uint16_t fire, uint16_t playerCoordX, uint16_t play
 		flame--;
 		if (playerCoordX == index1 && playerCoordY == index2)
 			playerIsHit = 1;
+		/*for (int index = 0; index < enemies.size(); ++index)
+			if (enemies[index]->GetCoordX() == index1 && enemies[index]->GetCoordY() == index2)
+				enemies[index]->DropHitPoints();*/
 	}
 	if (dynamic_cast<Block*>(map[{index1, index2 + 1}])->GetType() == Block::Type::SoftBlock && flame != 0)
 		map.SetBlock(Block::Type::ExplodedBlock, index1, ++index2);
+	else
+	if (dynamic_cast<Block*>(map[{index1, index2 + 1}])->GetType() == Block::Type::Exit && flame != 0)
+		dynamic_cast<Block*>(map[{index1, index2 + 1}])->SetExitStatus(false);
 	return playerIsHit;
 }
 

@@ -191,6 +191,11 @@ uint16_t Monster::GetCoordY() const
 	return m_coordY;
 }
 
+void Monster::DropHitPoints()
+{
+	--m_hitPoints;
+}
+
 
 
 void Monster::Place(Map& map)
@@ -208,10 +213,10 @@ void Monster::Move(Map map, const Player& player)
 	switch (m_type)
 	{
 	case Monster::Type::Ballom:
-		Alg3(map, player);
+		Alg1(map, player);
 		break;
 	case Monster::Type::Ekutopu:
-		Alg3(map, player);
+		Alg2(map, player);
 		break;
 	case Monster::Type::Boyon:
 		Alg3(map, player);

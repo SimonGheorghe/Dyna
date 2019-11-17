@@ -38,17 +38,23 @@ void Map::GenerateBlocks()
 				m_map[index1][index2] = new Block(Block::Type::HardBlock);
 	if (m_level != 7)
 	{
+		uint16_t coordX;
+		uint16_t coordY;
 		uint16_t noOfSoftBlocks = (uint16_t)m_length * (uint16_t)m_width / 4;
 		for (int index = 0; index < noOfSoftBlocks; ++index)
 		{
-			uint16_t coordX;
-			uint16_t coordY;
 			do {
 				coordX = rand() % (uint16_t)m_length;
 				coordY = rand() % (uint16_t)m_width;
 			} while (coordX % 2 == 0 && coordY % 2 == 0 || m_map[coordX][coordY] != nullptr);
 			m_map[coordX][coordY] = new Block(Block::Type::SoftBlock);
 		}
+		do {
+			coordX = rand() % (uint16_t)m_length;
+			coordY = rand() % (uint16_t)m_width;
+		} while (m_map[coordX][coordY] != nullptr);
+		m_map[coordX][coordY] = new Block(Block::Type::Exit);
+
 	}
 
 	for (int index1 = 0; index1 < (uint16_t)m_length; ++index1)

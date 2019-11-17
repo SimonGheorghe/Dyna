@@ -208,13 +208,13 @@ void Monster::Move(Map map, const Player& player)
 	switch (m_type)
 	{
 	case Monster::Type::Ballom:
-		Alg1(map, player);
+		Alg3(map, player);
 		break;
 	case Monster::Type::Ekutopu:
-		Alg1(map, player);
+		Alg3(map, player);
 		break;
 	case Monster::Type::Boyon:
-		Alg1(map, player);
+		Alg3(map, player);
 		break;
 	case Monster::Type::Pass:
 
@@ -313,7 +313,24 @@ void Monster::Alg2(Map map, const Player& player)
 
 void Monster::Alg3(Map map, const Player& player)
 {
-	
+	bool moved[4] = { 1, 1, 1, 1 };
+	bool ok = 0;
+	do {
+		uint16_t step = rand() % 4;
+
+		//monster can't go the same block it came only if it has to
+		if ((!(step == 0 && m_lastY == m_coordY - 1) || moved[0] == 1 && moved[1] == 0 && moved[2] == 0 && moved[3] == 0) &&
+			(!(step == 1 && m_lastY == m_coordY + 1) || moved[0] == 0 && moved[1] == 1 && moved[2] == 0 && moved[3] == 0) &&
+			(!(step == 2 && m_lastX == m_coordX - 1) || moved[0] == 0 && moved[1] == 0 && moved[2] == 1 && moved[3] == 0) &&
+			(!(step == 3 && m_lastX == m_coordX + 1) || moved[0] == 0 && moved[1] == 0 && moved[2] == 0 && moved[3] == 1))
+		{
+			moved[step] = MoveVerif(step, map, player);
+
+			//monster has moved or he can't move
+			if (moved[step] == 1 || (moved[0] == 0 && moved[1] == 0 && moved[2] == 0 && moved[3] == 0))
+				ok = 1;
+		}
+	} while (!ok);
 }
 
 bool Monster::MoveVerif(uint16_t step, Map map, const Player& player)

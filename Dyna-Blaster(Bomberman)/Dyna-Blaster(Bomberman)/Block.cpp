@@ -26,6 +26,11 @@ uint16_t Block::GetExitY() const
 	return m_exitY;
 }
 
+bool Block::GetExitStatus() const
+{
+	return m_exitIsHidden;
+}
+
 void Block::SetExitX(uint16_t coordX)
 {
 	m_exitX = coordX;
@@ -79,7 +84,7 @@ std::ostream& operator<<(std::ostream& out, const Block& block)
 	case Block::Type::Exit:
 		if (block.m_exitIsHidden)
 		{
-			ch = 177;
+			ch = 176;
 			out << ch << ch;
 		}
 		else

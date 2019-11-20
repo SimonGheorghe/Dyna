@@ -9,14 +9,16 @@ Map::Map(Stage Stage, uint16_t Level)
 	m_level = Level;
 	GenerateMapDimensions();
 	GenerateBlocks();
+	
 }
 
 void Map::GenerateMapDimensions()
 {
-	std::ifstream file("levels'Size.txt");
+	std::ifstream file("levels'Size.txt");//get map size for all levels
 	for (int index1 = 0; index1 < noOfStagesAndLevels; ++index1)
 		for (int index2 = 0; index2 < noOfStagesAndLevels; ++index2)
 			file >> mapSize[index1][index2];
+
 	std::string mapDimensions = mapSize[(uint16_t)m_stage][m_level];
 	if (mapDimensions[0] == 'N')
 		m_width = Width::Narrow;
@@ -35,26 +37,27 @@ void Map::GenerateBlocks()
 	for (int index1 = 0; index1 < (uint16_t)m_length; ++index1)
 		for (int index2 = 0; index2 < (uint16_t)m_width; ++index2)
 			if (index1 == 0 || index2 == 0 || index1 == (uint16_t)m_length - 1 || index2 == (uint16_t)m_width - 1|| (index1 % 2 == 0 && index2 % 2 == 0))
-				m_map[index1][index2] = new Block(Block::Type::HardBlock);
+				m_map[index1][index2] = new Block(Block::Type::HardBlock); 
+	//37% of the map is covered by hard blocks
 	if (m_level != 7)
 	{
 		uint16_t coordX;
 		uint16_t coordY;
-		uint16_t noOfSoftBlocks = (uint16_t)m_length * (uint16_t)m_width / 4;
+		uint16_t noOfSoftBlocks = (uint16_t)m_length * (uint16_t)m_width / 5; // 20% of the hole map is covered by soft blocks
+																			//so 43% of the map is free
 		for (int index = 0; index < noOfSoftBlocks; ++index)
 		{
 			do {
 				coordX = rand() % (uint16_t)m_length;
 				coordY = rand() % (uint16_t)m_width;
-			} while (coordX % 2 == 0 && coordY % 2 == 0 || m_map[coordX][coordY] != nullptr);
+			} while (m_map[coordX][coordY] != nullptr);
 			m_map[coordX][coordY] = new Block(Block::Type::SoftBlock);
 		}
 		do {
 			coordX = rand() % (uint16_t)m_length;
 			coordY = rand() % (uint16_t)m_width;
-		} while (m_map[coordX][coordY] != nullptr);
+		} while (m_map[coordX][coordY] != nullptr || (coordX == 1 || coordX == 2) && (coordY == 1 || coordY == 2));//we dont want to place the exit in player's zone
 		m_map[coordX][coordY] = new Block(Block::Type::Exit);
-
 	}
 
 	for (int index1 = 0; index1 < (uint16_t)m_length; ++index1)
@@ -107,24 +110,37 @@ void Map::SetBlock(Block::Type type, uint16_t coordX, uint16_t coordY)
 	m_map[coordX][coordY] = new Block(type);
 }
 
-/*std::istream& operator>>(std::istream& in, Map& map)
-{
-	for (int index1 = 0; index1 < map.noOfStagesAndLevels; ++index1)
-		for (int index2 = 0; index2 < map.noOfStagesAndLevels; ++index2)
-			in >> map.mapSize[index1][index2];
-	return in;
-}*/
-
 std::ostream& operator<<(std::ostream& out, const Map& map)
 {
-	for (int index1 = 0; index1 < (uint16_t)map.m_length; ++index1)
+	switch (map.m_stage)
 	{
-		for (int index2 = 0; index2 < (uint16_t)map.m_width; ++index2)
-		{
-			Block* block = dynamic_cast<Block*>(map.m_map[index1][index2]);
-			out << *block;
-		}
-		out << std::endl;
+	case Map::Stage::TheWall:
+		out << "The Wall --- ";
+		break;
+	case Map::Stage::RockyMountains:
+		out << "Rocky Mountains --- ";
+		break;
+	case Map::Stage::River:
+		out << "River --- ";
+		break;
+	case Map::Stage::Forest:
+		out << "Forest --- ";
+		break;
+	case Map::Stage::LavaCave:
+		out << "Lava Cave --- ";
+		break;
+	case Map::Stage::InsideOfTheCastlePartI:
+		out << "Inside Of The Castle Part I --- ";
+		break;
+	case Map::Stage::InsideOfTheCastlePartII:
+		out << "Inside Of The Castle Part II --- ";
+		break;
+	case Map::Stage::InsideOfTheCastlePartIII:
+		out << "Inside Of The Castle Part III --- ";
+		break;
+	default:
+		break;
 	}
+	out << "Round " << map.m_level;
 	return out;
 }

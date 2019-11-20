@@ -23,6 +23,7 @@ public:
 	Type GetType() const;
 	uint16_t GetExitX() const;
 	uint16_t GetExitY() const;
+	bool GetExitStatus() const;
 
 	void SetExitX(uint16_t coordX);
 	void SetExitY(uint16_t coordY);

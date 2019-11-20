@@ -8,7 +8,7 @@ bool Bomb::isBlock()
 Bomb::Bomb(uint16_t coordX, uint16_t coordY, uint16_t id) :
 	m_coordX(coordX), m_coordY(coordY), m_id(id)
 {
-	m_ticks = 6;
+	m_ticks = 8;
 }
 
 //destructor is important for destroying old bomb objects after they have detonated!

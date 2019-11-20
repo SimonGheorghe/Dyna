@@ -103,7 +103,8 @@ void Player::Move(Map& map, char ch)
 	case 'w':
 	{
 		if (dynamic_cast<Block*>(map[{m_coordX - 1, m_coordY}])->GetType() == Block::Type::NoneBlock || 
-			dynamic_cast<Block*>(map[{m_coordX - 1, m_coordY}])->GetType() == Block::Type::Exit)
+			dynamic_cast<Block*>(map[{m_coordX - 1, m_coordY}])->GetType() == Block::Type::Exit &&
+			dynamic_cast<Block*>(map[{m_coordX - 1, m_coordY}])->GetExitStatus() == 0)
 		{
 			bool ok = 1;
 			if (!m_bombPass)
@@ -119,7 +120,9 @@ void Player::Move(Map& map, char ch)
 	case 'a':
 	{
 		if (dynamic_cast<Block*>(map[{m_coordX, m_coordY - 1}])->GetType() == Block::Type::NoneBlock ||
-			dynamic_cast<Block*>(map[{m_coordX, m_coordY - 1}])->GetType() == Block::Type::Exit)
+			dynamic_cast<Block*>(map[{m_coordX, m_coordY - 1}])->GetType() == Block::Type::Exit &&
+			dynamic_cast<Block*>(map[{m_coordX, m_coordY - 1}])->GetExitStatus() == 0)
+
 		{
 			bool ok = 1;
 			if (!m_bombPass)
@@ -135,7 +138,9 @@ void Player::Move(Map& map, char ch)
 	case 'S':
 	{
 		if (dynamic_cast<Block*>(map[{m_coordX + 1, m_coordY}])->GetType() == Block::Type::NoneBlock ||
-			dynamic_cast<Block*>(map[{m_coordX + 1, m_coordY}])->GetType() == Block::Type::Exit)
+			dynamic_cast<Block*>(map[{m_coordX + 1, m_coordY}])->GetType() == Block::Type::Exit &&
+			dynamic_cast<Block*>(map[{m_coordX + 1, m_coordY}])->GetExitStatus() == 0)
+
 		{
 			bool ok = 1;
 			if (!m_bombPass)
@@ -151,7 +156,8 @@ void Player::Move(Map& map, char ch)
 	case 'd':
 	{
 		if (dynamic_cast<Block*>(map[{m_coordX, m_coordY + 1}])->GetType() == Block::Type::NoneBlock ||
-			dynamic_cast<Block*>(map[{m_coordX, m_coordY + 1}])->GetType() == Block::Type::Exit)
+			dynamic_cast<Block*>(map[{m_coordX, m_coordY + 1}])->GetType() == Block::Type::Exit &&
+			dynamic_cast<Block*>(map[{m_coordX, m_coordY + 1}])->GetExitStatus() == 0)
 		{
 			bool ok = 1;
 			if (!m_bombPass)

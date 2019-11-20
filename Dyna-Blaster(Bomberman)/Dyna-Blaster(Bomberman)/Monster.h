@@ -50,7 +50,7 @@ public:
 	void DropHitPoints();
 
 	friend std::ostream& operator<<(std::ostream& out, const Monster& monster);
-
+	
 	//void GenerateMonster(std::vector<Monster*>& enemies, const Map& map);
 	void Place(Map& map);
 	void Move(Map map, const Player& player);

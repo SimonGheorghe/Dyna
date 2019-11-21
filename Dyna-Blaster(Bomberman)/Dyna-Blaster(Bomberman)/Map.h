@@ -4,6 +4,7 @@
 #include<vector>
 #include<array>
 #include"Block.h"
+#include "Powers.h"
 
 class Map
 {
@@ -52,6 +53,7 @@ public:
 private:
 	void GenerateMapDimensions();
 	void GenerateBlocks();
+	Powers::Power GeneratePower();
 
 private:
 	static const uint16_t noOfStagesAndLevels = 8;

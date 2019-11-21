@@ -2,6 +2,7 @@
 #include <cstdint>
 #include<string>
 #include "Bomb.h"
+#include "Powers.h"
 
 using pair = std::pair<uint8_t, uint8_t>;
 class Player
@@ -33,6 +34,7 @@ public:
 	void Move(Map& map, char ch);
 	void PlaceBomb(Map& map);
 	void DeleteBomb(int index);
+	void UpdatePlayerPower(Powers::Power power);
 
 	Bomb* operator[](int index);
 	const Bomb* operator[](int index) const;
@@ -51,7 +53,7 @@ private:
 
 	std::vector<Bomb*> m_placedBombs;
 
-	bool m_softBlockPass=false;
+	bool m_softBlockPass=true;
 	bool m_bombPass=false;
 	bool m_vest=false;
 	bool m_remoteControl=false;

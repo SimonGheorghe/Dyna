@@ -58,18 +58,58 @@ void Map::GenerateBlocks()
 			coordY = rand() % (uint16_t)m_width;
 		} while (m_map[coordX][coordY] != nullptr || (coordX == 1 || coordX == 2) && (coordY == 1 || coordY == 2));//we dont want to place the exit in player's zone
 		m_map[coordX][coordY] = new Block(Block::Type::Exit);
+		do {
+			coordX = rand() % (uint16_t)m_length;
+			coordY = rand() % (uint16_t)m_width;
+		} while (m_map[coordX][coordY] != nullptr || (coordX == 1 || coordX == 2) && (coordY == 1 || coordY == 2));//we dont want to place the power in player's zone
+
+		m_map[coordX][coordY] = new Powers(GeneratePower());
 	}
 
 	for (int index1 = 0; index1 < (uint16_t)m_length; ++index1)
 		for (int index2 = 0; index2 < (uint16_t)m_width; ++index2)
 		{
-			Block* block = dynamic_cast<Block*>(m_map[index1][index2]);
-			if (!block)
+			if (!dynamic_cast<Block*>(m_map[index1][index2]) && !dynamic_cast<Powers*>(m_map[index1][index2]))
 			{
 				m_map[index1][index2] = new Block(Block::Type::NoneBlock);
 			}
 		}
 
+}
+
+Powers::Power Map::GeneratePower()
+{
+	Powers* powers;
+	switch (m_stage)
+	{
+	case Map::Stage::TheWall:
+		switch (m_level)
+		{
+		case 0:
+			return Powers::Power::FireUp;
+			break;
+		case 1:
+			return Powers::Power::BombUp;
+			break;
+		}
+		break;
+	case Map::Stage::RockyMountains:
+		break;
+	case Map::Stage::River:
+		break;
+	case Map::Stage::Forest:
+		break;
+	case Map::Stage::LavaCave:
+		break;
+	case Map::Stage::InsideOfTheCastlePartI:
+		break;
+	case Map::Stage::InsideOfTheCastlePartII:
+		break;
+	case Map::Stage::InsideOfTheCastlePartIII:
+		break;
+	default:
+		break;
+	}
 }
 
 const Entity* Map::operator[](const Position& position) const

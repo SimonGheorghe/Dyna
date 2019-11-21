@@ -7,6 +7,7 @@
 
 #include "DynaGame.h"
 #include "Monster.h"
+#include "Powers.h"
 
 std::vector<Monster*> GenerateMonster(const Map& map)
 {
@@ -73,8 +74,8 @@ std::vector<Monster*> GenerateMonster(const Map& map)
 void DynaGame::Run()
 {
 	srand((int)time(NULL));
-	uint16_t playerFire = 3;
-	uint16_t playerNoOfBombs = 3;
+	uint16_t playerFire = 1;
+	uint16_t playerNoOfBombs = 1;
 	uint16_t playerHealth = 6;
 	uint32_t playerScore = 0;
 	uint16_t playerSpeed = 2;
@@ -88,8 +89,6 @@ void DynaGame::Run()
 		while (round < 8)
 		{
 
-			if (stage == 0)
-				round = 1;
 			if (round == 7)
 				exit = 0;
 			endRound = 0;
@@ -119,6 +118,7 @@ void DynaGame::Run()
 					{
 						int x = enemies[index]->GetCoordX();
 						int y = enemies[index]->GetCoordY();
+						if(dynamic_cast<Block*>(map[{x, y}]))
 						if (dynamic_cast<Block*>(map[{x, y}])->GetType() == Block::Type::HorizontalFire ||
 							dynamic_cast<Block*>(map[{x, y}])->GetType() == Block::Type::ExplodedBomb ||
 							dynamic_cast<Block*>(map[{x, y}])->GetType() == Block::Type::VerticalFire)
@@ -151,13 +151,18 @@ void DynaGame::Run()
 										}
 									if (ok)
 									{
-										Block* block = dynamic_cast<Block*>(map[{index1, index2}]);
-										std::cout << *block;
-										if (block->GetType() == Block::Type::ExplodedBlock ||
-											block->GetType() == Block::Type::ExplodedBomb ||
-											block->GetType() == Block::Type::HorizontalFire ||
-											block->GetType() == Block::Type::VerticalFire)
-											map.SetBlock(Block::Type::NoneBlock, index1, index2);
+										if (dynamic_cast<Block*>(map[{index1, index2}]))
+										{
+											Block* block = dynamic_cast<Block*>(map[{index1, index2}]);
+											std::cout << *block;
+											if (block->GetType() == Block::Type::ExplodedBlock ||
+												block->GetType() == Block::Type::ExplodedBomb ||
+												block->GetType() == Block::Type::HorizontalFire ||
+												block->GetType() == Block::Type::VerticalFire)
+												map.SetBlock(Block::Type::NoneBlock, index1, index2);
+										}
+										if (dynamic_cast<Powers*>(map[{index1, index2}]))
+											std::cout << *dynamic_cast<Powers*>(map[{index1, index2}]);
 									}
 								}
 							}
@@ -199,7 +204,6 @@ void DynaGame::Run()
 
 						break;
 					}
-				
 					if (enemies.size() == 0 && dynamic_cast<Block*>(map[{player.GetCoordX(), player.GetCoordY()}])->GetType() == Block::Type::Exit)
 					{
 						endRound = 1;
@@ -215,7 +219,11 @@ void DynaGame::Run()
 						if (ch == 'k')
 							enemies.clear();
 						else
-						player.Move(map, ch);
+						{
+							player.Move(map, ch);
+							if (dynamic_cast<Powers*>(map[{player.GetCoordX(), player.GetCoordY()}]))
+								map.SetBlock(Block::Type::NoneBlock, player.GetCoordX(), player.GetCoordY());
+						}
 					for (int index = 0; index < enemies.size(); ++index)
 						enemies[index]->Move(map, player);
 					for (int index = 0; index < player.GetNoOfPlacedBombs(); ++index)

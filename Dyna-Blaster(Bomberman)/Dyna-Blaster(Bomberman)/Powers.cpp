@@ -6,57 +6,70 @@ Powers::Powers(Power power):
 	//empty
 }
 
-void Powers::UpdatePlayerPower(Player player, Power power)
-{
-	switch (power)
-	{
-	case Powers::Power::FireUp:
-	{   
-		player.SetFire(player.GetFire() + 1);
-	}
-		break;
-	case Powers::Power::FireDown:
-	{
-		if(player.GetFire()>1)
-			player.SetFire(player.GetFire() - 1);
-	}
-		break;
-	case Powers::Power::BombUp:
-		player.SetNoOfBombs(player.GetNoOfBombs() + 1);
-		break;
-	case Powers::Power::BombDown:
-		if (player.GetNoOfBombs() > 1)
-			player.SetNoOfBombs(player.GetNoOfBombs() - 1);
-		break;
-	case Powers::Power::SkateUp:
-		if(player.GetSpeed()<4)
-			player.SetSpeed(player.GetSpeed() + 1);
-		break;
-	case Powers::Power::SkateDown:
-		if (player.GetSpeed() > 1)
-			player.SetSpeed(player.GetSpeed() - 1); 
-		break;
-	case Powers::Power::SoftBlockPass:
-		player.SetSoftBlockPass(true);
-		break;
-	case Powers::Power::BombPass:
-		player.SetBombPass(true);
-		break;
-	case Powers::Power::Heart:
-		player.SetHealth(player.GetHealth() + 1);
-		break;
-	case Powers::Power::Vest:
-		player.SetVest(true);
-		break;
-	case Powers::Power::RemoteControl:
-		player.SetRemoteControl(true);
-		break;
-	default:
-		break;
-	}
-}
 
 bool Powers::isBlock()
 {
 	return false;
+}
+
+bool Powers::GetPowerStatus()
+{
+	return m_powersIsHidden;
+}
+
+Powers::Power Powers::GetPowerType() const
+{
+	return m_power;
+}
+
+void Powers::SetPowerStatus(bool value)
+{
+	m_powersIsHidden = value;
+}
+
+std::ostream& operator<<(std::ostream& out, const Powers& power)
+{
+	if (power.m_powersIsHidden == 1)
+		out << char(176) << char(175);
+	else
+		switch (power.m_power)
+		{
+		case Powers::Power::BombDown:
+			out << "BD";
+			break;
+
+		case Powers::Power::BombPass:
+			out << "BP";
+			break;
+		case Powers::Power::FireDown:
+			out << "FD";
+			break;
+		case Powers::Power::FireUp:
+			out << "FU";
+			break;
+		case Powers::Power::BombUp:
+			out << "BU";
+			break;
+		case Powers::Power::Heart:
+			out << "HP";
+			break;
+		case Powers::Power::RemoteControl:
+			out << "RC";
+			break;
+		case Powers::Power::SkateDown:
+			out << "SD";
+			break;
+		case Powers::Power::SkateUp:
+			out << "SU";
+			break;
+		case Powers::Power::SoftBlockPass:
+			out << "SP";
+			break;
+		case Powers::Power::Vest:
+			out << "VE";
+			break;
+		default:
+			break;
+		}
+	return out;
 }

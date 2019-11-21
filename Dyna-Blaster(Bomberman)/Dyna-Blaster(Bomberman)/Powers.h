@@ -1,4 +1,6 @@
-#include"Player.h"
+#include <iostream>
+#include "Entity.h"
+
 #pragma once
 class Powers: public Entity
 {
@@ -20,11 +22,19 @@ public:
 
 public:
 	Powers(Power power);
-	void UpdatePlayerPower(Player player,Power power);
+	
 	bool isBlock();
+	friend std::ostream& operator<<(std::ostream& out, const Powers& power);
+
+	bool GetPowerStatus() ;
+	Power GetPowerType() const;
+	void SetPowerStatus(bool value);
+
+
 
 private:
 	Power m_power;
+	bool m_powersIsHidden = 1;
 
 };
 

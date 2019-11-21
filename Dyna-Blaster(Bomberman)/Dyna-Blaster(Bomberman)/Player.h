@@ -17,6 +17,8 @@ public:
 	uint16_t GetCoordX() const;
 	uint16_t GetCoordY() const;
 	uint16_t GetNoOfPlacedBombs() const;
+	uint16_t GetLastX();
+	uint16_t GetLastY();
 
 	void SetFire(uint16_t up);
 	void SetNoOfBombs(uint16_t up);
@@ -44,6 +46,8 @@ private:
 	uint16_t m_noOfBombs;
 	uint16_t m_speed;
 	uint16_t m_health;
+	uint16_t m_lastX;
+	uint16_t m_lastY;
 
 	std::vector<Bomb*> m_placedBombs;
 

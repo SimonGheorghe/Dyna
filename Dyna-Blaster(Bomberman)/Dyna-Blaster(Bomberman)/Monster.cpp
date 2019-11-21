@@ -191,6 +191,17 @@ uint16_t Monster::GetCoordY() const
 	return m_coordY;
 }
 
+uint16_t Monster::GetLastY() const
+{
+	return m_lastY;
+}
+
+uint16_t Monster::GetLastX() const
+{
+	return m_lastX;
+
+}
+
 void Monster::DropHitPoints()
 {
 	--m_hitPoints;

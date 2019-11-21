@@ -70,6 +70,16 @@ uint16_t Player::GetNoOfPlacedBombs() const
 	return m_placedBombs.size();
 }
 
+uint16_t Player::GetLastX()
+{
+	return m_lastX;
+}
+
+uint16_t Player::GetLastY()
+{
+	return m_lastY;
+}
+
 void Player::SetVest(bool up)
 {
 	m_vest = up;
@@ -112,7 +122,11 @@ void Player::Move(Map& map, char ch)
 					if (m_placedBombs[index]->GetCoordX() == m_coordX - 1 && m_placedBombs[index]->GetCoordY() == m_coordY)
 						ok = 0;
 			if (ok)
+			{
+				m_lastX = m_coordX;
+				m_lastY = m_coordY;
 				--m_coordX;
+			}
 		}
 	}
 	break;
@@ -130,7 +144,11 @@ void Player::Move(Map& map, char ch)
 					if (m_placedBombs[index]->GetCoordX() == m_coordX && m_placedBombs[index]->GetCoordY() == m_coordY - 1)
 						ok = 0;
 			if (ok)
+			{
+				m_lastY = m_coordY;
+				m_lastX = m_coordX;
 				--m_coordY;
+			}
 		}
 	}
 	break;
@@ -148,7 +166,12 @@ void Player::Move(Map& map, char ch)
 					if (m_placedBombs[index]->GetCoordX() == m_coordX + 1 && m_placedBombs[index]->GetCoordY() == m_coordY)
 						ok = 0;
 			if (ok)
+			{
+				m_lastX = m_coordX;
+				m_lastY = m_coordY;
+
 				++m_coordX;
+			}
 		}
 	}
 	break;
@@ -165,7 +188,12 @@ void Player::Move(Map& map, char ch)
 					if (m_placedBombs[index]->GetCoordX() == m_coordX && m_placedBombs[index]->GetCoordY() == m_coordY + 1)
 						ok = 0;
 			if (ok)
+			{
+				m_lastY = m_coordY;
+				m_lastX = m_coordX;
+
 				++m_coordY;
+			}
 		}
 	}
 	break;

@@ -46,6 +46,8 @@ public:
 	bool GetPassingAbility() const;
 	uint16_t GetCoordX() const;
 	uint16_t GetCoordY() const;
+	uint16_t GetLastY() const;
+	uint16_t GetLastX() const;
 
 	void DropHitPoints();
 

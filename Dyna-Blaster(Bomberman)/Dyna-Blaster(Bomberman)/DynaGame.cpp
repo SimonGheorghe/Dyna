@@ -87,8 +87,9 @@ void DynaGame::Run()
 		uint16_t round = 0;
 		while (round < 8)
 		{
+
 			if (stage == 0)
-				round = 7;
+				round = 1;
 			if (round == 7)
 				exit = 0;
 			endRound = 0;
@@ -194,8 +195,11 @@ void DynaGame::Run()
 					{
 						player.SetHealth(player.GetHealth() - 1);
 						std::cout << "You are dead. You have " << player.GetHealth() << " lifes left!\n\n";
+						std::this_thread::sleep_for(std::chrono::seconds(1));
+
 						break;
 					}
+				
 					if (enemies.size() == 0 && dynamic_cast<Block*>(map[{player.GetCoordX(), player.GetCoordY()}])->GetType() == Block::Type::Exit)
 					{
 						endRound = 1;
@@ -222,6 +226,17 @@ void DynaGame::Run()
 							playerIsHit = player[index]->Explode(map, player.GetFire(), player.GetCoordX(), player.GetCoordY());
 							player.DeleteBomb(index);
 						}
+					}
+					for (int index = 0; index < enemies.size(); index++)
+					{
+						if ((enemies[index]->GetCoordX() == player.GetCoordX() && enemies[index]->GetCoordY() == player.GetCoordY())||
+							(enemies[index]->GetCoordX()==player.GetLastX()&& enemies[index]->GetCoordY() == player.GetLastY() &&
+							enemies[index]->GetLastX()==player.GetCoordX()&& enemies[index]->GetLastY() == player.GetCoordY()))
+						{
+							playerIsHit = 1;
+							player.SetHealth(player.GetHealth() - 1);
+						}
+
 					}
 
 				}

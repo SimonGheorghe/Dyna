@@ -18,8 +18,9 @@ public:
 	uint16_t GetCoordX() const;
 	uint16_t GetCoordY() const;
 	uint16_t GetNoOfPlacedBombs() const;
-	uint16_t GetLastX();
-	uint16_t GetLastY();
+	uint16_t GetLastX() const;
+	uint16_t GetLastY() const ;
+	bool GetHasVest() const;
 
 	void SetFire(uint16_t up);
 	void SetNoOfBombs(uint16_t up);
@@ -35,6 +36,7 @@ public:
 	void PlaceBomb(Map& map);
 	void DeleteBomb(int index);
 	void UpdatePlayerPower(Powers::Power power);
+	bool IsOnBomb();
 
 	Bomb* operator[](int index);
 	const Bomb* operator[](int index) const;
@@ -53,9 +55,9 @@ private:
 
 	std::vector<Bomb*> m_placedBombs;
 
-	bool m_softBlockPass=true;
-	bool m_bombPass=false;
-	bool m_vest=false;
-	bool m_remoteControl=false;
+	bool m_softBlockPass;
+	bool m_bombPass;
+	bool m_vest;
+	bool m_remoteControl;
 };
 

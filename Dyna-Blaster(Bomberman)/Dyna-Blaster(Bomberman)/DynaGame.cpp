@@ -196,7 +196,7 @@ void DynaGame::Run()
 						dynamic_cast<Block*>(map[{coordX, coordY}])->SetExitStatus(0);
 						exit = 1;
 					}
-					if (playerIsHit)
+					if (playerIsHit && !player.GetHasVest())
 					{
 						player.SetHealth(player.GetHealth() - 1);
 						std::cout << "You are dead. You have " << player.GetHealth() << " lifes left!\n\n";
@@ -204,7 +204,10 @@ void DynaGame::Run()
 
 						break;
 					}
-					if (enemies.size() == 0 && dynamic_cast<Block*>(map[{player.GetCoordX(), player.GetCoordY()}])->GetType() == Block::Type::Exit)
+					if (enemies.size() == 0 && 
+						dynamic_cast<Block*>(map[{player.GetCoordX(), player.GetCoordY()}]) &&
+						dynamic_cast<Block*>(map[{player.GetCoordX(), player.GetCoordY()}])->GetType() == Block::Type::Exit && 
+						dynamic_cast<Block*>(map[{player.GetCoordX(), player.GetCoordY()}])->GetExitStatus() == 0)
 					{
 						endRound = 1;
 						break;
@@ -212,18 +215,17 @@ void DynaGame::Run()
 					char ch = _getch();
 					if (ch == ' ')
 					{
-						if (player.GetNoOfBombs() != 0)
+						if (player.GetNoOfBombs() != 0 &&
+							dynamic_cast<Block*>(map[{player.GetCoordX(), player.GetCoordY()}]) &&
+							dynamic_cast<Block*>(map[{player.GetCoordX(), player.GetCoordY()}])->GetType() == Block::Type::NoneBlock &&
+							!player.IsOnBomb())
 							player.PlaceBomb(map);
 					}
 					else
 						if (ch == 'k')
 							enemies.clear();
 						else
-						{
 							player.Move(map, ch);
-							if (dynamic_cast<Powers*>(map[{player.GetCoordX(), player.GetCoordY()}]))
-								map.SetBlock(Block::Type::NoneBlock, player.GetCoordX(), player.GetCoordY());
-						}
 					for (int index = 0; index < enemies.size(); ++index)
 						enemies[index]->Move(map, player);
 					for (int index = 0; index < player.GetNoOfPlacedBombs(); ++index)

@@ -3,6 +3,14 @@
 Player::Player(uint16_t fire, uint16_t numberBombs, uint16_t health, uint32_t score, uint16_t speed) :
 	m_fire(fire), m_noOfBombs(numberBombs), m_health(health), m_score(score), m_speed(speed)
 {
+	m_coordX = 1;
+	m_coordY = 1;
+	m_lastX = 1;
+	m_lastY = 1;
+	m_softBlockPass = true;
+	m_bombPass = true;
+	m_vest = true;
+	m_remoteControl = false;
 }
 
 void Player::SetFire(uint16_t up)
@@ -70,14 +78,19 @@ uint16_t Player::GetNoOfPlacedBombs() const
 	return m_placedBombs.size();
 }
 
-uint16_t Player::GetLastX()
+uint16_t Player::GetLastX() const
 {
 	return m_lastX;
 }
 
-uint16_t Player::GetLastY()
+uint16_t Player::GetLastY() const
 {
 	return m_lastY;
+}
+
+bool Player::GetHasVest() const
+{
+	return m_vest;
 }
 
 void Player::SetVest(bool up)
@@ -114,9 +127,13 @@ void Player::Move(Map& map, char ch)
 	{
 		if (dynamic_cast<Powers*>(map[{m_coordX - 1, m_coordY}]))
 		{
-			if (dynamic_cast<Powers*>(map[{m_coordX - 1, m_coordY}])->GetPowerStatus() == 0)
+			if (dynamic_cast<Powers*>(map[{m_coordX - 1, m_coordY}])->GetPowerStatus() == 0 || m_softBlockPass)
 			{
-				UpdatePlayerPower(dynamic_cast<Powers*>(map[{m_coordX - 1, m_coordY}])->GetPowerType());
+				if (dynamic_cast<Powers*>(map[{m_coordX - 1, m_coordY}])->GetPowerStatus() == 0)
+				{
+					UpdatePlayerPower(dynamic_cast<Powers*>(map[{m_coordX - 1, m_coordY}])->GetPowerType());
+					map.SetBlock(Block::Type::NoneBlock, m_coordX - 1, m_coordY);
+				}
 				m_lastX = m_coordX;
 				m_lastY = m_coordY;
 				--m_coordX;
@@ -124,8 +141,9 @@ void Player::Move(Map& map, char ch)
 		}
 		else
 		if (dynamic_cast<Block*>(map[{m_coordX - 1, m_coordY}])->GetType() == Block::Type::NoneBlock || 
+			dynamic_cast<Block*>(map[{m_coordX - 1, m_coordY}])->GetType() == Block::Type::SoftBlock && m_softBlockPass || 
 			dynamic_cast<Block*>(map[{m_coordX - 1, m_coordY}])->GetType() == Block::Type::Exit &&
-			dynamic_cast<Block*>(map[{m_coordX - 1, m_coordY}])->GetExitStatus() == 0)
+			(dynamic_cast<Block*>(map[{m_coordX - 1, m_coordY}])->GetExitStatus() == 0 || m_softBlockPass))
 		{
 			bool ok = 1;
 			if (!m_bombPass)
@@ -146,9 +164,13 @@ void Player::Move(Map& map, char ch)
 	{
 		if (dynamic_cast<Powers*>(map[{m_coordX , m_coordY-1}]))
 		{
-			if (dynamic_cast<Powers*>(map[{m_coordX, m_coordY-1}])->GetPowerStatus() == 0)
+			if (dynamic_cast<Powers*>(map[{m_coordX, m_coordY-1}])->GetPowerStatus() == 0 || m_softBlockPass)
 			{
-				UpdatePlayerPower(dynamic_cast<Powers*>(map[{m_coordX, m_coordY-1}])->GetPowerType());
+				if (dynamic_cast<Powers*>(map[{m_coordX, m_coordY - 1}])->GetPowerStatus() == 0)
+				{
+					UpdatePlayerPower(dynamic_cast<Powers*>(map[{m_coordX, m_coordY - 1}])->GetPowerType());
+					map.SetBlock(Block::Type::NoneBlock, m_coordX, m_coordY - 1);
+				}
 				m_lastX = m_coordX;
 				m_lastY = m_coordY;
 				--m_coordY;
@@ -156,8 +178,9 @@ void Player::Move(Map& map, char ch)
 		}
 		else
 		if (dynamic_cast<Block*>(map[{m_coordX, m_coordY - 1}])->GetType() == Block::Type::NoneBlock ||
+			dynamic_cast<Block*>(map[{m_coordX, m_coordY - 1}])->GetType() == Block::Type::SoftBlock && m_softBlockPass ||
 			dynamic_cast<Block*>(map[{m_coordX, m_coordY - 1}])->GetType() == Block::Type::Exit &&
-			dynamic_cast<Block*>(map[{m_coordX, m_coordY - 1}])->GetExitStatus() == 0)
+			(dynamic_cast<Block*>(map[{m_coordX, m_coordY - 1}])->GetExitStatus() == 0 || m_softBlockPass))
 
 		{
 			bool ok = 1;
@@ -179,9 +202,13 @@ void Player::Move(Map& map, char ch)
 	{
 		if (dynamic_cast<Powers*>(map[{m_coordX + 1, m_coordY}]))
 		{
-			if (dynamic_cast<Powers*>(map[{m_coordX + 1, m_coordY}])->GetPowerStatus() == 0)
+			if (dynamic_cast<Powers*>(map[{m_coordX + 1, m_coordY}])->GetPowerStatus() == 0 || m_softBlockPass)
 			{
-				UpdatePlayerPower(dynamic_cast<Powers*>(map[{m_coordX + 1, m_coordY}])->GetPowerType());
+				if (dynamic_cast<Powers*>(map[{m_coordX + 1, m_coordY}])->GetPowerStatus() == 0)
+				{
+					UpdatePlayerPower(dynamic_cast<Powers*>(map[{m_coordX + 1, m_coordY}])->GetPowerType());
+					map.SetBlock(Block::Type::NoneBlock, m_coordX + 1, m_coordY);
+				}
 				m_lastX = m_coordX;
 				m_lastY = m_coordY;
 				++m_coordX;
@@ -189,8 +216,9 @@ void Player::Move(Map& map, char ch)
 		}
 		else
 		if (dynamic_cast<Block*>(map[{m_coordX + 1, m_coordY}])->GetType() == Block::Type::NoneBlock ||
+			dynamic_cast<Block*>(map[{m_coordX + 1, m_coordY}])->GetType() == Block::Type::SoftBlock && m_softBlockPass ||
 			dynamic_cast<Block*>(map[{m_coordX + 1, m_coordY}])->GetType() == Block::Type::Exit &&
-			dynamic_cast<Block*>(map[{m_coordX + 1, m_coordY}])->GetExitStatus() == 0)
+			(dynamic_cast<Block*>(map[{m_coordX + 1, m_coordY}])->GetExitStatus() == 0 || m_softBlockPass))
 
 		{
 			bool ok = 1;
@@ -213,9 +241,13 @@ void Player::Move(Map& map, char ch)
 	{
 		if (dynamic_cast<Powers*>(map[{m_coordX, m_coordY + 1}]))
 		{
-			if (dynamic_cast<Powers*>(map[{m_coordX, m_coordY + 1}])->GetPowerStatus() == 0)
+			if (dynamic_cast<Powers*>(map[{m_coordX, m_coordY + 1}])->GetPowerStatus() == 0 || m_softBlockPass)
 			{
-				UpdatePlayerPower(dynamic_cast<Powers*>(map[{m_coordX, m_coordY + 1}])->GetPowerType());
+				if (dynamic_cast<Powers*>(map[{m_coordX, m_coordY + 1}])->GetPowerStatus() == 0)
+				{
+					UpdatePlayerPower(dynamic_cast<Powers*>(map[{m_coordX, m_coordY + 1}])->GetPowerType());
+					map.SetBlock(Block::Type::NoneBlock, m_coordX, m_coordY + 1);
+				}
 				m_lastX = m_coordX;
 				m_lastY = m_coordY;
 				++m_coordY;
@@ -223,8 +255,9 @@ void Player::Move(Map& map, char ch)
 		}
 		else
 		if (dynamic_cast<Block*>(map[{m_coordX, m_coordY + 1}])->GetType() == Block::Type::NoneBlock ||
+			dynamic_cast<Block*>(map[{m_coordX, m_coordY + 1}])->GetType() == Block::Type::SoftBlock && m_softBlockPass ||
 			dynamic_cast<Block*>(map[{m_coordX, m_coordY + 1}])->GetType() == Block::Type::Exit &&
-			dynamic_cast<Block*>(map[{m_coordX, m_coordY + 1}])->GetExitStatus() == 0)
+			(dynamic_cast<Block*>(map[{m_coordX, m_coordY + 1}])->GetExitStatus() == 0 || m_softBlockPass))
 		{
 			bool ok = 1;
 			if (!m_bombPass)
@@ -269,11 +302,11 @@ void Player::PlaceBomb(Map& map)
 
 void Player::DeleteBomb(int bombId)
 {
-	//m_placedBombs.erase(m_placedBombs.begin() + bombId -1);
-	delete m_placedBombs[bombId];
+	m_placedBombs.erase(m_placedBombs.begin() + bombId);
+	/*delete m_placedBombs[bombId];
 	for (int index = bombId; index < m_placedBombs.size() - 1; ++index)
-		m_placedBombs[index] = m_placedBombs[(uint16_t)1 + index];
-	m_placedBombs.resize(m_placedBombs.size() - 1);
+		m_placedBombs[index] = m_placedBombs[index + 1];
+	m_placedBombs.resize(m_placedBombs.size() - 1);*/
 	m_noOfBombs++;
 }
 
@@ -325,6 +358,14 @@ void Player::UpdatePlayerPower( Powers::Power power)
 	default:
 		break;
 	}
+}
+
+bool Player::IsOnBomb()
+{
+	for(int index=0; index<m_placedBombs.size(); ++index)
+		if(m_coordX == m_placedBombs[index]->GetCoordX() && m_coordY == m_placedBombs[index]->GetCoordY())
+			return true;
+	return false;
 }
 
 

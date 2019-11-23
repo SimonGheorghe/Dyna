@@ -10,7 +10,7 @@ Player::Player(uint16_t fire, uint16_t numberBombs, uint16_t health, uint32_t sc
 	m_softBlockPass = true;
 	m_bombPass = true;
 	m_vest = true;
-	m_remoteControl = false;
+	m_remoteControl = true;
 }
 
 void Player::SetFire(uint16_t up)
@@ -88,9 +88,19 @@ uint16_t Player::GetLastY() const
 	return m_lastY;
 }
 
+uint16_t Player::GetScore() const
+{
+	return m_score;
+}
+
 bool Player::GetHasVest() const
 {
 	return m_vest;
+}
+
+bool Player::GetRemoteControl() const
+{
+	return m_remoteControl;
 }
 
 void Player::SetVest(bool up)
@@ -366,6 +376,11 @@ bool Player::IsOnBomb()
 		if(m_coordX == m_placedBombs[index]->GetCoordX() && m_coordY == m_placedBombs[index]->GetCoordY())
 			return true;
 	return false;
+}
+
+void Player::AddScore(uint16_t value)
+{
+	m_score += value;
 }
 
 

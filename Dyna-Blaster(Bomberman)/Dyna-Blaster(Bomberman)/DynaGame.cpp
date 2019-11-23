@@ -124,6 +124,7 @@ void DynaGame::Run()
 							dynamic_cast<Block*>(map[{x, y}])->GetType() == Block::Type::VerticalFire)
 							enemies[index]->DropHitPoints();
 					}
+					std::cout << "Score: " << player.GetScore() << std::endl;
 					for (int index1 = 0; index1 < map.GetLength(); ++index1)
 					{
 						for (int index2 = 0; index2 < map.GetWidth(); ++index2)
@@ -176,13 +177,8 @@ void DynaGame::Run()
 							int x = enemies[index]->GetCoordX();
 							int y = enemies[index]->GetCoordY();
 							map.SetBlock(Block::Type::NoneBlock, x, y);
+							player.AddScore(enemies[index]->GetScore());
 							enemies.erase(enemies.begin() + index);
-							/*delete enemies[index];
-							for (int index1 = index; index1 < enemies.size() - 1; ++index1)
-							{
-								enemies[index1] = enemies[index1 + 1];
-							}
-							enemies.resize(enemies.size() - 1);*/
 						}
 					uint16_t coordX;
 					uint16_t coordY;
@@ -225,30 +221,41 @@ void DynaGame::Run()
 						if (ch == 'k')
 							enemies.clear();
 						else
+							if (ch == 'r')
+							{
+								if (player.GetRemoteControl() && player.GetNoOfPlacedBombs()!=0)
+								{
+									player[0]->Explode(map, player.GetFire(), player.GetCoordX(), player.GetCoordY());
+									player.DeleteBomb(0);
+								}
+
+							}
+						else
 							player.Move(map, ch);
 					for (int index = 0; index < enemies.size(); ++index)
 						enemies[index]->Move(map, player);
-					for (int index = 0; index < player.GetNoOfPlacedBombs(); ++index)
-					{
-						player[index]->SetTicks(player[index]->GetTicks() - 1);
-						if (player[index]->GetTicks() == 0)
+					if(!player.GetRemoteControl())
+						for (int index = 0; index < player.GetNoOfPlacedBombs(); ++index)
 						{
-							playerIsHit = player[index]->Explode(map, player.GetFire(), player.GetCoordX(), player.GetCoordY());
-							player.DeleteBomb(index);
+							player[index]->SetTicks(player[index]->GetTicks() - 1);
+							if (player[index]->GetTicks() == 0)
+							{
+								playerIsHit = player[index]->Explode(map, player.GetFire(), player.GetCoordX(), player.GetCoordY());
+								player.DeleteBomb(index);
+							}
 						}
-					}
 					for (int index = 0; index < enemies.size(); index++)
 					{
-						if ((enemies[index]->GetCoordX() == player.GetCoordX() && enemies[index]->GetCoordY() == player.GetCoordY())||
-							(enemies[index]->GetCoordX()==player.GetLastX()&& enemies[index]->GetCoordY() == player.GetLastY() &&
-							enemies[index]->GetLastX()==player.GetCoordX()&& enemies[index]->GetLastY() == player.GetCoordY()))
+						if ((enemies[index]->GetCoordX() == player.GetCoordX() && enemies[index]->GetCoordY() == player.GetCoordY()) ||
+							(enemies[index]->GetCoordX() == player.GetLastX() && enemies[index]->GetCoordY() == player.GetLastY() &&
+								enemies[index]->GetLastX() == player.GetCoordX() && enemies[index]->GetLastY() == player.GetCoordY()))
 						{
 							playerIsHit = 1;
-							player.SetHealth(player.GetHealth() - 1);
+							player.SetVest(0);
+							player.SetBombPass(0);
+							player.SetRemoteControl(0);
 						}
-
 					}
-
 				}
 
 				if (endRound)

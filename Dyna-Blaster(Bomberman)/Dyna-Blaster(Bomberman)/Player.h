@@ -20,7 +20,9 @@ public:
 	uint16_t GetNoOfPlacedBombs() const;
 	uint16_t GetLastX() const;
 	uint16_t GetLastY() const ;
+	uint16_t GetScore() const ;
 	bool GetHasVest() const;
+	bool GetRemoteControl() const;
 
 	void SetFire(uint16_t up);
 	void SetNoOfBombs(uint16_t up);
@@ -37,6 +39,7 @@ public:
 	void DeleteBomb(int index);
 	void UpdatePlayerPower(Powers::Power power);
 	bool IsOnBomb();
+	void AddScore(uint16_t value);
 
 	Bomb* operator[](int index);
 	const Bomb* operator[](int index) const;

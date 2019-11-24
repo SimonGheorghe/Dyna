@@ -7,6 +7,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Dyna-Blaster(Bomberman)", "
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "DynaTests", "DynaTests\DynaTests.vcxproj", "{F0234E70-9A4F-4052-9BFE-0BBB4D06DFC3}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Logging", "Logging\Logging.vcxproj", "{7F0EC11E-C81B-4684-8406-FCB86BFAD751}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64
@@ -31,6 +33,14 @@ Global
 		{F0234E70-9A4F-4052-9BFE-0BBB4D06DFC3}.Release|x64.Build.0 = Release|x64
 		{F0234E70-9A4F-4052-9BFE-0BBB4D06DFC3}.Release|x86.ActiveCfg = Release|Win32
 		{F0234E70-9A4F-4052-9BFE-0BBB4D06DFC3}.Release|x86.Build.0 = Release|Win32
+		{7F0EC11E-C81B-4684-8406-FCB86BFAD751}.Debug|x64.ActiveCfg = Debug|x64
+		{7F0EC11E-C81B-4684-8406-FCB86BFAD751}.Debug|x64.Build.0 = Debug|x64
+		{7F0EC11E-C81B-4684-8406-FCB86BFAD751}.Debug|x86.ActiveCfg = Debug|Win32
+		{7F0EC11E-C81B-4684-8406-FCB86BFAD751}.Debug|x86.Build.0 = Debug|Win32
+		{7F0EC11E-C81B-4684-8406-FCB86BFAD751}.Release|x64.ActiveCfg = Release|x64
+		{7F0EC11E-C81B-4684-8406-FCB86BFAD751}.Release|x64.Build.0 = Release|x64
+		{7F0EC11E-C81B-4684-8406-FCB86BFAD751}.Release|x86.ActiveCfg = Release|Win32
+		{7F0EC11E-C81B-4684-8406-FCB86BFAD751}.Release|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

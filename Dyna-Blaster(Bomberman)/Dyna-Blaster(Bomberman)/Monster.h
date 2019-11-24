@@ -24,7 +24,17 @@ public:
 		Korisuke,
 		Maron,
 		Ojin,
-		Pontan
+		Pontan,
+		Frog,
+		BlueJelly,
+		SnakeHead,
+		SnakeBody,
+		SnakeTail,
+		Bubbles,
+		BabyBubbles,
+		WarpMan,
+		YoungWarpMan,
+		Spidfire
 	};
 	enum class Speed
 	{

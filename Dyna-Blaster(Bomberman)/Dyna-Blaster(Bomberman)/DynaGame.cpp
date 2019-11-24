@@ -8,10 +8,20 @@
 #include "DynaGame.h"
 #include "Monster.h"
 #include "Powers.h"
-
-std::vector<Monster*> GenerateMonster(const Map& map)
+void RandomEnemiesGenerator(std::vector<Monster*>& enemies, std::vector<uint16_t> possibleEnemies, uint16_t noOfEnemies)
 {
-	std::vector<Monster*> enemies;
+	enemies.resize(noOfEnemies);
+	for (int index = 0; index < noOfEnemies; ++index)
+	{
+		bool ok;
+		uint16_t random;
+		random = rand() % possibleEnemies.size();
+		enemies[index] = new Monster(Monster::Type(possibleEnemies[random]));
+	}
+}
+void GenerateMonster(std::vector<Monster*>& enemies, const Map& map)
+{
+	uint16_t noOfEnemies;
 	switch (map.GetStage())
 	{
 	case Map::Stage::TheWall:
@@ -24,51 +34,336 @@ std::vector<Monster*> GenerateMonster(const Map& map)
 			enemies[2] = new Monster(Monster::Type::Ballom);
 			break;
 		case 1:
-			enemies.resize(3);
+			enemies.resize(4);
 			enemies[0] = new Monster(Monster::Type::Ballom);
 			enemies[1] = new Monster(Monster::Type::Ballom);
-			enemies[2] = new Monster(Monster::Type::Ekutopu);
+			enemies[2] = new Monster(Monster::Type::Ballom);
+			enemies[3] = new Monster(Monster::Type::Ekutopu);
 			break;
 		case 2:
 			enemies.resize(3);
 			enemies[0] = new Monster(Monster::Type::Ballom);
 			enemies[1] = new Monster(Monster::Type::Ballom);
-			enemies[2] = new Monster(Monster::Type::Boyon);
+			enemies[2] = new Monster(Monster::Type::Ekutopu);
 			break;
 		case 3:
+			enemies.resize(5);
+			enemies[0] = new Monster(Monster::Type::Ballom);
+			enemies[1] = new Monster(Monster::Type::Ballom);
+			enemies[2] = new Monster(Monster::Type::Ekutopu);
+			enemies[3] = new Monster(Monster::Type::Ekutopu);
+			enemies[4] = new Monster(Monster::Type::Boyon);
 			break;
 		case 4:
+			enemies.resize(6);
+			enemies[0] = new Monster(Monster::Type::Ballom);
+			enemies[1] = new Monster(Monster::Type::Ballom);
+			enemies[2] = new Monster(Monster::Type::Ekutopu);
+			enemies[3] = new Monster(Monster::Type::Ekutopu);
+			enemies[4] = new Monster(Monster::Type::Boyon);
+			enemies[5] = new Monster(Monster::Type::Boyon);
 			break;
 		case 5:
+			enemies.resize(5);
+			enemies[0] = new Monster(Monster::Type::Ballom);
+			enemies[1] = new Monster(Monster::Type::Ballom);
+			enemies[2] = new Monster(Monster::Type::Ekutopu);
+			enemies[3] = new Monster(Monster::Type::Boyon);
+			enemies[4] = new Monster(Monster::Type::Pass);
 			break;
 		case 6:
-			break;
-		case 7:
-			enemies.resize(3);
+			enemies.resize(5);
 			enemies[0] = new Monster(Monster::Type::Ballom);
 			enemies[1] = new Monster(Monster::Type::Ballom);
 			enemies[2] = new Monster(Monster::Type::Boyon);
+			enemies[3] = new Monster(Monster::Type::Pass);
+			enemies[4] = new Monster(Monster::Type::Telpio);
+			break;
+		case 7:
+			enemies.resize(3);
+			enemies[0] = new Monster(Monster::Type::Telpio);
+			enemies[1] = new Monster(Monster::Type::Telpio);
+			enemies[2] = new Monster(Monster::Type::SnakeHead);
+			enemies[3] = new Monster(Monster::Type::SnakeBody);
+			enemies[4] = new Monster(Monster::Type::SnakeBody);
+			enemies[5] = new Monster(Monster::Type::SnakeBody);
+			enemies[6] = new Monster(Monster::Type::SnakeBody);
+			enemies[7] = new Monster(Monster::Type::SnakeTail);
 			break;
 		}
 		break;
 	case Map::Stage::RockyMountains:
+		
+		switch (map.GetLevel())
+		{
+		case 0:
+			noOfEnemies = 5;
+			break;
+		case 1:
+			noOfEnemies = 5;
+			break;
+		case 2:
+			noOfEnemies = 5;
+			break;
+		case 3:
+			noOfEnemies = 5;
+			break;
+		case 4:
+			noOfEnemies = 5;
+			break;
+		case 5:
+			noOfEnemies = 5;
+			break;
+		case 6:
+			noOfEnemies = 5;
+			break;
+		default:
+			break;
+		}
+		if (map.GetLevel()!= 7) 
+		{
+			uint16_t noOfEnemies = 10;
+			std::vector<uint16_t> possibleEnemies = { 0,2,3,4,5,6,7 };
+			RandomEnemiesGenerator(enemies, possibleEnemies, noOfEnemies);
+		}
+		else
+
 		break;
 	case Map::Stage::River:
-		break;
+		
+		switch (map.GetLevel())
+		{
+		case 0:
+			noOfEnemies = 5;
+			break;
+		case 1:
+			noOfEnemies = 5;
+			break;
+		case 2:
+			noOfEnemies = 5;
+			break;
+		case 3:
+			noOfEnemies = 5;
+			break;
+		case 4:
+			noOfEnemies = 5;
+			break;
+		case 5:
+			noOfEnemies = 5;
+			break;
+		case 6:
+			noOfEnemies = 5;
+			break;
+		default:
+			break;
+		}
+		if (map.GetLevel() != 7)
+		{
+			uint16_t noOfEnemies = 10;
+			std::vector<uint16_t> possibleEnemies = { 0,1,2,3,4,17,18 };
+			RandomEnemiesGenerator(enemies, possibleEnemies, noOfEnemies);
+		}
+		else
+			break;
 	case Map::Stage::Forest:
-		break;
+		
+		switch (map.GetLevel())
+		{
+		case 0:
+			noOfEnemies = 5;
+			break;
+		case 1:
+			noOfEnemies = 5;
+			break;
+		case 2:
+			noOfEnemies = 5;
+			break;
+		case 3:
+			noOfEnemies = 5;
+			break;
+		case 4:
+			noOfEnemies = 5;
+			break;
+		case 5:
+			noOfEnemies = 5;
+			break;
+		case 6:
+			noOfEnemies = 5;
+			break;
+		default:
+			break;
+		}
+		if (map.GetLevel() != 7)
+		{
+			uint16_t noOfEnemies = 10;
+			std::vector<uint16_t> possibleEnemies = { 2,3,4,5,8,9 };
+			RandomEnemiesGenerator(enemies, possibleEnemies, noOfEnemies);
+		}
+		else
+			break;
 	case Map::Stage::LavaCave:
-		break;
+		
+		switch (map.GetLevel())
+		{
+		case 0:
+			noOfEnemies = 5;
+			break;
+		case 1:
+			noOfEnemies = 5;
+			break;
+		case 2:
+			noOfEnemies = 5;
+			break;
+		case 3:
+			noOfEnemies = 5;
+			break;
+		case 4:
+			noOfEnemies = 5;
+			break;
+		case 5:
+			noOfEnemies = 5;
+			break;
+		case 6:
+			noOfEnemies = 5;
+			break;
+		default:
+			break;
+		}
+		if (map.GetLevel() != 7)
+		{
+			uint16_t noOfEnemies = 10;
+			std::vector<uint16_t> possibleEnemies = { 2,3,4,5,10,11 };
+			RandomEnemiesGenerator(enemies, possibleEnemies, noOfEnemies);
+		}
+		else
+		{
+			enemies.resize(5);
+			enemies[0] = new Monster(Monster::Type::WarpMan);
+			enemies[1] = new Monster(Monster::Type::YoungWarpMan);
+			enemies[2] = new Monster(Monster::Type::YoungWarpMan);
+			enemies[3] = new Monster(Monster::Type::YoungWarpMan);
+			enemies[4] = new Monster(Monster::Type::YoungWarpMan);
+		}
+			break;
 	case Map::Stage::InsideOfTheCastlePartI:
-		break;
+		
+		switch (map.GetLevel())
+		{
+		case 0:
+			noOfEnemies = 5;
+			break;
+		case 1:
+			noOfEnemies = 5;
+			break;
+		case 2:
+			noOfEnemies = 5;
+			break;
+		case 3:
+			noOfEnemies = 5;
+			break;
+		case 4:
+			noOfEnemies = 5;
+			break;
+		case 5:
+			noOfEnemies = 5;
+			break;
+		case 6:
+			noOfEnemies = 5;
+			break;
+		default:
+			break;
+		}
+		if (map.GetLevel() != 7)
+		{
+			uint16_t noOfEnemies = 10;
+			std::vector<uint16_t> possibleEnemies = { 2,3,4,5,12,13 };
+			RandomEnemiesGenerator(enemies, possibleEnemies, noOfEnemies);
+		}
+		else
+			break;
 	case Map::Stage::InsideOfTheCastlePartII:
-		break;
+		
+		switch (map.GetLevel())
+		{
+		case 0:
+			noOfEnemies = 5;
+			break;
+		case 1:
+			noOfEnemies = 5;
+			break;
+		case 2:
+			noOfEnemies = 5;
+			break;
+		case 3:
+			noOfEnemies = 5;
+			break;
+		case 4:
+			noOfEnemies = 5;
+			break;
+		case 5:
+			noOfEnemies = 5;
+			break;
+		case 6:
+			noOfEnemies = 5;
+			break;
+		default:
+			break;
+		}
+		if (map.GetLevel() != 7)
+		{
+			uint16_t noOfEnemies = 10;
+			std::vector<uint16_t> possibleEnemies = { 2,3,4,5,14,15 };
+			RandomEnemiesGenerator(enemies, possibleEnemies, noOfEnemies);
+		}
+		else
+		{
+			enemies.resize(5);
+			enemies[0] = new Monster(Monster::Type::WarpMan);
+			enemies[1] = new Monster(Monster::Type::YoungWarpMan);
+			enemies[2] = new Monster(Monster::Type::YoungWarpMan);
+			enemies[3] = new Monster(Monster::Type::YoungWarpMan);
+			enemies[4] = new Monster(Monster::Type::YoungWarpMan);
+		}
+			break;
 	case Map::Stage::InsideOfTheCastlePartIII:
+		
+		switch (map.GetLevel())
+		{
+		case 0:
+			noOfEnemies = 5;
+			break;
+		case 1:
+			noOfEnemies = 5;
+			break;
+		case 2:
+			noOfEnemies = 5;
+			break;
+		case 3:
+			noOfEnemies = 5;
+			break;
+		case 4:
+			noOfEnemies = 5;
+			break;
+		case 5:
+			noOfEnemies = 5;
+			break;
+		case 6:
+			noOfEnemies = 5;
+			break;
+		default:
+			break;
+		}
+		if (map.GetLevel() != 7)
+		{
+			uint16_t noOfEnemies = 10;
+			std::vector<uint16_t> possibleEnemies = { 0,2,3,4,5,6,16 };
+			RandomEnemiesGenerator(enemies, possibleEnemies, noOfEnemies);
+		}
+		else
 		break;
 	default:
 		break;
 	}
-	return enemies;
 }
 
 void DynaGame::Run()
@@ -103,7 +398,7 @@ void DynaGame::Run()
 				std::this_thread::sleep_for(std::chrono::seconds(3));
 				bool playerIsHit = 0;
 				std::vector<Monster*> enemies;
-				enemies = GenerateMonster(map);
+				GenerateMonster(enemies, map);
 
 				for (int index = 0; index < enemies.size(); ++index)
 				{

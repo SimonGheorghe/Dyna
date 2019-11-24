@@ -233,10 +233,10 @@ void Monster::Move(Map map, const Player& player)
 		Alg3(map, player);
 		break;
 	case Monster::Type::Pass:
-
+		Alg3(map, player);
 		break;
 	case Monster::Type::Telpio:
-
+		Alg3(map, player);
 		break;
 	case Monster::Type::Pomori:
 		break;
@@ -365,7 +365,9 @@ bool Monster::MoveVerif(uint16_t step, Map map, const Player& player)
 			(dynamic_cast<Powers*>(map[{m_coordX, m_coordY - 1}])->GetPowerStatus() == 0 ||
 				dynamic_cast<Powers*>(map[{m_coordX, m_coordY - 1}])->GetPowerStatus() == 1 && m_passingAbility) ||
 			dynamic_cast<Block*>(map[{m_coordX, m_coordY - 1}]) &&
-			(dynamic_cast<Block*>(map[{m_coordX, m_coordY - 1}])->GetType() != Block::Type::SoftBlock || m_passingAbility )&&
+			(dynamic_cast<Block*>(map[{m_coordX, m_coordY - 1}])->GetType() != Block::Type::SoftBlock &&
+				dynamic_cast<Block*>(map[{m_coordX, m_coordY - 1}])->GetType() != Block::Type::Exit
+				|| m_passingAbility) &&
 			dynamic_cast<Block*>(map[{m_coordX, m_coordY - 1}])->GetType() != Block::Type::HardBlock)
 		{
 			bool ok = 1;
@@ -386,7 +388,9 @@ bool Monster::MoveVerif(uint16_t step, Map map, const Player& player)
 			(dynamic_cast<Powers*>(map[{m_coordX, m_coordY + 1}])->GetPowerStatus() == 0 ||
 				dynamic_cast<Powers*>(map[{m_coordX, m_coordY + 1}])->GetPowerStatus() == 1 && m_passingAbility) ||
 			dynamic_cast<Block*>(map[{m_coordX, m_coordY + 1}]) &&
-			(dynamic_cast<Block*>(map[{m_coordX, m_coordY + 1}])->GetType() != Block::Type::SoftBlock || m_passingAbility) &&
+			(dynamic_cast<Block*>(map[{m_coordX, m_coordY + 1}])->GetType() != Block::Type::SoftBlock &&
+				dynamic_cast<Block*>(map[{m_coordX, m_coordY + 1}])->GetType() != Block::Type::Exit 
+				|| m_passingAbility) &&
 			dynamic_cast<Block*>(map[{m_coordX, m_coordY + 1}])->GetType() != Block::Type::HardBlock)
 		{
 			bool ok = 1;
@@ -407,7 +411,9 @@ bool Monster::MoveVerif(uint16_t step, Map map, const Player& player)
 			(dynamic_cast<Powers*>(map[{m_coordX - 1, m_coordY}])->GetPowerStatus() == 0 ||
 				dynamic_cast<Powers*>(map[{m_coordX - 1, m_coordY}])->GetPowerStatus() == 1 && m_passingAbility) ||
 			dynamic_cast<Block*>(map[{m_coordX - 1, m_coordY}]) &&
-			(dynamic_cast<Block*>(map[{m_coordX - 1, m_coordY}])->GetType() != Block::Type::SoftBlock || m_passingAbility) &&
+			(dynamic_cast<Block*>(map[{m_coordX - 1, m_coordY}])->GetType() != Block::Type::SoftBlock &&
+				dynamic_cast<Block*>(map[{m_coordX - 1, m_coordY}])->GetType() != Block::Type::Exit 
+				|| m_passingAbility) &&
 			dynamic_cast<Block*>(map[{m_coordX - 1, m_coordY}])->GetType() != Block::Type::HardBlock)
 		{
 			bool ok = 1;
@@ -428,7 +434,9 @@ bool Monster::MoveVerif(uint16_t step, Map map, const Player& player)
 			(dynamic_cast<Powers*>(map[{m_coordX + 1, m_coordY}])->GetPowerStatus() == 0 ||
 				dynamic_cast<Powers*>(map[{m_coordX + 1, m_coordY}])->GetPowerStatus() == 1 && m_passingAbility) ||
 			dynamic_cast<Block*>(map[{m_coordX + 1, m_coordY}]) &&
-			(dynamic_cast<Block*>(map[{m_coordX + 1, m_coordY}])->GetType() != Block::Type::SoftBlock || m_passingAbility) &&
+			(dynamic_cast<Block*>(map[{m_coordX + 1, m_coordY}])->GetType() != Block::Type::SoftBlock &&
+				dynamic_cast<Block*>(map[{m_coordX + 1, m_coordY}])->GetType() != Block::Type::Exit 
+				|| m_passingAbility) &&
 			dynamic_cast<Block*>(map[{m_coordX + 1, m_coordY}])->GetType() != Block::Type::HardBlock)
 		{
 			bool ok = 1;

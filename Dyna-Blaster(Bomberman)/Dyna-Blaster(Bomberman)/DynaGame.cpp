@@ -122,7 +122,6 @@ void GenerateMonster(std::vector<Monster*>& enemies, const Map& map)
 		}
 		if (map.GetLevel()!= 7) 
 		{
-			uint16_t noOfEnemies = 10;
 			std::vector<uint16_t> possibleEnemies = { 0,2,3,4,5,6,7 };
 			RandomEnemiesGenerator(enemies, possibleEnemies, noOfEnemies);
 		}
@@ -159,7 +158,6 @@ void GenerateMonster(std::vector<Monster*>& enemies, const Map& map)
 		}
 		if (map.GetLevel() != 7)
 		{
-			uint16_t noOfEnemies = 10;
 			std::vector<uint16_t> possibleEnemies = { 0,1,2,3,4,17,18 };
 			RandomEnemiesGenerator(enemies, possibleEnemies, noOfEnemies);
 		}
@@ -195,7 +193,6 @@ void GenerateMonster(std::vector<Monster*>& enemies, const Map& map)
 		}
 		if (map.GetLevel() != 7)
 		{
-			uint16_t noOfEnemies = 10;
 			std::vector<uint16_t> possibleEnemies = { 2,3,4,5,8,9 };
 			RandomEnemiesGenerator(enemies, possibleEnemies, noOfEnemies);
 		}
@@ -231,7 +228,6 @@ void GenerateMonster(std::vector<Monster*>& enemies, const Map& map)
 		}
 		if (map.GetLevel() != 7)
 		{
-			uint16_t noOfEnemies = 10;
 			std::vector<uint16_t> possibleEnemies = { 2,3,4,5,10,11 };
 			RandomEnemiesGenerator(enemies, possibleEnemies, noOfEnemies);
 		}
@@ -275,7 +271,6 @@ void GenerateMonster(std::vector<Monster*>& enemies, const Map& map)
 		}
 		if (map.GetLevel() != 7)
 		{
-			uint16_t noOfEnemies = 10;
 			std::vector<uint16_t> possibleEnemies = { 2,3,4,5,12,13 };
 			RandomEnemiesGenerator(enemies, possibleEnemies, noOfEnemies);
 		}
@@ -311,7 +306,6 @@ void GenerateMonster(std::vector<Monster*>& enemies, const Map& map)
 		}
 		if (map.GetLevel() != 7)
 		{
-			uint16_t noOfEnemies = 10;
 			std::vector<uint16_t> possibleEnemies = { 2,3,4,5,14,15 };
 			RandomEnemiesGenerator(enemies, possibleEnemies, noOfEnemies);
 		}
@@ -355,7 +349,6 @@ void GenerateMonster(std::vector<Monster*>& enemies, const Map& map)
 		}
 		if (map.GetLevel() != 7)
 		{
-			uint16_t noOfEnemies = 10;
 			std::vector<uint16_t> possibleEnemies = { 0,2,3,4,5,6,16 };
 			RandomEnemiesGenerator(enemies, possibleEnemies, noOfEnemies);
 		}
@@ -380,7 +373,7 @@ void DynaGame::Run()
 	bool exit;
 	while (stage < 8)
 	{
-		uint16_t round = 0;
+		uint16_t round = 6;
 		while (round < 8)
 		{
 
@@ -404,7 +397,7 @@ void DynaGame::Run()
 				{
 					enemies[index]->Place(map);
 				}
-
+				uint16_t time = 0;
 				while (true)
 				{
 					system("cls");
@@ -503,32 +496,72 @@ void DynaGame::Run()
 						endRound = 1;
 						break;
 					}
-					char ch = _getch();
-					if (ch == ' ')
+					uint16_t noOfMoves = 0;
+					if (player.GetSpeed() == 1 && time % 2 == 0 ||
+						player.GetSpeed() == 2)
+						noOfMoves = 1;
+					if (player.GetSpeed() == 4)
+						noOfMoves = 2;
+					if (player.GetSpeed() == 3)
+						if (time % 2 == 0)
+							noOfMoves = 2;
+						else
+							noOfMoves = 1;
+					for (int index = 0; index < noOfMoves; ++index);
 					{
-						if (player.GetNoOfBombs() != 0 &&
-							dynamic_cast<Block*>(map[{player.GetCoordX(), player.GetCoordY()}]) &&
-							dynamic_cast<Block*>(map[{player.GetCoordX(), player.GetCoordY()}])->GetType() == Block::Type::NoneBlock &&
-							!player.IsOnBomb())
-							player.PlaceBomb(map);
-					}
-					else
-						if (ch == 'k')
-							enemies.clear();
+						char ch = _getch();
+						if (ch == ' ')
+						{
+							if (player.GetNoOfBombs() != 0 &&
+								dynamic_cast<Block*>(map[{player.GetCoordX(), player.GetCoordY()}]) &&
+								dynamic_cast<Block*>(map[{player.GetCoordX(), player.GetCoordY()}])->GetType() == Block::Type::NoneBlock &&
+								!player.IsOnBomb())
+								player.PlaceBomb(map);
+						}
 						else
-							if (ch == 'r')
-							{
-								if (player.GetRemoteControl() && player.GetNoOfPlacedBombs()!=0)
+							if (ch == 'k')
+								enemies.clear();
+							else
+								if (ch == 'r')
 								{
-									player[0]->Explode(map, player.GetFire(), player.GetCoordX(), player.GetCoordY());
-									player.DeleteBomb(0);
-								}
+									if (player.GetRemoteControl() && player.GetNoOfPlacedBombs() != 0)
+									{
+										player[0]->Explode(map, player.GetFire(), player.GetCoordX(), player.GetCoordY());
+										player.DeleteBomb(0);
+									}
 
-							}
-						else
-							player.Move(map, ch);
+								}
+								else
+									player.Move(map, ch);
+					}
 					for (int index = 0; index < enemies.size(); ++index)
-						enemies[index]->Move(map, player);
+					{
+						switch (enemies[index]->GetSpeed())
+						{
+						case Monster::Speed::Slow:
+							if (time % 2 == 0)
+								enemies[index]->Move(map, player);
+							break;
+						case Monster::Speed::Normal:
+							enemies[index]->Move(map, player);
+							break;
+						case Monster::Speed::Fast:
+							if (time % 2 == 0)
+								enemies[index]->Move(map, player);
+							else
+							{
+								enemies[index]->Move(map, player);
+								enemies[index]->Move(map, player);
+							}
+							break;
+						case Monster::Speed::VeryFast:
+							enemies[index]->Move(map, player);
+							enemies[index]->Move(map, player);
+							break;
+						default:
+							break;
+						}
+					}
 					if(!player.GetRemoteControl())
 						for (int index = 0; index < player.GetNoOfPlacedBombs(); ++index)
 						{
@@ -551,6 +584,7 @@ void DynaGame::Run()
 							player.SetRemoteControl(0);
 						}
 					}
+					time++;
 				}
 
 				if (endRound)

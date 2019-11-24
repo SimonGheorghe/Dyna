@@ -120,13 +120,16 @@ void GenerateMonster(std::vector<Monster*>& enemies, const Map& map)
 		default:
 			break;
 		}
-		if (map.GetLevel()!= 7) 
+		if (map.GetLevel() != 7)
 		{
 			std::vector<uint16_t> possibleEnemies = { 0,2,3,4,5,6,7 };
 			RandomEnemiesGenerator(enemies, possibleEnemies, noOfEnemies);
 		}
 		else
-
+		{
+			enemies.resize(1);
+			enemies[0] = new Monster(Monster::Type::Bubbles);
+		}
 		break;
 	case Map::Stage::River:
 		
@@ -162,6 +165,21 @@ void GenerateMonster(std::vector<Monster*>& enemies, const Map& map)
 			RandomEnemiesGenerator(enemies, possibleEnemies, noOfEnemies);
 		}
 		else
+		{
+			enemies.resize(12);
+			enemies[0] = new Monster(Monster::Type::SnakeHead);
+			enemies[1] = new Monster(Monster::Type::SnakeBody);
+			enemies[2] = new Monster(Monster::Type::SnakeBody);
+			enemies[3] = new Monster(Monster::Type::SnakeBody);
+			enemies[4] = new Monster(Monster::Type::SnakeBody);
+			enemies[5] = new Monster(Monster::Type::SnakeTail);
+			enemies[6] = new Monster(Monster::Type::SnakeHead);
+			enemies[7] = new Monster(Monster::Type::SnakeBody);
+			enemies[8] = new Monster(Monster::Type::SnakeBody);
+			enemies[9] = new Monster(Monster::Type::SnakeBody);
+			enemies[10] = new Monster(Monster::Type::SnakeBody);
+			enemies[11] = new Monster(Monster::Type::SnakeTail);
+		}
 			break;
 	case Map::Stage::Forest:
 		
@@ -197,6 +215,14 @@ void GenerateMonster(std::vector<Monster*>& enemies, const Map& map)
 			RandomEnemiesGenerator(enemies, possibleEnemies, noOfEnemies);
 		}
 		else
+		{
+			enemies.resize(5);
+			enemies[0] = new Monster(Monster::Type::WarpMan);
+			enemies[1] = new Monster(Monster::Type::YoungWarpMan);
+			enemies[2] = new Monster(Monster::Type::YoungWarpMan);
+			enemies[3] = new Monster(Monster::Type::YoungWarpMan);
+			enemies[4] = new Monster(Monster::Type::YoungWarpMan);
+		}
 			break;
 	case Map::Stage::LavaCave:
 		
@@ -233,12 +259,10 @@ void GenerateMonster(std::vector<Monster*>& enemies, const Map& map)
 		}
 		else
 		{
-			enemies.resize(5);
-			enemies[0] = new Monster(Monster::Type::WarpMan);
-			enemies[1] = new Monster(Monster::Type::YoungWarpMan);
-			enemies[2] = new Monster(Monster::Type::YoungWarpMan);
-			enemies[3] = new Monster(Monster::Type::YoungWarpMan);
-			enemies[4] = new Monster(Monster::Type::YoungWarpMan);
+			enemies.resize(3);
+			enemies[0] = new Monster(Monster::Type::Bubbles);
+			enemies[1] = new Monster(Monster::Type::Bubbles);
+			enemies[2] = new Monster(Monster::Type::Bubbles);
 		}
 			break;
 	case Map::Stage::InsideOfTheCastlePartI:
@@ -275,6 +299,19 @@ void GenerateMonster(std::vector<Monster*>& enemies, const Map& map)
 			RandomEnemiesGenerator(enemies, possibleEnemies, noOfEnemies);
 		}
 		else
+		{
+			enemies.resize(10);
+			enemies[0] = new Monster(Monster::Type::WarpMan);
+			enemies[1] = new Monster(Monster::Type::YoungWarpMan);
+			enemies[2] = new Monster(Monster::Type::YoungWarpMan);
+			enemies[3] = new Monster(Monster::Type::YoungWarpMan);
+			enemies[4] = new Monster(Monster::Type::YoungWarpMan);
+			enemies[5] = new Monster(Monster::Type::WarpMan);
+			enemies[6] = new Monster(Monster::Type::YoungWarpMan);
+			enemies[7] = new Monster(Monster::Type::YoungWarpMan);
+			enemies[8] = new Monster(Monster::Type::YoungWarpMan);
+			enemies[9] = new Monster(Monster::Type::YoungWarpMan);
+		}
 			break;
 	case Map::Stage::InsideOfTheCastlePartII:
 		
@@ -311,12 +348,11 @@ void GenerateMonster(std::vector<Monster*>& enemies, const Map& map)
 		}
 		else
 		{
-			enemies.resize(5);
-			enemies[0] = new Monster(Monster::Type::WarpMan);
-			enemies[1] = new Monster(Monster::Type::YoungWarpMan);
-			enemies[2] = new Monster(Monster::Type::YoungWarpMan);
-			enemies[3] = new Monster(Monster::Type::YoungWarpMan);
-			enemies[4] = new Monster(Monster::Type::YoungWarpMan);
+			enemies.resize(4);
+			enemies[0] = new Monster(Monster::Type::Spidfire);
+			enemies[1] = new Monster(Monster::Type::Spidfire);
+			enemies[2] = new Monster(Monster::Type::Spidfire);
+			enemies[3] = new Monster(Monster::Type::Spidfire);
 		}
 			break;
 	case Map::Stage::InsideOfTheCastlePartIII:
@@ -362,7 +398,7 @@ void GenerateMonster(std::vector<Monster*>& enemies, const Map& map)
 void DynaGame::Run()
 {
 	srand((int)time(NULL));
-	uint16_t playerFire = 1;
+	uint16_t playerFire = 2;
 	uint16_t playerNoOfBombs = 1;
 	uint16_t playerHealth = 6;
 	uint32_t playerScore = 0;
@@ -373,7 +409,7 @@ void DynaGame::Run()
 	bool exit;
 	while (stage < 8)
 	{
-		uint16_t round = 6;
+		uint16_t round = 0;
 		while (round < 8)
 		{
 

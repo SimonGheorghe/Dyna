@@ -12,7 +12,7 @@ Monster::Monster(Type type) :
 		m_score = 100;
 		m_passingAbility = false;
 	}
-		break;
+	break;
 	case Monster::Type::Ekutopu:
 	{
 		m_speed = Speed::Slow;
@@ -20,7 +20,7 @@ Monster::Monster(Type type) :
 		m_score = 200;
 		m_passingAbility = false;
 	}
-		break;
+	break;
 	case Monster::Type::Boyon:
 	{
 		m_speed = Speed::Slow;
@@ -28,7 +28,7 @@ Monster::Monster(Type type) :
 		m_score = 200;
 		m_passingAbility = false;
 	}
-		break;
+	break;
 	case Monster::Type::Pass:
 	{
 		m_speed = Speed::VeryFast;
@@ -36,7 +36,7 @@ Monster::Monster(Type type) :
 		m_score = 500;
 		m_passingAbility = false;
 	}
-		break;
+	break;
 	case Monster::Type::Telpio:
 	{
 		m_speed = Speed::Fast;
@@ -44,7 +44,7 @@ Monster::Monster(Type type) :
 		m_score = 400;
 		m_passingAbility = true;
 	}
-		break;
+	break;
 	case Monster::Type::Pomori:
 	{
 		m_speed = Speed::VeryFast;
@@ -52,7 +52,7 @@ Monster::Monster(Type type) :
 		m_score = 600;
 		m_passingAbility = true;
 	}
-		break;
+	break;
 	case Monster::Type::Onil:
 	{
 		m_speed = Speed::Slow;
@@ -60,7 +60,7 @@ Monster::Monster(Type type) :
 		m_score = 200;
 		m_passingAbility = false;
 	}
-		break;
+	break;
 	case Monster::Type::Gacha:
 	{
 		m_speed = Speed::Normal;
@@ -68,7 +68,7 @@ Monster::Monster(Type type) :
 		m_score = 300;
 		m_passingAbility = false;
 	}
-		break;
+	break;
 	case Monster::Type::Minvo:
 	{
 		m_speed = Speed::Slow;//?
@@ -76,7 +76,7 @@ Monster::Monster(Type type) :
 		m_score = 700;
 		m_passingAbility = false;
 	}
-		break;
+	break;
 	case Monster::Type::Buffer:
 	{
 		m_speed = Speed::Slow;
@@ -84,7 +84,7 @@ Monster::Monster(Type type) :
 		m_score = 300;
 		m_passingAbility = false;
 	}
-		break;
+	break;
 	case Monster::Type::Peggi:
 	{
 		m_speed = Speed::Slow;
@@ -92,7 +92,7 @@ Monster::Monster(Type type) :
 		m_score = 200;
 		m_passingAbility = false;
 	}
-		break;
+	break;
 	case Monster::Type::Flapper:
 	{
 		m_speed = Speed::Fast;
@@ -100,7 +100,7 @@ Monster::Monster(Type type) :
 		m_score = 400;
 		m_passingAbility = false;
 	}
-		break;
+	break;
 	case Monster::Type::BakeBake:
 	{
 		m_speed = Speed::Normal;//?
@@ -108,7 +108,7 @@ Monster::Monster(Type type) :
 		m_score = 200;
 		m_passingAbility = false;
 	}
-		break;
+	break;
 	case Monster::Type::Korisuke:
 	{
 		m_speed = Speed::Slow;//?
@@ -116,7 +116,7 @@ Monster::Monster(Type type) :
 		m_score = 200;
 		m_passingAbility = false;
 	}
-		break;
+	break;
 	case Monster::Type::Maron:
 	{
 		m_speed = Speed::Normal;
@@ -124,7 +124,7 @@ Monster::Monster(Type type) :
 		m_score = 300;
 		m_passingAbility = false;
 	}
-		break;
+	break;
 	case Monster::Type::Ojin://?
 	{
 		m_speed = Speed::Normal;
@@ -132,7 +132,7 @@ Monster::Monster(Type type) :
 		m_score = 400;
 		m_passingAbility = false;
 	}
-		break;
+	break;
 	case Monster::Type::Pontan:
 	{
 		m_speed = Speed::VeryFast;
@@ -140,7 +140,88 @@ Monster::Monster(Type type) :
 		m_score = 1000;
 		m_passingAbility = false;
 	}
-		break;
+	break;
+	case Monster::Type::Frog:
+	{
+		m_speed = Speed::Slow;
+		m_hitPoints = 1;
+		m_score = 500;
+		m_passingAbility = false;
+	}
+	break;
+	case Monster::Type::BlueJelly:
+	{
+		m_speed = Speed::Slow;
+		m_hitPoints = 1;
+		m_score = 500;
+		m_passingAbility = false;
+	}
+	break;
+	case Monster::Type::SnakeHead:
+	{
+		m_speed = Speed::Normal;
+		m_hitPoints = 6;
+		m_score = 1000;
+		m_passingAbility = false;
+	}
+	break;
+	case Monster::Type::SnakeBody:
+	{
+		m_speed = Speed::Normal;
+		m_hitPoints = 6;
+		m_score = 1000;
+		m_passingAbility = false;
+	}
+	break;
+	case Monster::Type::SnakeTail:
+	{
+		m_speed = Speed::Normal;
+		m_hitPoints = 6;
+		m_score = 1000;
+		m_passingAbility = false;
+	}
+	break;
+	case Monster::Type::Bubbles:
+	{
+		m_speed = Speed::Normal;
+		m_hitPoints = 3;
+		m_score = 1000;
+		m_passingAbility = false;
+	}
+	break;
+	case Monster::Type::BabyBubbles:
+	{
+		m_speed = Speed::Normal;
+		m_hitPoints = 1;
+		m_score = 1000;
+		m_passingAbility = false;
+	}
+	break;
+	case Monster::Type::WarpMan:
+	{
+		m_speed = Speed::Normal;
+		m_hitPoints = 3;
+		m_score = 1000;
+		m_passingAbility = false;
+	}
+	break;
+	case Monster::Type::YoungWarpMan:
+	{
+		m_speed = Speed::Normal;
+		m_hitPoints = 3;
+		m_score = 1000;
+		m_passingAbility = false;
+	}
+	break;
+	case Monster::Type::Spidfire:
+	{
+		m_speed = Speed::Normal;
+		m_hitPoints = 3;
+		m_score = 1000;
+		m_passingAbility = false;
+	}
+	break;
+
 	default:
 	{
 		m_speed = Speed::None;
@@ -148,7 +229,7 @@ Monster::Monster(Type type) :
 		m_score = 0;
 		m_passingAbility = false;
 	}
-		break;
+	break;
 	}
 }
 
@@ -207,8 +288,6 @@ void Monster::DropHitPoints()
 	--m_hitPoints;
 }
 
-
-
 void Monster::Place(Map& map)
 {
 	do {
@@ -239,28 +318,40 @@ void Monster::Move(Map map, const Player& player)
 		Alg3(map, player);
 		break;
 	case Monster::Type::Pomori:
+		Alg3(map, player);
 		break;
 	case Monster::Type::Onil:
+		Alg3(map, player);
 		break;
 	case Monster::Type::Gacha:
+		Alg3(map, player);
 		break;
 	case Monster::Type::Minvo:
+		Alg3(map, player);
 		break;
 	case Monster::Type::Buffer:
+		Alg3(map, player);
 		break;
 	case Monster::Type::Peggi:
+		Alg3(map, player);
 		break;
 	case Monster::Type::Flapper:
+		Alg3(map, player);
 		break;
 	case Monster::Type::BakeBake:
+		Alg3(map, player);
 		break;
 	case Monster::Type::Korisuke:
+		Alg3(map, player);
 		break;
 	case Monster::Type::Maron:
+		Alg3(map, player);
 		break;
 	case Monster::Type::Ojin:
+		Alg3(map, player);
 		break;
 	case Monster::Type::Pontan:
+		Alg3(map, player);
 		break;
 	default:
 		break;
@@ -511,6 +602,37 @@ std::ostream& operator<<(std::ostream& out, const Monster& monster)
 	case Monster::Type::Pontan:
 		out << "Po";
 		break;
+	case Monster::Type::Frog:
+		out << "Fr";
+		break;
+	case Monster::Type::BlueJelly:
+		out << "Bj";
+		break;
+	case Monster::Type::SnakeHead:
+		out << "SH";
+		break;
+	case Monster::Type::SnakeBody:
+		out << "SB";
+		break;
+	case Monster::Type::SnakeTail:
+		out << "ST";
+		break;
+	case Monster::Type::Bubbles:
+		out << "BB";
+		break;
+	case Monster::Type::BabyBubbles:
+		out << "Bb";
+		break;
+	case Monster::Type::WarpMan:
+		out << "WM";
+		break;
+	case Monster::Type::YoungWarpMan:
+		out << "YM";
+		break;
+	case Monster::Type::Spidfire:
+		out << "SF";
+		break;
+
 	default:
 		out << "??";
 		break;

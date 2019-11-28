@@ -13,6 +13,10 @@ Player::Player(uint16_t fire, uint16_t numberBombs, uint16_t health, uint32_t sc
 	m_remoteControl = true;
 }
 
+Player::Player()
+{
+}
+
 void Player::SetFire(uint16_t up)
 {
 	m_fire = up;

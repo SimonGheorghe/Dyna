@@ -18,8 +18,8 @@ public:
 	};
 	
 public:
-	Block(Type type);
 	bool isBlock();
+	Block(Type type);
 	Type GetType() const;
 	uint16_t GetExitX() const;
 	uint16_t GetExitY() const;

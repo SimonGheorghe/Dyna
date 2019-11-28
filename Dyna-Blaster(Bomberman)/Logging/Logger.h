@@ -1,5 +1,6 @@
 #pragma once
-#include<ostream>
+#include<iostream>
+#include<string>
 #ifdef LOGGING_EXPORTS
 #define API_LOG __declspec(dllexport)
 #else

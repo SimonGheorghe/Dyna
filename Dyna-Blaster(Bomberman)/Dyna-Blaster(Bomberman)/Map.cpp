@@ -12,6 +12,17 @@ Map::Map(Stage Stage, uint16_t Level)
 	
 }
 
+Map::Map()
+{
+	m_width = Width::Narrow;
+	m_length = Length::Short;
+
+	m_map.resize((uint16_t)m_length);
+	for (int index = 0; index < m_map.size(); ++index)
+		m_map[index].resize((uint16_t)m_width);
+	GenerateBlocks();
+}
+
 void Map::GenerateMapDimensions()
 {
 	std::ifstream file("levels'Size.txt");//get map size for all levels

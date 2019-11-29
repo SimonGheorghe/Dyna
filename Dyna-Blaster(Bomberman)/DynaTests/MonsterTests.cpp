@@ -21,7 +21,13 @@ namespace DynaTests
 			std::stringstream stream;
 			stream << monster;
 			Assert::AreEqual(std::string("Ek"), stream.str(), L"You see this message if name is  not the same");
-
+		}
+		TEST_METHOD(PlaceFunction)
+		{
+			Monster monster(Monster::Type::Ballom);
+			Map map;
+			monster.Place(map);
+			Assert::IsTrue(monster.GetCoordX()!= NULL);
 		}
 	};
 }

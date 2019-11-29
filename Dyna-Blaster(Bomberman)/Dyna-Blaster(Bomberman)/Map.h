@@ -37,7 +37,7 @@ public:
 
 public:
 	Map(Stage Stage, uint16_t Level);
-
+	Map();
 	friend std::ostream& operator<<(std::ostream& out, const Map& map);
 
 	const Entity* operator[](const Position& position) const;

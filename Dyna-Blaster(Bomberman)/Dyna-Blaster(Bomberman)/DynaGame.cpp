@@ -483,6 +483,7 @@ void DynaGame::Run()
 						}
 						std::cout << std::endl;
 					}
+
 					for (int index = 0; index < enemies.size(); ++index)
 						if (enemies[index]->GetHitPoints() == 0)
 						{
@@ -492,6 +493,7 @@ void DynaGame::Run()
 							player.AddScore(enemies[index]->GetScore());
 							enemies.erase(enemies.begin() + index--);
 						}
+
 					if (round == 7 && enemies.empty() && !exit)
 					{
 						uint16_t coordX;
@@ -503,6 +505,7 @@ void DynaGame::Run()
 						map.SetBlock(Block::Type::Exit, coordX, coordY);
 						exit = 1;
 					}
+
 					if (playerIsHit && !player.GetHasVest())
 					{
 						player.SetHealth(player.GetHealth() - 1);
@@ -511,6 +514,7 @@ void DynaGame::Run()
 
 						break;
 					}
+
 					if (enemies.size() == 0 && 
 						dynamic_cast<Block*>(map[{player.GetCoordX(), player.GetCoordY()}]) &&
 						dynamic_cast<Block*>(map[{player.GetCoordX(), player.GetCoordY()}])->GetType() == Block::Type::Exit)
@@ -518,6 +522,7 @@ void DynaGame::Run()
 						endRound = 1;
 						break;
 					}
+
 					uint16_t noOfMoves = 0;
 					if (player.GetSpeed() == 1 && time % 2 == 0 ||
 						player.GetSpeed() == 2)
@@ -529,6 +534,7 @@ void DynaGame::Run()
 							noOfMoves = 2;
 						else
 							noOfMoves = 1;
+
 					for (int index = 0; index < noOfMoves; ++index);
 					{
 						char ch = _getch();
@@ -554,6 +560,7 @@ void DynaGame::Run()
 								else
 									player.Move(map, ch);
 					}
+
 					if(!player.GetRemoteControl())
 						for (int index = 0; index < player.GetNoOfPlacedBombs(); ++index)
 						{
@@ -563,6 +570,7 @@ void DynaGame::Run()
 								playerIsHit = player.ExplodeBomb(map, index);
 							}
 						}
+
 					for (int index = 0; index < enemies.size(); ++index)
 					{
 						int x = enemies[index]->GetCoordX();
@@ -573,6 +581,7 @@ void DynaGame::Run()
 							dynamic_cast<Block*>(map[{x, y}])->GetType() == Block::Type::VerticalFire)
 							enemies[index]->DropHitPoints();
 					}
+
 					for (int index = 0; index < enemies.size(); ++index)
 					{
 						if (enemies[index]->GetHitPoints() != 0)
@@ -602,6 +611,7 @@ void DynaGame::Run()
 								break;
 							}
 					}
+
 					for (int index = 0; index < enemies.size(); index++)
 					{
 						if ((enemies[index]->GetCoordX() == player.GetCoordX() && enemies[index]->GetCoordY() == player.GetCoordY()) ||
@@ -624,6 +634,7 @@ void DynaGame::Run()
 					round++;
 					break;
 				}
+
 				if (player.GetHealth() == 0)
 				{
 					std::cout << "You are out of lives! :(\nGood luck next time!";

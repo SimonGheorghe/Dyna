@@ -21,6 +21,9 @@
     <ClCompile Include="MonsterTests.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="BlockTests.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="pch.h">

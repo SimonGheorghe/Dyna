@@ -51,6 +51,7 @@ public:
 	
 	void SetBlock(Block::Type type, uint16_t coordX, uint16_t coordY);
 	void SetBomb(Bomb* bomb);
+	void ClearMap(uint16_t index1, uint16_t index2);
 
 private:
 	void GenerateMapDimensions();

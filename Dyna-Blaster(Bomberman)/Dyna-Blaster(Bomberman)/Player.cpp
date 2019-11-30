@@ -13,10 +13,6 @@ Player::Player(uint16_t fire, uint16_t numberBombs, uint16_t health, uint32_t sc
 	m_remoteControl = true;
 }
 
-Player::Player()
-{
-}
-
 void Player::SetFire(uint16_t up)
 {
 	m_fire = up;
@@ -156,8 +152,8 @@ void Player::Move(Map& map, char ch)
 		else
 		if (dynamic_cast<Block*>(map[{m_coordX - 1, m_coordY}])->GetType() == Block::Type::NoneBlock || 
 			dynamic_cast<Block*>(map[{m_coordX - 1, m_coordY}])->GetType() == Block::Type::SoftBlock && m_softBlockPass || 
-			dynamic_cast<Block*>(map[{m_coordX - 1, m_coordY}])->GetType() == Block::Type::Exit &&
-			(dynamic_cast<Block*>(map[{m_coordX - 1, m_coordY}])->GetExitStatus() == 0 || m_softBlockPass))
+			dynamic_cast<Block*>(map[{m_coordX - 1, m_coordY}])->GetType() == Block::Type::Exit ||
+			dynamic_cast<Block*>(map[{m_coordX - 1, m_coordY}])->GetType() == Block::Type::HiddenExit && m_softBlockPass )
 		{
 			bool ok = 1;
 			if (!m_bombPass)
@@ -193,9 +189,8 @@ void Player::Move(Map& map, char ch)
 		else
 		if (dynamic_cast<Block*>(map[{m_coordX, m_coordY - 1}])->GetType() == Block::Type::NoneBlock ||
 			dynamic_cast<Block*>(map[{m_coordX, m_coordY - 1}])->GetType() == Block::Type::SoftBlock && m_softBlockPass ||
-			dynamic_cast<Block*>(map[{m_coordX, m_coordY - 1}])->GetType() == Block::Type::Exit &&
-			(dynamic_cast<Block*>(map[{m_coordX, m_coordY - 1}])->GetExitStatus() == 0 || m_softBlockPass))
-
+			dynamic_cast<Block*>(map[{m_coordX, m_coordY - 1}])->GetType() == Block::Type::Exit ||
+			dynamic_cast<Block*>(map[{m_coordX, m_coordY - 1}])->GetType() == Block::Type::HiddenExit && m_softBlockPass)
 		{
 			bool ok = 1;
 			if (!m_bombPass)
@@ -231,9 +226,8 @@ void Player::Move(Map& map, char ch)
 		else
 		if (dynamic_cast<Block*>(map[{m_coordX + 1, m_coordY}])->GetType() == Block::Type::NoneBlock ||
 			dynamic_cast<Block*>(map[{m_coordX + 1, m_coordY}])->GetType() == Block::Type::SoftBlock && m_softBlockPass ||
-			dynamic_cast<Block*>(map[{m_coordX + 1, m_coordY}])->GetType() == Block::Type::Exit &&
-			(dynamic_cast<Block*>(map[{m_coordX + 1, m_coordY}])->GetExitStatus() == 0 || m_softBlockPass))
-
+			dynamic_cast<Block*>(map[{m_coordX + 1, m_coordY}])->GetType() == Block::Type::Exit ||
+			dynamic_cast<Block*>(map[{m_coordX + 1, m_coordY}])->GetType() == Block::Type::HiddenExit && m_softBlockPass)
 		{
 			bool ok = 1;
 			if (!m_bombPass)
@@ -270,8 +264,8 @@ void Player::Move(Map& map, char ch)
 		else
 		if (dynamic_cast<Block*>(map[{m_coordX, m_coordY + 1}])->GetType() == Block::Type::NoneBlock ||
 			dynamic_cast<Block*>(map[{m_coordX, m_coordY + 1}])->GetType() == Block::Type::SoftBlock && m_softBlockPass ||
-			dynamic_cast<Block*>(map[{m_coordX, m_coordY + 1}])->GetType() == Block::Type::Exit &&
-			(dynamic_cast<Block*>(map[{m_coordX, m_coordY + 1}])->GetExitStatus() == 0 || m_softBlockPass))
+			dynamic_cast<Block*>(map[{m_coordX, m_coordY + 1}])->GetType() == Block::Type::Exit ||
+			dynamic_cast<Block*>(map[{m_coordX, m_coordY + 1}])->GetType() == Block::Type::HiddenExit && m_softBlockPass)
 		{
 			bool ok = 1;
 			if (!m_bombPass)
@@ -304,8 +298,6 @@ void Player::PlaceBomb(Map& map)
 	for (int index = 0; index < m_placedBombs.size(); ++index)
 		if (m_placedBombs[index]->GetCoordX() == m_coordX && m_placedBombs[index]->GetCoordY() == m_coordY)
 			ok = 0;
-	if (dynamic_cast<Block*>(map[{m_coordX, m_coordY}])->GetType() == Block::Type::Exit)
-		ok = 0;
 	if (ok) 
 	{
 		Bomb* bomb= new Bomb(m_coordX, m_coordY, m_placedBombs.size());
@@ -401,6 +393,8 @@ void Player::playerIsHitt(Map& map, uint16_t index1, uint16_t index2, uint16_t f
 				ExplodeBomb(map, m_placedBombs[index]->GetID());
 				ok = 1;
 			}
+		if (m_coordX == index1 && m_coordY == index2)
+			playerIsHit = 1;
 		if(!ok)
 		switch (op)
 		{
@@ -416,8 +410,6 @@ void Player::playerIsHitt(Map& map, uint16_t index1, uint16_t index2, uint16_t f
 			break;
 		}
 		flame--;
-		if (m_coordX == index1 && m_coordY == index2)
-			playerIsHit = 1;
 	}
 	if (dynamic_cast<Powers*>(map[{index1, index2}]))
 	{
@@ -461,8 +453,8 @@ void Player::playerIsHitt(Map& map, uint16_t index1, uint16_t index2, uint16_t f
 		}
 
 		else
-			if (dynamic_cast<Block*>(map[{index1, index2}])->GetType() == Block::Type::Exit && flame != 0)
-				dynamic_cast<Block*>(map[{index1, index2}])->SetExitStatus(false);
+			if (dynamic_cast<Block*>(map[{index1, index2}])->GetType() == Block::Type::HiddenExit && flame != 0)
+				map.SetBlock(Block::Type::Exit, index1, index2);
 
 }
 bool Player::ExplodeBomb(Map& map, uint16_t bomb)

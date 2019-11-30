@@ -68,7 +68,7 @@ void Map::GenerateBlocks()
 			coordX = rand() % (uint16_t)m_length;
 			coordY = rand() % (uint16_t)m_width;
 		} while (m_map[coordX][coordY] != nullptr || (coordX == 1 || coordX == 2) && (coordY == 1 || coordY == 2));//we dont want to place the exit in player's zone
-		m_map[coordX][coordY] = new Block(Block::Type::Exit);
+		m_map[coordX][coordY] = new Block(Block::Type::HiddenExit);
 		do {
 			coordX = rand() % (uint16_t)m_length;
 			coordY = rand() % (uint16_t)m_width;
@@ -165,6 +165,22 @@ void Map::SetBlock(Block::Type type, uint16_t coordX, uint16_t coordY)
 void Map::SetBomb(Bomb* bomb)
 {
 	m_map[bomb->GetCoordX()][bomb->GetCoordY()] = bomb;
+}
+
+void Map::ClearMap(uint16_t index1, uint16_t index2)
+{
+	if (dynamic_cast<Block*>(m_map[index1][index2]))
+	{
+		Block* block = dynamic_cast<Block*>(m_map[index1][index2]);
+		if (block->GetType() == Block::Type::ExplodedBlock ||
+			block->GetType() == Block::Type::ExplodedBomb ||
+			block->GetType() == Block::Type::HorizontalFire ||
+			block->GetType() == Block::Type::VerticalFire)
+		{
+			delete m_map[index1][index2];
+			m_map[index1][index2] = new Block(Block::Type::NoneBlock);
+		}
+	}
 }
 
 std::ostream& operator<<(std::ostream& out, const Map& map)

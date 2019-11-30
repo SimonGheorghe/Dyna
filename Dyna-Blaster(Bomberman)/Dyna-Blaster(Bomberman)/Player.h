@@ -10,7 +10,7 @@ class Player
 public:
 
 	Player(uint16_t fire, uint16_t numberBombs, uint16_t health, uint32_t score, uint16_t speed);
-	Player();
+
 	uint16_t GetFire() const;
 	uint16_t GetNoOfBombs() const;
 	uint16_t GetSpeed() const;

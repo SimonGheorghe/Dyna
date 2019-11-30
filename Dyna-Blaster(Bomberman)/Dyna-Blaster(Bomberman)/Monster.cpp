@@ -233,10 +233,6 @@ Monster::Monster(Type type) :
 	}
 }
 
-Monster::Monster()
-{
-}
-
 Monster::Type Monster::GetType() const
 {
 	return m_type;
@@ -293,7 +289,9 @@ void Monster::Place(Map& map)
 	do {
 		m_coordX = rand() % (map.GetLength() - 2) + 1;
 		m_coordY = rand() % (map.GetWidth() - 2) + 1;
-	} while (dynamic_cast<Block*>(map[{m_coordX, m_coordY}])->GetType() != Block::Type::NoneBlock);
+	} while (!dynamic_cast<Block*>(map[{m_coordX, m_coordY}]) ||
+		dynamic_cast<Block*>(map[{m_coordX, m_coordY}])->GetType() != Block::Type::NoneBlock ||
+		(m_coordX == 1 || m_coordX == 2) && (m_coordY == 1 || m_coordY == 2));//we don't want monsters to spawn near player
 	m_lastX = m_coordX;
 	m_lastY = m_coordY;
 }
@@ -364,7 +362,7 @@ void Monster::Alg1(Map map, const Player& player)
 {
 	bool moved[4] = { 1, 1, 1, 1 };
 	bool ok = 0;
-	uint16_t step;
+	uint16_t step = 0;
 	do {
 		if (m_coordX == m_lastX && m_coordY == m_lastY) // start position
 			step = rand() % 4;
@@ -457,7 +455,7 @@ bool Monster::MoveVerif(uint16_t step, Map map, const Player& player)
 				dynamic_cast<Powers*>(map[{m_coordX, m_coordY - 1}])->GetPowerStatus() == 1 && m_passingAbility) ||
 			dynamic_cast<Block*>(map[{m_coordX, m_coordY - 1}]) &&
 			(dynamic_cast<Block*>(map[{m_coordX, m_coordY - 1}])->GetType() != Block::Type::SoftBlock &&
-				dynamic_cast<Block*>(map[{m_coordX, m_coordY - 1}])->GetType() != Block::Type::Exit
+				dynamic_cast<Block*>(map[{m_coordX, m_coordY - 1}])->GetType() != Block::Type::HiddenExit
 				|| m_passingAbility) &&
 			dynamic_cast<Block*>(map[{m_coordX, m_coordY - 1}])->GetType() != Block::Type::HardBlock)
 		{
@@ -480,7 +478,7 @@ bool Monster::MoveVerif(uint16_t step, Map map, const Player& player)
 				dynamic_cast<Powers*>(map[{m_coordX, m_coordY + 1}])->GetPowerStatus() == 1 && m_passingAbility) ||
 			dynamic_cast<Block*>(map[{m_coordX, m_coordY + 1}]) &&
 			(dynamic_cast<Block*>(map[{m_coordX, m_coordY + 1}])->GetType() != Block::Type::SoftBlock &&
-				dynamic_cast<Block*>(map[{m_coordX, m_coordY + 1}])->GetType() != Block::Type::Exit 
+				dynamic_cast<Block*>(map[{m_coordX, m_coordY + 1}])->GetType() != Block::Type::HiddenExit
 				|| m_passingAbility) &&
 			dynamic_cast<Block*>(map[{m_coordX, m_coordY + 1}])->GetType() != Block::Type::HardBlock)
 		{
@@ -503,7 +501,7 @@ bool Monster::MoveVerif(uint16_t step, Map map, const Player& player)
 				dynamic_cast<Powers*>(map[{m_coordX - 1, m_coordY}])->GetPowerStatus() == 1 && m_passingAbility) ||
 			dynamic_cast<Block*>(map[{m_coordX - 1, m_coordY}]) &&
 			(dynamic_cast<Block*>(map[{m_coordX - 1, m_coordY}])->GetType() != Block::Type::SoftBlock &&
-				dynamic_cast<Block*>(map[{m_coordX - 1, m_coordY}])->GetType() != Block::Type::Exit 
+				dynamic_cast<Block*>(map[{m_coordX - 1, m_coordY}])->GetType() != Block::Type::HiddenExit
 				|| m_passingAbility) &&
 			dynamic_cast<Block*>(map[{m_coordX - 1, m_coordY}])->GetType() != Block::Type::HardBlock)
 		{
@@ -526,7 +524,7 @@ bool Monster::MoveVerif(uint16_t step, Map map, const Player& player)
 				dynamic_cast<Powers*>(map[{m_coordX + 1, m_coordY}])->GetPowerStatus() == 1 && m_passingAbility) ||
 			dynamic_cast<Block*>(map[{m_coordX + 1, m_coordY}]) &&
 			(dynamic_cast<Block*>(map[{m_coordX + 1, m_coordY}])->GetType() != Block::Type::SoftBlock &&
-				dynamic_cast<Block*>(map[{m_coordX + 1, m_coordY}])->GetType() != Block::Type::Exit 
+				dynamic_cast<Block*>(map[{m_coordX + 1, m_coordY}])->GetType() != Block::Type::HiddenExit
 				|| m_passingAbility) &&
 			dynamic_cast<Block*>(map[{m_coordX + 1, m_coordY}])->GetType() != Block::Type::HardBlock)
 		{

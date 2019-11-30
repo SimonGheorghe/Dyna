@@ -47,7 +47,6 @@ public:
 
 public:
 	Monster(Type type);
-	Monster();
 
 	Type GetType() const;
 	Speed GetSpeed() const;
@@ -76,10 +75,10 @@ private:
 	void Alg4(Map map, const Player& player);
 
 private:
-	uint16_t m_coordX;
-	uint16_t m_coordY;
-	uint16_t m_lastX;
-	uint16_t m_lastY;
+	uint16_t m_coordX = -1;
+	uint16_t m_coordY = -1;
+	uint16_t m_lastX = -1;
+	uint16_t m_lastY = -1;
 
 	Type m_type;
 	Speed m_speed;

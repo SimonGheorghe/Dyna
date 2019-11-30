@@ -2,7 +2,6 @@
 #include <iostream>
 #include <cstdint>
 #include "Entity.h"
-#include "Map.h"
 
 class Bomb: public Entity
 {
@@ -17,6 +16,7 @@ public:
 
 	uint16_t GetCoordX() const;
 	uint16_t GetCoordY() const;
+	uint16_t GetID() const;
 
 	//getters for returning ticks time and flame size
 	uint16_t GetFlame() const;
@@ -36,8 +36,6 @@ public:
 	bool GetBlast() const;
 	void SetBlast(bool i);
 
-	bool Explode(Map& map, uint16_t fire, uint16_t playerCoordX, uint16_t playerCoordY);
-	
 	friend std::ostream& operator<<(std::ostream& out, const Bomb& bomb);
 
 private:

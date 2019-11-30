@@ -3,8 +3,9 @@
 #include<cstdint>
 #include<vector>
 #include<array>
-#include"Block.h"
+#include "Block.h"
 #include "Powers.h"
+#include "Bomb.h"
 
 class Map
 {
@@ -49,6 +50,7 @@ public:
 	uint16_t GetLevel() const;
 	
 	void SetBlock(Block::Type type, uint16_t coordX, uint16_t coordY);
+	void SetBomb(Bomb* bomb);
 
 private:
 	void GenerateMapDimensions();

@@ -13,7 +13,6 @@ bool Block::isBlock()
 Block::Type Block::GetType() const
 {
 	return m_type;
-	
 }
 
 uint16_t Block::GetExitX() const

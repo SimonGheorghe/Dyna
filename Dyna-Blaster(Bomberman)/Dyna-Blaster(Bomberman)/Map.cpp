@@ -157,8 +157,14 @@ uint16_t Map::GetLevel() const
 
 void Map::SetBlock(Block::Type type, uint16_t coordX, uint16_t coordY)
 {
-	delete m_map[coordX][coordY];
+	if (m_map[coordX][coordY] != nullptr)
+		delete m_map[coordX][coordY];
 	m_map[coordX][coordY] = new Block(type);
+}
+
+void Map::SetBomb(Bomb* bomb)
+{
+	m_map[bomb->GetCoordX()][bomb->GetCoordY()] = bomb;
 }
 
 std::ostream& operator<<(std::ostream& out, const Map& map)

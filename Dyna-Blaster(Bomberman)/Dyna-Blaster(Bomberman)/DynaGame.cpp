@@ -399,7 +399,7 @@ void DynaGame::Run()
 {
 	srand((int)time(NULL));
 	uint16_t playerFire = 2;
-	uint16_t playerNoOfBombs = 1;
+	uint16_t playerNoOfBombs = 3;
 	uint16_t playerHealth = 6;
 	uint32_t playerScore = 0;
 	uint16_t playerSpeed = 2;
@@ -550,8 +550,7 @@ void DynaGame::Run()
 						{
 							if (player.GetNoOfBombs() != 0 &&
 								dynamic_cast<Block*>(map[{player.GetCoordX(), player.GetCoordY()}]) &&
-								dynamic_cast<Block*>(map[{player.GetCoordX(), player.GetCoordY()}])->GetType() == Block::Type::NoneBlock &&
-								!player.IsOnBomb())
+								dynamic_cast<Block*>(map[{player.GetCoordX(), player.GetCoordY()}])->GetType() == Block::Type::NoneBlock)
 								player.PlaceBomb(map);
 						}
 						else
@@ -562,8 +561,7 @@ void DynaGame::Run()
 								{
 									if (player.GetRemoteControl() && player.GetNoOfPlacedBombs() != 0)
 									{
-										player[0]->Explode(map, player.GetFire(), player.GetCoordX(), player.GetCoordY());
-										player.DeleteBomb(0);
+										player.ExplodeBomb(map, 0);
 									}
 
 								}
@@ -604,8 +602,7 @@ void DynaGame::Run()
 							player[index]->SetTicks(player[index]->GetTicks() - 1);
 							if (player[index]->GetTicks() == 0)
 							{
-								playerIsHit = player[index]->Explode(map, player.GetFire(), player.GetCoordX(), player.GetCoordY());
-								player.DeleteBomb(index);
+								playerIsHit = player.ExplodeBomb(map, index);
 							}
 						}
 					for (int index = 0; index < enemies.size(); index++)

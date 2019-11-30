@@ -388,6 +388,101 @@ void Player::AddScore(uint16_t value)
 }
 
 
+void Player::playerIsHitt(Map& map, uint16_t index1, uint16_t index2, uint16_t flame, bool& playerIsHit, uint16_t op)
+{
+	while (!dynamic_cast<Powers*>(map[{index1, index2}]) &&
+		dynamic_cast<Block*>(map[{index1, index2}])->GetType() == Block::Type::NoneBlock &&
+		flame != 0)
+	{
+		bool ok = 0;
+		for (int index = 0; index < m_placedBombs.size(); ++index)
+			if (m_placedBombs[index]->GetCoordX() == index1 && m_placedBombs[index]->GetCoordY() == index2)
+			{
+				ExplodeBomb(map, m_placedBombs[index]->GetID());
+				ok = 1;
+			}
+		if(!ok)
+		switch (op)
+		{
+		case 0: map.SetBlock(Block::Type::VerticalFire, index1--, index2);
+			break;
+		case 1: map.SetBlock(Block::Type::VerticalFire, index1++, index2);
+			break;
+		case 2: map.SetBlock(Block::Type::HorizontalFire, index1, index2--);
+			break;
+		case 3: map.SetBlock(Block::Type::HorizontalFire, index1, index2++);
+			break;
+		default:
+			break;
+		}
+		flame--;
+		if (m_coordX == index1 && m_coordY == index2)
+			playerIsHit = 1;
+	}
+	if (dynamic_cast<Powers*>(map[{index1, index2}]))
+	{
+		if (flame != 0)
+			if (dynamic_cast<Powers*>(map[{index1, index2}])->GetPowerStatus() == 1)
+				dynamic_cast<Powers*>(map[{index1, index2}])->SetPowerStatus(0);
+			else
+			{
+				switch (op)
+				{
+				case 0: map.SetBlock(Block::Type::NoneBlock, index1--, index2);
+					break;
+				case 1: map.SetBlock(Block::Type::NoneBlock, index1++, index2);
+					break;
+				case 2: map.SetBlock(Block::Type::NoneBlock, index1, index2--);
+					break;
+				case 3: map.SetBlock(Block::Type::NoneBlock, index1, index2++);
+					break;
+				default:
+					break;
+				}
+			}
+
+	}
+	else
+		if (dynamic_cast<Block*>(map[{index1, index2}])->GetType() == Block::Type::SoftBlock && flame != 0)
+		{
+			switch (op)
+			{
+			case 0: map.SetBlock(Block::Type::ExplodedBlock, index1--, index2);
+				break;
+			case 1: map.SetBlock(Block::Type::ExplodedBlock, index1++, index2);
+				break;
+			case 2: map.SetBlock(Block::Type::ExplodedBlock, index1, index2--);
+				break;
+			case 3: map.SetBlock(Block::Type::ExplodedBlock, index1, index2++);
+				break;
+			default:
+				break;
+			}
+		}
+
+		else
+			if (dynamic_cast<Block*>(map[{index1, index2}])->GetType() == Block::Type::Exit && flame != 0)
+				dynamic_cast<Block*>(map[{index1, index2}])->SetExitStatus(false);
+
+}
+bool Player::ExplodeBomb(Map& map, uint16_t bomb)
+{
+	map.SetBlock(Block::Type::ExplodedBomb, m_placedBombs[bomb]->GetCoordX(), m_placedBombs[bomb]->GetCoordY());
+	uint16_t index1 = m_placedBombs[bomb]->GetCoordX();
+	uint16_t index2 = m_placedBombs[bomb]->GetCoordY();
+	bool playerIsHit = 0;
+	if (m_coordX == index1 && m_coordY == index2)
+		playerIsHit = 1;
+	playerIsHitt(map, index1 - 1, index2, m_fire, playerIsHit, 0);
+	playerIsHitt(map, index1 + 1, index2, m_fire, playerIsHit, 1);
+	playerIsHitt(map, index1, index2 - 1, m_fire, playerIsHit, 2);
+	playerIsHitt(map, index1, index2 + 1, m_fire, playerIsHit, 3);
+	DeleteBomb(bomb);
+
+	return playerIsHit;
+}
+
+
 Bomb* Player::operator[](int index)
 {
 	return m_placedBombs[index];

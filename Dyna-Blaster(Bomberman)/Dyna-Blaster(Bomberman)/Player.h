@@ -1,8 +1,8 @@
 #pragma once
 #include <cstdint>
 #include<string>
-#include "Bomb.h"
 #include "Powers.h"
+#include "Map.h"
 
 using pair = std::pair<uint8_t, uint8_t>;
 class Player
@@ -40,10 +40,15 @@ public:
 	void UpdatePlayerPower(Powers::Power power);
 	bool IsOnBomb();
 	void AddScore(uint16_t value);
+	bool ExplodeBomb(Map& map, uint16_t bomb);
+
 
 	Bomb* operator[](int index);
 	const Bomb* operator[](int index) const;
 	friend std::ostream& operator<<(std::ostream& out, const Player& player);
+
+private:
+	void playerIsHitt(Map& map, uint16_t index1, uint16_t index2, uint16_t flame, bool& playerIsHit, uint16_t op);
 
 private:
 	uint16_t m_coordX;

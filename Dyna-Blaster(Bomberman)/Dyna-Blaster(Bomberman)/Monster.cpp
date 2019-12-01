@@ -233,6 +233,13 @@ Monster::Monster(Type type) :
 	}
 }
 
+Monster::Monster(Type type, uint16_t coordX, uint16_t coordY)
+{
+	*this = Monster(type);
+	m_coordX = coordX;
+	m_coordY = coordY;
+}
+
 Monster::Type Monster::GetType() const
 {
 	return m_type;
@@ -284,7 +291,7 @@ void Monster::DropHitPoints()
 	--m_hitPoints;
 }
 
-void Monster::Place(Map& map)
+void Monster::Place(Map& map, std::vector<Monster*>& enemies)
 {
 	do {
 		m_coordX = rand() % (map.GetLength() - 2) + 1;
@@ -294,6 +301,16 @@ void Monster::Place(Map& map)
 		(m_coordX == 1 || m_coordX == 2) && (m_coordY == 1 || m_coordY == 2));//we don't want monsters to spawn near player
 	m_lastX = m_coordX;
 	m_lastY = m_coordY;
+	if (this->GetType() == Type::Bubbles)
+	{
+		uint16_t noOfBabies = 4;
+		for (int index = 0; index < noOfBabies; ++index)
+		{
+			enemies.push_back(new Monster(Monster::Type::BabyBubbles, m_coordX, m_coordY));
+
+		}
+
+	}
 }
 
 void Monster::Move(Map map, const Player& player)
@@ -350,6 +367,12 @@ void Monster::Move(Map map, const Player& player)
 		break;
 	case Monster::Type::Pontan:
 		Alg3(map, player);
+		break;
+	case Monster::Type::Bubbles:
+		Alg2(map, player);
+		break;
+	case Monster::Type::BabyBubbles:
+		Alg2(map, player);
 		break;
 	default:
 		break;

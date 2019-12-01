@@ -47,6 +47,7 @@ public:
 
 public:
 	Monster(Type type);
+	Monster(Type type, uint16_t coordX, uint16_t coordY);
 
 	Type GetType() const;
 	Speed GetSpeed() const;
@@ -63,7 +64,7 @@ public:
 	friend std::ostream& operator<<(std::ostream& out, const Monster& monster);
 	
 	//void GenerateMonster(std::vector<Monster*>& enemies, const Map& map);
-	void Place(Map& map);
+	void Place(Map& map, std::vector<Monster*>& enemies);
 	void Move(Map map, const Player& player);
 
 private:

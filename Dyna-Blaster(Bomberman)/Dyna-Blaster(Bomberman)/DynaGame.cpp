@@ -28,10 +28,11 @@ void GenerateMonster(std::vector<Monster*>& enemies, const Map& map)
 		switch (map.GetLevel())
 		{
 		case 0:
-			enemies.resize(3);
-			enemies[0] = new Monster(Monster::Type::Ballom);
+			enemies.resize(1);
+			/*enemies[0] = new Monster(Monster::Type::Ballom);
 			enemies[1] = new Monster(Monster::Type::Ballom);
-			enemies[2] = new Monster(Monster::Type::Ballom);
+			enemies[2] = new Monster(Monster::Type::Ballom);*/
+			enemies[0] = new Monster(Monster::Type::Bubbles);
 			break;
 		case 1:
 			enemies.resize(4);
@@ -405,11 +406,11 @@ void DynaGame::Run()
 	uint16_t playerSpeed = 2;
 	Player player(playerFire, playerNoOfBombs, playerHealth, playerScore, playerSpeed);
 	bool endRound = 0;
-	uint16_t stage = 4;
+	uint16_t stage = 1;
 	bool exit;
 	while (stage < 8)
 	{
-		uint16_t round = 3;
+		uint16_t round = 7;
 		while (round < 8)
 		{
 			if (round == 7)
@@ -437,10 +438,10 @@ void DynaGame::Run()
 				bool playerIsHit = 0;
 				std::vector<Monster*> enemies;
 				GenerateMonster(enemies, map);
-
-				for (int index = 0; index < enemies.size(); ++index)
+				uint16_t noOfMonsters = enemies.size();
+				for (int index = 0; index < noOfMonsters; ++index)
 				{
-					enemies[index]->Place(map);
+					enemies[index]->Place(map,enemies);
 				}
 				uint16_t time = 0;
 				while (true)
@@ -592,8 +593,11 @@ void DynaGame::Run()
 							enemies[index]->DropHitPoints();
 					}
 
+
 					for (int index = 0; index < enemies.size(); ++index)
 					{
+						if (enemies[index]->GetType() == Monster::Type::Bubbles && time % 4 == 0)
+							enemies.push_back(new Monster(Monster::Type::BabyBubbles, enemies[index]->GetCoordX(), enemies[index]->GetCoordY()));
 						if (enemies[index]->GetHitPoints() != 0)
 							switch (enemies[index]->GetSpeed())
 							{

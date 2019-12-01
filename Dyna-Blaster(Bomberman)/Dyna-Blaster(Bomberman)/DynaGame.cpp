@@ -405,11 +405,11 @@ void DynaGame::Run()
 	uint16_t playerSpeed = 2;
 	Player player(playerFire, playerNoOfBombs, playerHealth, playerScore, playerSpeed);
 	bool endRound = 0;
-	uint16_t stage = 0;
+	uint16_t stage = 4;
 	bool exit;
 	while (stage < 8)
 	{
-		uint16_t round = 0;
+		uint16_t round = 3;
 		while (round < 8)
 		{
 			if (round == 7)
@@ -419,6 +419,16 @@ void DynaGame::Run()
 			{
 				system("cls");
 				Map map(Map::Stage(stage), round);
+				map.GeneratePower();
+				if(stage!=0)
+				while(map.GetPowerType()==Powers::Type::BombPass && player.GetHasBombPass() ||
+					map.GetPowerType()==Powers::Type::RemoteControl && player.GetHasRemoteControl() ||
+					map.GetPowerType()==Powers::Type::SoftBlockPass && player.GetHasSoftBlockPass() ||
+					map.GetPowerType()==Powers::Type::Vest && player.GetHasVest())
+				{
+					map.DeletePower();
+					map.GeneratePower();
+				}
 				std::cout << map;
 				uint16_t playerCoordX = 1;
 				uint16_t playerCoordY = 1;
@@ -535,7 +545,7 @@ void DynaGame::Run()
 						else
 							noOfMoves = 1;
 
-					for (int index = 0; index < noOfMoves; ++index);
+					for (int index = 0; index < noOfMoves; ++index)
 					{
 						char ch = _getch();
 						if (ch == ' ')
@@ -551,7 +561,7 @@ void DynaGame::Run()
 							else
 								if (ch == 'r')
 								{
-									if (player.GetRemoteControl() && player.GetNoOfPlacedBombs() != 0)
+									if (player.GetHasRemoteControl() && player.GetNoOfPlacedBombs() != 0)
 									{
 										player.ExplodeBomb(map, 0);
 									}
@@ -561,7 +571,7 @@ void DynaGame::Run()
 									player.Move(map, ch);
 					}
 
-					if(!player.GetRemoteControl())
+					if(!player.GetHasRemoteControl())
 						for (int index = 0; index < player.GetNoOfPlacedBombs(); ++index)
 						{
 							player[index]->SetTicks(player[index]->GetTicks() - 1);

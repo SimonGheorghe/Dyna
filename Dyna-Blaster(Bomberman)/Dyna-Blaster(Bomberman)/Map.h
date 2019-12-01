@@ -48,15 +48,19 @@ public:
 	uint16_t GetLength() const;
 	Stage GetStage() const;
 	uint16_t GetLevel() const;
+	uint16_t GetPowerX() const;
+	uint16_t GetPowerY() const;
+	Powers::Type GetPowerType() const;
 	
 	void SetBlock(Block::Type type, uint16_t coordX, uint16_t coordY);
 	void SetBomb(Bomb* bomb);
 	void ClearMap(uint16_t index1, uint16_t index2);
+	void GeneratePower();
+	void DeletePower();
 
 private:
 	void GenerateMapDimensions();
 	void GenerateBlocks();
-	Powers::Power GeneratePower();
 
 private:
 	static const uint16_t noOfStagesAndLevels = 8;
@@ -68,5 +72,8 @@ private:
 	Width m_width;
 	Length m_length;
 	std::vector<std::vector<Entity*>> m_map;
+	Powers::Type m_power;
+	uint16_t m_powerX;
+	uint16_t m_powerY;
 };
 

@@ -11,13 +11,13 @@ namespace DynaTests
 
 		TEST_METHOD(Constructor)
 		{
-			Powers power(Powers::Power::BombDown);
-			Assert::IsTrue(power.GetPowerType() == Powers::Power::BombDown);
+			Powers power(Powers::Type::BombDown);
+			Assert::IsTrue(power.GetPowerType() == Powers::Type::BombDown);
 		}
 
 		TEST_METHOD(Print)
 		{
-			Powers power(Powers::Power::BombPass);
+			Powers power(Powers::Type::BombPass);
 			std::stringstream stream;
 			power.SetPowerStatus(0);
 			stream << power;

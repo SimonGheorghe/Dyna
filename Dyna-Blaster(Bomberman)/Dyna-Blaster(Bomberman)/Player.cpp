@@ -98,9 +98,19 @@ bool Player::GetHasVest() const
 	return m_vest;
 }
 
-bool Player::GetRemoteControl() const
+bool Player::GetHasRemoteControl() const
 {
 	return m_remoteControl;
+}
+
+bool Player::GetHasSoftBlockPass() const
+{
+	return m_softBlockPass;
+}
+
+bool Player::GetHasBombPass() const
+{
+	return m_bombPass;
 }
 
 void Player::SetVest(bool up)
@@ -316,49 +326,49 @@ void Player::DeleteBomb(int bombId)
 	m_noOfBombs++;
 }
 
-void Player::UpdatePlayerPower( Powers::Power power)
+void Player::UpdatePlayerPower( Powers::Type power)
 {
 	switch (power)
 	{
-	case Powers::Power::FireUp:
+	case Powers::Type::FireUp:
 	{
 		m_fire++;
 	}
 	break;
-	case Powers::Power::FireDown:
+	case Powers::Type::FireDown:
 	{
 		if (m_fire > 1)
 			m_fire--;
 	}
 	break;
-	case Powers::Power::BombUp:
+	case Powers::Type::BombUp:
 		m_noOfBombs++;
 		break;
-	case Powers::Power::BombDown:
+	case Powers::Type::BombDown:
 		if (m_noOfBombs > 0)
 			m_noOfBombs--;
 		break;
-	case Powers::Power::SkateUp:
+	case Powers::Type::SkateUp:
 		if (m_speed < 4)
 			m_speed++;
 		break;
-	case Powers::Power::SkateDown:
+	case Powers::Type::SkateDown:
 		if (m_speed > 1)
 			m_speed--;
 		break;
-	case Powers::Power::SoftBlockPass:
+	case Powers::Type::SoftBlockPass:
 		m_softBlockPass = 1;
 		break;
-	case Powers::Power::BombPass:
+	case Powers::Type::BombPass:
 		m_bombPass = 1;
 		break;
-	case Powers::Power::Heart:
+	case Powers::Type::Heart:
 		m_health++;
 		break;
-	case Powers::Power::Vest:
+	case Powers::Type::Vest:
 		m_vest = 1;
 		break;
-	case Powers::Power::RemoteControl:
+	case Powers::Type::RemoteControl:
 		m_remoteControl=1;
 		break;
 	default:

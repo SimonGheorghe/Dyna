@@ -9,7 +9,6 @@ Map::Map(Stage Stage, uint16_t Level)
 	m_level = Level;
 	GenerateMapDimensions();
 	GenerateBlocks();
-	
 }
 
 Map::Map()
@@ -69,12 +68,6 @@ void Map::GenerateBlocks()
 			coordY = rand() % (uint16_t)m_width;
 		} while (m_map[coordX][coordY] != nullptr || (coordX == 1 || coordX == 2) && (coordY == 1 || coordY == 2));//we dont want to place the exit in player's zone
 		m_map[coordX][coordY] = new Block(Block::Type::HiddenExit);
-		do {
-			coordX = rand() % (uint16_t)m_length;
-			coordY = rand() % (uint16_t)m_width;
-		} while (m_map[coordX][coordY] != nullptr || (coordX == 1 || coordX == 2) && (coordY == 1 || coordY == 2));//we dont want to place the power in player's zone
-
-		m_map[coordX][coordY] = new Powers(GeneratePower());
 	}
 
 	for (int index1 = 0; index1 < (uint16_t)m_length; ++index1)
@@ -85,42 +78,63 @@ void Map::GenerateBlocks()
 				m_map[index1][index2] = new Block(Block::Type::NoneBlock);
 			}
 		}
-
 }
 
-Powers::Power Map::GeneratePower()
+Powers::Type RandomPower()
 {
-	Powers* powers;
-	switch (m_stage)
-	{
-	case Map::Stage::TheWall:
+	uint16_t noOfPowerTypes = 8;
+	return Powers::Type(rand() % noOfPowerTypes);
+}
+
+void Map::GeneratePower()
+{
+	do {
+		m_powerX = rand() % (uint16_t)m_length;
+		m_powerY = rand() % (uint16_t)m_width;
+	} while (dynamic_cast<Block*>(m_map[m_powerX][m_powerY])->GetType() != Block::Type::NoneBlock ||
+		(m_powerX == 1 || m_powerX == 2) && (m_powerY == 1 || m_powerY == 2));
+	//we dont want to place the power in player's zone
+
+	if (m_level == 7)
+		return;
+	if (m_stage == Map::Stage::TheWall)
 		switch (m_level)
 		{
 		case 0:
-			return Powers::Power::FireUp;
+			m_power = Powers::Type::FireUp;
 			break;
 		case 1:
-			return Powers::Power::BombUp;
+			m_power = Powers::Type::BombUp;
+			break;
+		case 2:
+			m_power = Powers::Type::SkateUp;
+			break;
+		case 3:
+			m_power = Powers::Type::RemoteControl;
+			break;
+		case 4:
+			m_power = Powers::Type::BombPass;
+			break;
+		case 5:
+			m_power = Powers::Type::Heart;
+			break;
+		case 6:
+			m_power = Powers::Type::SoftBlockPass;
+			break;
+		default:
 			break;
 		}
-		break;
-	case Map::Stage::RockyMountains:
-		break;
-	case Map::Stage::River:
-		break;
-	case Map::Stage::Forest:
-		break;
-	case Map::Stage::LavaCave:
-		break;
-	case Map::Stage::InsideOfTheCastlePartI:
-		break;
-	case Map::Stage::InsideOfTheCastlePartII:
-		break;
-	case Map::Stage::InsideOfTheCastlePartIII:
-		break;
-	default:
-		break;
-	}
+	else
+		m_power = RandomPower();
+
+	delete m_map[m_powerX][m_powerY];
+	m_map[m_powerX][m_powerY] = new Powers(m_power);
+}
+
+void Map::DeletePower()
+{
+	delete m_map[m_powerX][m_powerY];
+	m_map[m_powerX][m_powerY] = new Block(Block::Type::NoneBlock);
 }
 
 const Entity* Map::operator[](const Position& position) const
@@ -153,6 +167,21 @@ Map::Stage Map::GetStage() const
 uint16_t Map::GetLevel() const
 {
 	return m_level;
+}
+
+uint16_t Map::GetPowerX() const
+{
+	return m_powerX;
+}
+
+uint16_t Map::GetPowerY() const
+{
+	return m_powerY;
+}
+
+Powers::Type Map::GetPowerType() const
+{
+	return m_power;
 }
 
 void Map::SetBlock(Block::Type type, uint16_t coordX, uint16_t coordY)

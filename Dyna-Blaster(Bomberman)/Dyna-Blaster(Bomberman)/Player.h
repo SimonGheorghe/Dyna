@@ -22,14 +22,16 @@ public:
 	uint16_t GetLastY() const ;
 	uint16_t GetScore() const ;
 	bool GetHasVest() const;
-	bool GetRemoteControl() const;
+	bool GetHasRemoteControl() const;
+	bool GetHasSoftBlockPass() const;
+	bool GetHasBombPass() const;
 
 	void SetFire(uint16_t up);
 	void SetNoOfBombs(uint16_t up);
 	void SetSpeed(uint16_t up);
+	void SetHealth(uint16_t up);
 	void SetSoftBlockPass(bool up);
 	void SetBombPass(bool up);
-	void SetHealth(uint16_t up);
 	void SetVest(bool up);
 	void SetRemoteControl(bool up);
 	
@@ -37,7 +39,7 @@ public:
 	void Move(Map& map, char ch);
 	void PlaceBomb(Map& map);
 	void DeleteBomb(int index);
-	void UpdatePlayerPower(Powers::Power power);
+	void UpdatePlayerPower(Powers::Type power);
 	bool IsOnBomb();
 	void AddScore(uint16_t value);
 	bool ExplodeBomb(Map& map, uint16_t bomb);

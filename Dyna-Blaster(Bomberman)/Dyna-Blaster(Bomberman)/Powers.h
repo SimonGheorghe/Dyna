@@ -5,35 +5,36 @@
 class Powers: public Entity
 {
 public:
-	enum class Power
+	enum class Type
 	{
 		FireUp,
-		FireDown,
 		BombUp,
-		BombDown,
 		SkateUp,
-		SkateDown,
 		SoftBlockPass,
 		BombPass,
 		Heart,
 		Vest,
-		RemoteControl
+		RemoteControl,
+		FireDown,
+		BombDown,
+		SkateDown,
+		Skull
 	};
 
 public:
-	Powers(Power power);
+	Powers(Type power);
 	
 	bool isBlock();
 	friend std::ostream& operator<<(std::ostream& out, const Powers& power);
 
 	bool GetPowerStatus() ;
-	Power GetPowerType() const;
+	Type GetPowerType() const;
 	void SetPowerStatus(bool value);
 
 
 
 private:
-	Power m_power;
+	Type m_power;
 	bool m_powersIsHidden = 1;
 
 };

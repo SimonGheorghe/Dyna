@@ -20,7 +20,7 @@ namespace DynaTests
 			Block block(Block::Type::NoneBlock);
 			std::stringstream stream;
 			stream << block;
-			Assert::AreEqual(std::string("   "), stream.str(), L"You see this message if the blocks are not the same");
+			Assert::AreEqual(std::string("  "), stream.str(), L"You see this message if the blocks are not the same");
 		}
 		
 	};

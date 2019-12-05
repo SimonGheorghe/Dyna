@@ -8,7 +8,6 @@ namespace DynaTests
 	TEST_CLASS(PlayerTests)
 	{
 	public:
-
 		TEST_METHOD(Constructor)
 		{
 			Player player(1, 1, 3, 0, 2);
@@ -21,6 +20,39 @@ namespace DynaTests
 			std::stringstream stream;
 			stream << player;
 			Assert::AreEqual(std::string("[]"), stream.str(), L"You see this message if name is  not the same");
+		}
+		TEST_METHOD(UpdatePlayerPower)
+		{
+			Player player(1, 1, 3, 0, 2);
+			uint16_t f = player.GetFire();
+			player.UpdatePlayerPower(Powers::Type::FireUp);
+			Assert::IsTrue(player.GetFire() == f + 1);
+			f = player.GetFire();
+			player.UpdatePlayerPower(Powers::Type::FireDown);
+			Assert::IsTrue(player.GetFire() == f - 1);
+			f = player.GetNoOfBombs();
+			player.UpdatePlayerPower(Powers::Type::BombUp);
+			Assert::IsTrue(player.GetNoOfBombs() == f + 1);
+			f = player.GetNoOfBombs();
+			player.UpdatePlayerPower(Powers::Type::BombDown);
+			Assert::IsTrue(player.GetNoOfBombs() == f - 1);
+			f = player.GetSpeed();
+			player.UpdatePlayerPower(Powers::Type::SkateUp);
+			Assert::IsTrue(player.GetSpeed() == f + 1);
+			f = player.GetSpeed();
+			player.UpdatePlayerPower(Powers::Type::SkateDown);
+			Assert::IsTrue(player.GetSpeed() == f - 1);
+			player.UpdatePlayerPower(Powers::Type::SoftBlockPass);
+			Assert::IsTrue(player.GetHasSoftBlockPass() == true);
+			player.UpdatePlayerPower(Powers::Type::BombPass);
+			Assert::IsTrue(player.GetHasBombPass() == true);
+			f = player.GetHealth();
+			player.UpdatePlayerPower(Powers::Type::Heart);
+			Assert::IsTrue(player.GetHealth() == f + 1);
+			player.UpdatePlayerPower(Powers::Type::Vest);
+			Assert::IsTrue(player.GetHasVest() == true);
+			player.UpdatePlayerPower(Powers::Type::RemoteControl);
+			Assert::IsTrue(player.GetHasRemoteControl() == true);
 		}
 	};
 }

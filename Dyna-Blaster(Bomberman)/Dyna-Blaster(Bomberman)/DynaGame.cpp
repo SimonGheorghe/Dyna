@@ -421,6 +421,7 @@ void DynaGame::Run()
 				system("cls");
 				Map map(Map::Stage(stage), round);
 				map.GeneratePower();
+				
 				if(stage!=0)
 				while(map.GetPowerType()==Powers::Type::BombPass && player.GetHasBombPass() ||
 					map.GetPowerType()==Powers::Type::RemoteControl && player.GetHasRemoteControl() ||
@@ -430,6 +431,7 @@ void DynaGame::Run()
 					map.DeletePower();
 					map.GeneratePower();
 				}
+
 				std::cout << map;
 				uint16_t playerCoordX = 1;
 				uint16_t playerCoordY = 1;
@@ -439,11 +441,13 @@ void DynaGame::Run()
 				std::vector<Monster*> enemies;
 				GenerateMonster(enemies, map);
 				uint16_t noOfMonsters = enemies.size();
+
 				for (int index = 0; index < noOfMonsters; ++index)
 				{
 					enemies[index]->Place(map,enemies);
 				}
 				uint16_t time = 0;
+
 				while (true)
 				{
 					system("cls");
@@ -563,10 +567,7 @@ void DynaGame::Run()
 								if (ch == 'r')
 								{
 									if (player.GetHasRemoteControl() && player.GetNoOfPlacedBombs() != 0)
-									{
 										player.ExplodeBomb(map, 0);
-									}
-
 								}
 								else
 									player.Move(map, ch);
@@ -577,9 +578,7 @@ void DynaGame::Run()
 						{
 							player[index]->SetTicks(player[index]->GetTicks() - 1);
 							if (player[index]->GetTicks() == 0)
-							{
 								playerIsHit = player.ExplodeBomb(map, index);
-							}
 						}
 
 					for (int index = 0; index < enemies.size(); ++index)

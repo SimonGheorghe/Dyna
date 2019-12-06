@@ -42,7 +42,7 @@ Monster::Monster(Type type) :
 		m_speed = Speed::Fast;
 		m_hitPoints = 1;
 		m_score = 400;
-		m_passingAbility = true;
+		m_passingAbility = false;
 	}
 	break;
 	case Monster::Type::Pomori:
@@ -50,7 +50,7 @@ Monster::Monster(Type type) :
 		m_speed = Speed::VeryFast;
 		m_hitPoints = 1;
 		m_score = 600;
-		m_passingAbility = true;
+		m_passingAbility = false;
 	}
 	break;
 	case Monster::Type::Onil:

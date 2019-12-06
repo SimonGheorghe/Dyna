@@ -7,10 +7,10 @@ Player::Player(uint16_t fire, uint16_t numberBombs, uint16_t health, uint32_t sc
 	m_coordY = 1;
 	m_lastX = 1;
 	m_lastY = 1;
-	m_softBlockPass = true;
-	m_bombPass = true;
-	m_vest = true;
-	m_remoteControl = true;
+	m_softBlockPass = false;
+	m_bombPass = false;
+	m_vest = false;
+	m_remoteControl = false;
 }
 
 void Player::SetFire(uint16_t up)

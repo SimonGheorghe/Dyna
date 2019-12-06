@@ -410,7 +410,7 @@ void DynaGame::Run()
 	bool exit;
 	while (stage < 8)
 	{
-		uint16_t round = 7;
+		uint16_t round = 1;
 		while (round < 8)
 		{
 			if (round == 7)
@@ -595,7 +595,7 @@ void DynaGame::Run()
 
 					for (int index = 0; index < enemies.size(); ++index)
 					{
-						if (enemies[index]->GetType() == Monster::Type::Bubbles && time % 4 == 0)
+						if (enemies[index]->GetType() == Monster::Type::Bubbles && time % 1 == 0)
 							enemies.push_back(new Monster(Monster::Type::BabyBubbles, enemies[index]->GetCoordX(), enemies[index]->GetCoordY()));
 						if (enemies[index]->GetHitPoints() != 0)
 							switch (enemies[index]->GetSpeed())

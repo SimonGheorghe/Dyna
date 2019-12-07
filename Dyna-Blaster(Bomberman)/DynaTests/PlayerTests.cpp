@@ -54,5 +54,35 @@ namespace DynaTests
 			player.UpdatePlayerPower(Powers::Type::RemoteControl);
 			Assert::IsTrue(player.GetHasRemoteControl() == true);
 		}
+
+		TEST_METHOD(Place)
+		{
+			Player player(1, 1, 3, 0, 2);
+
+			Map map(Map::Stage::TheWall, 0);
+			map.SetWidth(Map::Width::Narrow);
+			map.SetLength(Map::Length::Short);
+			map.Create();
+
+			uint16_t x = 0, y = 0;
+			player.Place(map, x, y);
+			Assert::IsTrue(player.GetCoordX() !=NULL && player.GetCoordY !=NULL);
+		}
+
+		TEST_METHOD(Move)
+		{
+			Player player(1, 1, 3, 0, 2);
+
+			Map map(Map::Stage::TheWall, 0);
+			map.SetWidth(Map::Width::Narrow);
+			map.SetLength(Map::Length::Short);
+			map.Create();
+
+			uint16_t x = 0, y = 0;
+			player.Place(map, x, y);
+			player.Move(map, 'd');
+			Assert::IsTrue(player.GetCoordX() == 0 && player.GetCoordY == 1);
+		}
+
 	};
 }

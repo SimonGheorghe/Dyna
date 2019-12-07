@@ -76,7 +76,7 @@ namespace DynaTests
 
 			uint16_t x = 0, y = 0;
 			player.Place(map, x, y);
-			Assert::IsTrue(player.GetCoordX() !=NULL && player.GetCoordY !=NULL);
+			Assert::IsTrue(player.GetCoordX() != NULL);
 		}
 
 		TEST_METHOD(Move)
@@ -91,7 +91,7 @@ namespace DynaTests
 			uint16_t x = 0, y = 0;
 			player.Place(map, x, y);
 			player.Move(map, 'd');
-			Assert::IsTrue(player.GetCoordX() == 0 && player.GetCoordY == 1);
+			Assert::IsTrue(player.GetCoordY() == 1);
 		}
 
 		TEST_METHOD(PlaceBomb)
@@ -107,7 +107,31 @@ namespace DynaTests
 			player.Place(map, x, y);
 			player.Move(map, 'd');
 			player.PlaceBomb(map);
-			Assert::IsTrue(player[0]->GetCoordX() == 0 && player[0]->GetCoordY == 1);
+			Assert::IsTrue(player[0]->GetCoordX() == 0);
+		}
+
+
+		TEST_METHOD(DeleteBomb)
+		{
+			Player player(1, 2, 3, 0, 2);
+
+			Map map(Map::Stage::TheWall, 0);
+			map.SetWidth(Map::Width::Narrow);
+			map.SetLength(Map::Length::Short);
+			map.Create();
+
+			uint16_t x = 0, y = 0;
+			player.Place(map, x, y);
+			player.PlaceBomb(map);
+			Assert::IsTrue(player[0]->GetCoordX() == NULL);
+		}
+
+		TEST_METHOD(AddScore)
+		{
+			Player player(1, 1, 3, 100, 2);
+			uint32_t s = player.GetScore();
+			player.AddScore(200);
+			Assert::IsTrue(player.GetScore() == 300);
 		}
 	};
 }

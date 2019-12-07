@@ -6,14 +6,12 @@
 #include <thread>
 
 #include "DynaGame.h"
-#include "Monster.h"
-#include "Powers.h"
+
 void RandomEnemiesGenerator(std::vector<Monster*>& enemies, std::vector<uint16_t> possibleEnemies, uint16_t noOfEnemies)
 {
 	enemies.resize(noOfEnemies);
 	for (int index = 0; index < noOfEnemies; ++index)
 	{
-		bool ok;
 		uint16_t random;
 		random = rand() % possibleEnemies.size();
 		enemies[index] = new Monster(Monster::Type(possibleEnemies[random]));
@@ -395,10 +393,30 @@ void GenerateMonster(std::vector<Monster*>& enemies, const Map& map)
 		break;
 	}
 }
+void DynaGame::ReadMapsDimensions()
+{
+	std::ifstream file("levels'Size.txt");//get map size for all levels
+	for (int index1 = 0; index1 < noOfStagesAndLevels; ++index1)
+		for (int index2 = 0; index2 < noOfStagesAndLevels; ++index2)
+			file >> mapsDimensions[index1][index2];
+}
 
+void DynaGame::SetMapDimensions(Map& map, Map::Stage stage, uint16_t level)
+{
+	std::string mapDimensions = mapsDimensions[(uint16_t)stage][level];
+	if (mapDimensions[0] == 'N')
+		map.SetWidth(Map::Width::Narrow);
+	else map.SetWidth(Map::Width::Wide);
+	if (mapDimensions[1] == 'S')
+		map.SetLength(Map::Length::Short);
+	else map.SetLength(Map::Length::Long);
+}
 void DynaGame::Run()
 {
 	srand((int)time(NULL));
+
+	ReadMapsDimensions();
+
 	uint16_t playerFire = 2;
 	uint16_t playerNoOfBombs = 3;
 	uint16_t playerHealth = 6;
@@ -406,11 +424,11 @@ void DynaGame::Run()
 	uint16_t playerSpeed = 2;
 	Player player(playerFire, playerNoOfBombs, playerHealth, playerScore, playerSpeed);
 	bool endRound = 0;
-	uint16_t stage = 1;
+	uint16_t stage = 0;
 	bool exit;
 	while (stage < 8)
 	{
-		uint16_t round = 1;
+		uint16_t round = 5;
 		while (round < 8)
 		{
 			if (round == 7)
@@ -419,7 +437,10 @@ void DynaGame::Run()
 			while (endRound == 0)
 			{
 				system("cls");
+
 				Map map(Map::Stage(stage), round);
+				SetMapDimensions(map, Map::Stage(stage), round);
+				map.Create();
 				map.GeneratePower();
 				
 				if(stage!=0)

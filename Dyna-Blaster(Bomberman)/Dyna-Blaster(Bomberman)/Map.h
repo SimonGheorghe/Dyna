@@ -38,7 +38,6 @@ public:
 
 public:
 	Map(Stage Stage, uint16_t Level);
-	Map();
 	friend std::ostream& operator<<(std::ostream& out, const Map& map);
 
 	const Entity* operator[](const Position& position) const;
@@ -51,20 +50,19 @@ public:
 	uint16_t GetPowerX() const;
 	uint16_t GetPowerY() const;
 	Powers::Type GetPowerType() const;
-	
+
+	void SetWidth(Width width);
+	void SetLength(Length length);
 	void SetBlock(Block::Type type, uint16_t coordX, uint16_t coordY);
 	void SetBomb(Bomb* bomb);
+	
+	void Create();
 	void ClearMap(uint16_t index1, uint16_t index2);
 	void GeneratePower();
 	void DeletePower();
 
 private:
-	void GenerateMapDimensions();
 	void GenerateBlocks();
-
-private:
-	static const uint16_t noOfStagesAndLevels = 8;
-	std::array<std::array<std::string, noOfStagesAndLevels>, noOfStagesAndLevels> mapSize;
 
 private:
 	Stage m_stage;

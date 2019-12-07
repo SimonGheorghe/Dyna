@@ -25,28 +25,43 @@ namespace DynaTests
 
 		TEST_METHOD(PlaceFunction)
 		{
-			Monster monster(Monster::Type::Ballom);
-			Map map;
-			monster.Place(map);
-			Assert::IsTrue(monster.GetCoordX() != NULL);
+			std::vector<Monster*> enemies;
+			enemies.push_back(new Monster(Monster::Type::Ballom));
+
+			Map map(Map::Stage::TheWall, 0);
+			map.SetWidth(Map::Width::Narrow);
+			map.SetLength(Map::Length::Short);
+			map.Create();
+
+			enemies[0]->Place(map, enemies);
+
+			Assert::IsTrue(enemies[0]->GetCoordX() != NULL);
 		}
 		TEST_METHOD(Move)
 		{
-			Monster monster(Monster::Type::Ballom);
-			Map map;
-			Player player(1, 1, 3, 0, 2);
-			monster.Place(map);
-			if (dynamic_cast<Block*>(map[{monster.GetCoordX() - 1, monster.GetCoordY()}]))
-				map.SetBlock(Block::Type::NoneBlock, monster.GetCoordX() - 1, monster.GetCoordY());
-			else
-				if (dynamic_cast<Block*>(map[{monster.GetCoordX() + 1, monster.GetCoordY()}]))
-					map.SetBlock(Block::Type::NoneBlock, monster.GetCoordX() + 1, monster.GetCoordY());
-				else
-					if (dynamic_cast<Block*>(map[{monster.GetCoordX(), monster.GetCoordY()}]) - 1)
-						map.SetBlock(Block::Type::NoneBlock, monster.GetCoordX(), monster.GetCoordY() - 1);
+			std::vector<Monster*> enemies;
+			enemies.push_back(new Monster(Monster::Type::Ballom));
 
-			monster.Move(map, player);
-			Assert::IsTrue(monster.GetCoordX()!=monster.GetLastX() || monster.GetCoordY()!=monster.GetLastY());
+			Map map(Map::Stage::TheWall, 0);
+			map.SetWidth(Map::Width::Narrow);
+			map.SetLength(Map::Length::Short);
+			map.Create();
+
+			enemies[0]->Place(map, enemies);
+
+			Player player(1, 1, 3, 0, 2);
+
+			if (dynamic_cast<Block*>(map[{enemies[0]->GetCoordX() - 1, enemies[0]->GetCoordY()}]))
+				map.SetBlock(Block::Type::NoneBlock, enemies[0]->GetCoordX() - 1, enemies[0]->GetCoordY());
+			else
+				if (dynamic_cast<Block*>(map[{enemies[0]->GetCoordX() + 1, enemies[0]->GetCoordY()}]))
+					map.SetBlock(Block::Type::NoneBlock, enemies[0]->GetCoordX() + 1, enemies[0]->GetCoordY());
+				else
+					if (dynamic_cast<Block*>(map[{enemies[0]->GetCoordX(), enemies[0]->GetCoordY()}]) - 1)
+						map.SetBlock(Block::Type::NoneBlock, enemies[0]->GetCoordX(), enemies[0]->GetCoordY() - 1);
+
+			enemies[0]->Move(map, player);
+			Assert::IsTrue(enemies[0]->GetCoordX()!=enemies[0]->GetLastX() || enemies[0]->GetCoordY()!=enemies[0]->GetLastY());
 		}
 
 	};

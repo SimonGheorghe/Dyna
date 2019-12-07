@@ -7,39 +7,15 @@ Map::Map(Stage Stage, uint16_t Level)
 {
 	m_stage = Stage;
 	m_level = Level;
-	GenerateMapDimensions();
-	GenerateBlocks();
 }
 
-Map::Map()
+void Map::Create()
 {
-	m_width = Width::Narrow;
-	m_length = Length::Short;
-
 	m_map.resize((uint16_t)m_length);
 	for (int index = 0; index < m_map.size(); ++index)
 		m_map[index].resize((uint16_t)m_width);
+
 	GenerateBlocks();
-}
-
-void Map::GenerateMapDimensions()
-{
-	std::ifstream file("levels'Size.txt");//get map size for all levels
-	for (int index1 = 0; index1 < noOfStagesAndLevels; ++index1)
-		for (int index2 = 0; index2 < noOfStagesAndLevels; ++index2)
-			file >> mapSize[index1][index2];
-
-	std::string mapDimensions = mapSize[(uint16_t)m_stage][m_level];
-	if (mapDimensions[0] == 'N')
-		m_width = Width::Narrow;
-	else m_width = Width::Wide;
-	if (mapDimensions[1] == 'S')
-		m_length = Length::Short;
-	else m_length = Length::Long;
-
-	m_map.resize((uint16_t)m_length);
-	for (int index = 0; index < m_map.size(); ++index)
-		m_map[index].resize((uint16_t)m_width);
 }
 
 void Map::GenerateBlocks()
@@ -182,6 +158,16 @@ uint16_t Map::GetPowerY() const
 Powers::Type Map::GetPowerType() const
 {
 	return m_power;
+}
+
+void Map::SetWidth(Map::Width width)
+{
+	m_width = width;
+}
+
+void Map::SetLength(Map::Length length)
+{
+	m_length = length;
 }
 
 void Map::SetBlock(Block::Type type, uint16_t coordX, uint16_t coordY)

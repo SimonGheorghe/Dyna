@@ -171,6 +171,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="BlockTests.cpp" />
+    <ClCompile Include="BombTests.cpp" />
     <ClCompile Include="MapTests.cpp" />
     <ClCompile Include="MonsterTests.cpp" />
     <ClCompile Include="pch.cpp">
@@ -183,6 +184,14 @@
     <ClCompile Include="PowersTests.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\Dyna-Blaster(Bomberman)\Block.h" />
+    <ClInclude Include="..\Dyna-Blaster(Bomberman)\Bomb.h" />
+    <ClInclude Include="..\Dyna-Blaster(Bomberman)\DynaGame.h" />
+    <ClInclude Include="..\Dyna-Blaster(Bomberman)\Entity.h" />
+    <ClInclude Include="..\Dyna-Blaster(Bomberman)\Map.h" />
+    <ClInclude Include="..\Dyna-Blaster(Bomberman)\Monster.h" />
+    <ClInclude Include="..\Dyna-Blaster(Bomberman)\Player.h" />
+    <ClInclude Include="..\Dyna-Blaster(Bomberman)\Powers.h" />
     <ClInclude Include="pch.h" />
   </ItemGroup>
   <ItemGroup>

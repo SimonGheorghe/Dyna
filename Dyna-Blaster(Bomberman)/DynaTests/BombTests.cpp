@@ -13,16 +13,15 @@ namespace DynaTests
 		{
 			uint16_t coordX = 3, coordY = 2, id = 2;
 			Bomb bomb(coordX, coordY, id);
-			Assert::IsTrue(bomb.GetCoordX == 3);
+			Assert::IsTrue(bomb.GetCoordX() == 3);
 		}
 
 		TEST_METHOD(Print)
 		{
-			uint16_t coordX = 0, coordY = 0, id = 0;
-			Bomb bomb(coordX, coordY, id);
+			Bomb bomb(0, 0, 1);
 			std::stringstream stream;
 			stream << bomb;
-			Assert::AreEqual(std::string("*"), stream.str(), L"You see this message if name is  not the same");
+			Assert::AreEqual(std::string("* "), stream.str(), L"You see this message if name is  not the same");
 		}
 	};
 }

@@ -142,16 +142,6 @@
     <ClCompile Include="Powers.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Block.h" />
-    <ClInclude Include="Bomb.h" />
-    <ClInclude Include="DynaGame.h" />
-    <ClInclude Include="Entity.h" />
-    <ClInclude Include="Map.h" />
-    <ClInclude Include="Monster.h" />
-    <ClInclude Include="Player.h" />
-    <ClInclude Include="Powers.h" />
-  </ItemGroup>
-  <ItemGroup>
     <Text Include="levels%27Size.txt" />
   </ItemGroup>
   <ItemGroup>

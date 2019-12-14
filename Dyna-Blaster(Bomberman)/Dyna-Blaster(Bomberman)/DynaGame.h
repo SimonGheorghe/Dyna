@@ -14,6 +14,8 @@ public:
 	void Update();
 	void Render();
 	void Run();
+	void endAplication();
+
 	
 private:
 	void InitWindow();

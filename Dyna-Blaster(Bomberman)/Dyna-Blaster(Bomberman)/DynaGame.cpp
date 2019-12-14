@@ -47,8 +47,20 @@ void DynaGame::Update()
 	UpdateSFMLEvents();
 
 	if (!this->states.empty())
+	{
 		this->states.top()->Update(this->m_deltaTime);
-
+		if (this->states.top()->GetQuit())
+		{
+			this->states.top()->endState();
+			delete this->states.top();
+			this->states.pop();
+		}
+	}
+	else
+	{
+		this->endAplication();
+		this->m_window->close();
+	}
 }
 void DynaGame::Render()
 {
@@ -778,6 +790,11 @@ void DynaGame::Run()
 		}
 			stage++;
 	}
+}
+
+void DynaGame::endAplication()
+{
+	std::cout << "Ending APlication";
 }
 
 

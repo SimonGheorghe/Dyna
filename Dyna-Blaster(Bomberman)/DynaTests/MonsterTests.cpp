@@ -62,6 +62,9 @@ namespace DynaTests
 
 			enemies[0]->Move(map, player);
 			Assert::IsTrue(enemies[0]->GetCoordX()!=enemies[0]->GetLastX() || enemies[0]->GetCoordY()!=enemies[0]->GetLastY());
+
+
+
 		}
 
 	};

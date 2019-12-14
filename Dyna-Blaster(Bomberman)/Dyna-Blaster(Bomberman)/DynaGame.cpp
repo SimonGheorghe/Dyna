@@ -401,15 +401,199 @@ void DynaGame::ReadMapsDimensions()
 			file >> mapsDimensions[index1][index2];
 }
 
-void DynaGame::SetMapDimensions(Map& map, Map::Stage stage, uint16_t level)
+void SetMapDimensions(Map& map, std::string mapDimensions)
 {
-	std::string mapDimensions = mapsDimensions[(uint16_t)stage][level];
 	if (mapDimensions[0] == 'N')
 		map.SetWidth(Map::Width::Narrow);
 	else map.SetWidth(Map::Width::Wide);
 	if (mapDimensions[1] == 'S')
 		map.SetLength(Map::Length::Short);
 	else map.SetLength(Map::Length::Long);
+}
+void PlayerMove(Player& player, Map& map, std::vector<Monster*>& enemies, uint16_t time)
+{
+	uint16_t noOfMoves = 0;
+	if (player.GetSpeed() == 1 && time % 2 == 0 ||
+		player.GetSpeed() == 2)
+		noOfMoves = 1;
+	if (player.GetSpeed() == 4)
+		noOfMoves = 2;
+	if (player.GetSpeed() == 3)
+		if (time % 2 == 0)
+			noOfMoves = 2;
+		else
+			noOfMoves = 1;
+
+	for (int index = 0; index < noOfMoves; ++index)
+	{
+		char ch = _getch();
+		if (ch == ' ')
+		{
+			if (player.GetNoOfBombs() != 0 &&
+				dynamic_cast<Block*>(map[{player.GetCoordX(), player.GetCoordY()}]) &&
+				dynamic_cast<Block*>(map[{player.GetCoordX(), player.GetCoordY()}])->GetType() == Block::Type::NoneBlock)
+				player.PlaceBomb(map);
+		}
+		else
+			if (ch == 'k')
+				enemies.clear();
+			else
+				if (ch == 'r')
+				{
+					if (player.GetHasRemoteControl() && player.GetNoOfPlacedBombs() != 0)
+						player.ExplodeBomb(map, 0);
+				}
+				else
+					player.Move(map, ch);
+	}
+}
+void PrintMap(Map& map, const Player& player, std::vector<Monster*>& enemies)
+{
+	std::cout << "Score: " << player.GetScore() << std::endl;
+
+	for (int index1 = 0; index1 < map.GetLength(); ++index1)
+	{
+		for (int index2 = 0; index2 < map.GetWidth(); ++index2)
+		{
+			if (index1 == player.GetCoordX() && index2 == player.GetCoordY())
+			{
+				std::cout << player;
+				map.ClearMap(index1, index2);
+			}
+			else
+			{
+				bool ok = 1;
+				for (int index = 0; index < enemies.size(); ++index)
+					if (index1 == enemies[index]->GetCoordX() && index2 == enemies[index]->GetCoordY())
+					{
+						std::cout << *enemies[index];
+						map.ClearMap(index1, index2);
+						ok = 0;
+						break;
+					}
+				if (ok)
+				{
+					bool ok = 1;
+					for (int index = 0; index < player.GetNoOfPlacedBombs(); ++index)
+						if (index1 == player[index]->GetCoordX() && index2 == player[index]->GetCoordY())
+						{
+							std::cout << *player[index];
+							map.ClearMap(index1, index2);
+							ok = 0;
+						}
+					if (ok)
+					{
+						if (dynamic_cast<Block*>(map[{index1, index2}]))
+						{
+							std::cout << *dynamic_cast<Block*>(map[{index1, index2}]);
+							map.ClearMap(index1, index2);
+						}
+						if (dynamic_cast<Powers*>(map[{index1, index2}]))
+							std::cout << *dynamic_cast<Powers*>(map[{index1, index2}]);
+					}
+				}
+			}
+		}
+		std::cout << std::endl;
+	}
+}
+void DeleteDeadMonsters(std::vector<Monster*>& enemies, Map& map, Player& player)
+{
+	for (int index = 0; index < enemies.size(); ++index)
+		if (enemies[index]->GetHitPoints() == 0)
+		{
+			int x = enemies[index]->GetCoordX();
+			int y = enemies[index]->GetCoordY();
+			map.SetBlock(Block::Type::NoneBlock, x, y);
+			player.AddScore(enemies[index]->GetScore());
+			enemies.erase(enemies.begin() + index--);
+		}
+}
+void MonsterMove(std::vector<Monster*>& enemies, Map& map, Player& player, uint16_t time)
+{
+	for (int index = 0; index < enemies.size(); ++index)
+	{
+		if (enemies[index]->GetType() == Monster::Type::Bubbles && time % 1 == 0)
+			enemies.push_back(new Monster(Monster::Type::BabyBubbles, enemies[index]->GetCoordX(), enemies[index]->GetCoordY()));
+		if (enemies[index]->GetHitPoints() != 0)
+			switch (enemies[index]->GetSpeed())
+			{
+			case Monster::Speed::Slow:
+				if (time % 2 == 0)
+					enemies[index]->Move(map, player);
+				break;
+			case Monster::Speed::Normal:
+				enemies[index]->Move(map, player);
+				break;
+			case Monster::Speed::Fast:
+				if (time % 2 == 0)
+					enemies[index]->Move(map, player);
+				else
+				{
+					enemies[index]->Move(map, player);
+					enemies[index]->Move(map, player);
+				}
+				break;
+			case Monster::Speed::VeryFast:
+				enemies[index]->Move(map, player);
+				enemies[index]->Move(map, player);
+				break;
+			default:
+				break;
+			}
+	}
+}
+void CreateMap(Map& map, uint16_t stage, const Player& player, std::string mapDimensions)
+{
+
+	SetMapDimensions(map, mapDimensions);
+	map.Create();
+	map.GeneratePower();
+
+	if (stage != 0)
+		while (map.GetPowerType() == Powers::Type::BombPass && player.GetHasBombPass() ||
+			map.GetPowerType() == Powers::Type::RemoteControl && player.GetHasRemoteControl() ||
+			map.GetPowerType() == Powers::Type::SoftBlockPass && player.GetHasSoftBlockPass() ||
+			map.GetPowerType() == Powers::Type::Vest && player.GetHasVest())
+		{
+			map.DeletePower();
+			map.GeneratePower();
+		}
+}
+bool PlaceExit(Map& map)
+{
+	uint16_t coordX;
+	uint16_t coordY;
+	do {
+		coordX = rand() % map.GetLength();
+		coordY = rand() % map.GetWidth();
+	} while (dynamic_cast<Block*>(map[{coordX, coordY}])->GetType() != Block::Type::NoneBlock);
+	map.SetBlock(Block::Type::Exit, coordX, coordY);
+	return 1;
+}
+bool BombsTicksDown(Player& player, Map& map)
+{
+	if (!player.GetHasRemoteControl())
+		for (int index = 0; index < player.GetNoOfPlacedBombs(); ++index)
+		{
+			player[index]->SetTicks(player[index]->GetTicks() - 1);
+			if (player[index]->GetTicks() == 0)
+				return player.ExplodeBomb(map, index);
+		}
+	return 0;
+}
+void DropMontsersHitPoints(std::vector<Monster*>& enemies, Map& map)
+{
+	for (int index = 0; index < enemies.size(); ++index)
+	{
+		int x = enemies[index]->GetCoordX();
+		int y = enemies[index]->GetCoordY();
+		if (dynamic_cast<Block*>(map[{x, y}]))
+			if (dynamic_cast<Block*>(map[{x, y}])->GetType() == Block::Type::HorizontalFire ||
+				dynamic_cast<Block*>(map[{x, y}])->GetType() == Block::Type::ExplodedBomb ||
+				dynamic_cast<Block*>(map[{x, y}])->GetType() == Block::Type::VerticalFire)
+				enemies[index]->DropHitPoints();
+	}
 }
 void DynaGame::Run()
 {
@@ -423,6 +607,7 @@ void DynaGame::Run()
 	uint32_t playerScore = 0;
 	uint16_t playerSpeed = 2;
 	Player player(playerFire, playerNoOfBombs, playerHealth, playerScore, playerSpeed);
+
 	bool endRound = 0;
 	uint16_t stage = 0;
 	bool exit;
@@ -439,30 +624,22 @@ void DynaGame::Run()
 				system("cls");
 
 				Map map(Map::Stage(stage), round);
-				SetMapDimensions(map, Map::Stage(stage), round);
-				map.Create();
-				map.GeneratePower();
-				
-				if(stage!=0)
-				while(map.GetPowerType()==Powers::Type::BombPass && player.GetHasBombPass() ||
-					map.GetPowerType()==Powers::Type::RemoteControl && player.GetHasRemoteControl() ||
-					map.GetPowerType()==Powers::Type::SoftBlockPass && player.GetHasSoftBlockPass() ||
-					map.GetPowerType()==Powers::Type::Vest && player.GetHasVest())
-				{
-					map.DeletePower();
-					map.GeneratePower();
-				}
+				std::string mapDimensions = mapsDimensions[(uint16_t)stage][round];
+				CreateMap(map, stage, player, mapDimensions);
 
-				std::cout << map;
+				std::cout << map; // shows current stage and level
+
 				uint16_t playerCoordX = 1;
 				uint16_t playerCoordY = 1;
 				player.Place(map, playerCoordX, playerCoordY);
+
 				std::this_thread::sleep_for(std::chrono::seconds(3));
+
 				bool playerIsHit = 0;
 				std::vector<Monster*> enemies;
 				GenerateMonster(enemies, map);
-				uint16_t noOfMonsters = enemies.size();
 
+				uint16_t noOfMonsters = enemies.size();
 				for (int index = 0; index < noOfMonsters; ++index)
 				{
 					enemies[index]->Place(map,enemies);
@@ -473,84 +650,28 @@ void DynaGame::Run()
 				{
 					system("cls");
 					static uint16_t chrono = 0;
-					std::cout << "Score: " << player.GetScore() << std::endl;
-					for (int index1 = 0; index1 < map.GetLength(); ++index1)
-					{
-						for (int index2 = 0; index2 < map.GetWidth(); ++index2)
-						{
-							if (index1 == player.GetCoordX() && index2 == player.GetCoordY())
-							{
-								std::cout << player;
-								map.ClearMap(index1, index2);
-							}
-							else
-							{
-								bool ok = 1;
-								for (int index = 0; index < enemies.size(); ++index)
-									if (index1 == enemies[index]->GetCoordX() && index2 == enemies[index]->GetCoordY())
-									{
-										std::cout << *enemies[index];
-										map.ClearMap(index1, index2);
-										ok = 0;
-										break;
-									}
-								if (ok)
-								{
-									bool ok = 1;
-									for (int index = 0; index < player.GetNoOfPlacedBombs(); ++index)
-										if (index1 == player[index]->GetCoordX() && index2 == player[index]->GetCoordY())
-										{
-											std::cout << *player[index];
-											map.ClearMap(index1, index2);
-											ok = 0;
-										}
-									if (ok)
-									{
-										if (dynamic_cast<Block*>(map[{index1, index2}]))
-										{
-											std::cout << *dynamic_cast<Block*>(map[{index1, index2}]);
-											map.ClearMap(index1, index2);
-										}
-										if (dynamic_cast<Powers*>(map[{index1, index2}]))
-											std::cout << *dynamic_cast<Powers*>(map[{index1, index2}]);
-									}
-								}
-							}
-						}
-						std::cout << std::endl;
-					}
+					
+					PrintMap(map, player, enemies);
 
-					for (int index = 0; index < enemies.size(); ++index)
-						if (enemies[index]->GetHitPoints() == 0)
-						{
-							int x = enemies[index]->GetCoordX();
-							int y = enemies[index]->GetCoordY();
-							map.SetBlock(Block::Type::NoneBlock, x, y);
-							player.AddScore(enemies[index]->GetScore());
-							enemies.erase(enemies.begin() + index--);
-						}
+					DeleteDeadMonsters(enemies, map, player);
 
 					if (round == 7 && enemies.empty() && !exit)
-					{
-						uint16_t coordX;
-						uint16_t coordY;
-						do {
-							coordX = rand() % map.GetLength();
-							coordY = rand() % map.GetWidth();
-						} while (dynamic_cast<Block*>(map[{coordX, coordY}])->GetType() != Block::Type::NoneBlock);
-						map.SetBlock(Block::Type::Exit, coordX, coordY);
-						exit = 1;
-					}
+						exit = PlaceExit(map);
 
+					//kills player if bomb hit him
 					if (playerIsHit && !player.GetHasVest())
 					{
 						player.SetHealth(player.GetHealth() - 1);
+						player.SetVest(0);
+						player.SetBombPass(0);
+						player.SetRemoteControl(0);
 						std::cout << "You are dead. You have " << player.GetHealth() << " lifes left!\n\n";
 						std::this_thread::sleep_for(std::chrono::seconds(1));
 
 						break;
 					}
 
+					//ends round if all requirements are met
 					if (enemies.size() == 0 && 
 						dynamic_cast<Block*>(map[{player.GetCoordX(), player.GetCoordY()}]) &&
 						dynamic_cast<Block*>(map[{player.GetCoordX(), player.GetCoordY()}])->GetType() == Block::Type::Exit)
@@ -559,105 +680,24 @@ void DynaGame::Run()
 						break;
 					}
 
-					uint16_t noOfMoves = 0;
-					if (player.GetSpeed() == 1 && time % 2 == 0 ||
-						player.GetSpeed() == 2)
-						noOfMoves = 1;
-					if (player.GetSpeed() == 4)
-						noOfMoves = 2;
-					if (player.GetSpeed() == 3)
-						if (time % 2 == 0)
-							noOfMoves = 2;
-						else
-							noOfMoves = 1;
+					PlayerMove(player, map, enemies, time);
 
-					for (int index = 0; index < noOfMoves; ++index)
-					{
-						char ch = _getch();
-						if (ch == ' ')
-						{
-							if (player.GetNoOfBombs() != 0 &&
-								dynamic_cast<Block*>(map[{player.GetCoordX(), player.GetCoordY()}]) &&
-								dynamic_cast<Block*>(map[{player.GetCoordX(), player.GetCoordY()}])->GetType() == Block::Type::NoneBlock)
-								player.PlaceBomb(map);
-						}
-						else
-							if (ch == 'k')
-								enemies.clear();
-							else
-								if (ch == 'r')
-								{
-									if (player.GetHasRemoteControl() && player.GetNoOfPlacedBombs() != 0)
-										player.ExplodeBomb(map, 0);
-								}
-								else
-									player.Move(map, ch);
-					}
+					playerIsHit = BombsTicksDown(player, map);
 
-					if(!player.GetHasRemoteControl())
-						for (int index = 0; index < player.GetNoOfPlacedBombs(); ++index)
-						{
-							player[index]->SetTicks(player[index]->GetTicks() - 1);
-							if (player[index]->GetTicks() == 0)
-								playerIsHit = player.ExplodeBomb(map, index);
-						}
+					//if monsters are hit
+					DropMontsersHitPoints(enemies, map);
 
-					for (int index = 0; index < enemies.size(); ++index)
-					{
-						int x = enemies[index]->GetCoordX();
-						int y = enemies[index]->GetCoordY();
-						if(dynamic_cast<Block*>(map[{x, y}]))
-						if (dynamic_cast<Block*>(map[{x, y}])->GetType() == Block::Type::HorizontalFire ||
-							dynamic_cast<Block*>(map[{x, y}])->GetType() == Block::Type::ExplodedBomb ||
-							dynamic_cast<Block*>(map[{x, y}])->GetType() == Block::Type::VerticalFire)
-							enemies[index]->DropHitPoints();
-					}
+					MonsterMove(enemies, map, player, time);
 
-
-					for (int index = 0; index < enemies.size(); ++index)
-					{
-						if (enemies[index]->GetType() == Monster::Type::Bubbles && time % 1 == 0)
-							enemies.push_back(new Monster(Monster::Type::BabyBubbles, enemies[index]->GetCoordX(), enemies[index]->GetCoordY()));
-						if (enemies[index]->GetHitPoints() != 0)
-							switch (enemies[index]->GetSpeed())
-							{
-							case Monster::Speed::Slow:
-								if (time % 2 == 0)
-									enemies[index]->Move(map, player);
-								break;
-							case Monster::Speed::Normal:
-								enemies[index]->Move(map, player);
-								break;
-							case Monster::Speed::Fast:
-								if (time % 2 == 0)
-									enemies[index]->Move(map, player);
-								else
-								{
-									enemies[index]->Move(map, player);
-									enemies[index]->Move(map, player);
-								}
-								break;
-							case Monster::Speed::VeryFast:
-								enemies[index]->Move(map, player);
-								enemies[index]->Move(map, player);
-								break;
-							default:
-								break;
-							}
-					}
-
+					//verify if player collides with enemies
 					for (int index = 0; index < enemies.size(); index++)
 					{
 						if ((enemies[index]->GetCoordX() == player.GetCoordX() && enemies[index]->GetCoordY() == player.GetCoordY()) ||
 							(enemies[index]->GetCoordX() == player.GetLastX() && enemies[index]->GetCoordY() == player.GetLastY() &&
 								enemies[index]->GetLastX() == player.GetCoordX() && enemies[index]->GetLastY() == player.GetCoordY()))
-						{
 							playerIsHit = 1;
-							player.SetVest(0);
-							player.SetBombPass(0);
-							player.SetRemoteControl(0);
-						}
 					}
+
 					time++;
 				}
 

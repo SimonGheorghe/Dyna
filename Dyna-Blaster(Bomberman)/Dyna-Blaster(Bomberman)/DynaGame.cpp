@@ -7,6 +7,42 @@
 
 #include "DynaGame.h"
 
+void DynaGame::InitWindow()
+{
+	m_window = new sf::RenderWindow(sf::VideoMode(800, 600), "Dyna Blaster");
+}
+DynaGame::DynaGame()
+{
+	InitWindow();
+}
+DynaGame::~DynaGame()
+{
+	delete m_window;
+}
+void DynaGame::UpdateSFMLEvents()
+{
+	while (m_window->pollEvent(m_sfEvent))
+	{
+		if (m_sfEvent.type == sf::Event::Closed)
+			m_window->close();
+	}
+}
+void DynaGame::Update()
+{
+	UpdateSFMLEvents();
+}
+void DynaGame::Render()
+{
+	m_window->clear();
+	m_window->display();
+}
+void DynaGame::ReadMapsDimensions()
+{
+	std::ifstream file("levels'Size.txt");//get map size for all levels
+	for (int index1 = 0; index1 < noOfStagesAndLevels; ++index1)
+		for (int index2 = 0; index2 < noOfStagesAndLevels; ++index2)
+			file >> mapsDimensions[index1][index2];
+}
 void RandomEnemiesGenerator(std::vector<Monster*>& enemies, std::vector<uint16_t> possibleEnemies, uint16_t noOfEnemies)
 {
 	enemies.resize(noOfEnemies);
@@ -393,14 +429,6 @@ void GenerateMonster(std::vector<Monster*>& enemies, const Map& map)
 		break;
 	}
 }
-void DynaGame::ReadMapsDimensions()
-{
-	std::ifstream file("levels'Size.txt");//get map size for all levels
-	for (int index1 = 0; index1 < noOfStagesAndLevels; ++index1)
-		for (int index2 = 0; index2 < noOfStagesAndLevels; ++index2)
-			file >> mapsDimensions[index1][index2];
-}
-
 void SetMapDimensions(Map& map, std::string mapDimensions)
 {
 	if (mapDimensions[0] == 'N')
@@ -611,6 +639,13 @@ void DynaGame::Run()
 	bool endRound = 0;
 	uint16_t stage = 0;
 	bool exit;
+
+	while (m_window->isOpen())
+	{
+		Update();
+		Render();
+	}
+
 	while (stage < 8)
 	{
 		uint16_t round = 5;
@@ -719,3 +754,5 @@ void DynaGame::Run()
 			stage++;
 	}
 }
+
+

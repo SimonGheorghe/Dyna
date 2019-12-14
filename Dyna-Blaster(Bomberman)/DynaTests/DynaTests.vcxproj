@@ -184,14 +184,6 @@
     <ClCompile Include="PowersTests.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\Dyna-Blaster(Bomberman)\Block.h" />
-    <ClInclude Include="..\Dyna-Blaster(Bomberman)\Bomb.h" />
-    <ClInclude Include="..\Dyna-Blaster(Bomberman)\DynaGame.h" />
-    <ClInclude Include="..\Dyna-Blaster(Bomberman)\Entity.h" />
-    <ClInclude Include="..\Dyna-Blaster(Bomberman)\Map.h" />
-    <ClInclude Include="..\Dyna-Blaster(Bomberman)\Monster.h" />
-    <ClInclude Include="..\Dyna-Blaster(Bomberman)\Player.h" />
-    <ClInclude Include="..\Dyna-Blaster(Bomberman)\Powers.h" />
     <ClInclude Include="pch.h" />
   </ItemGroup>
   <ItemGroup>

@@ -12,6 +12,9 @@
     <Filter Include="Header Files">
       <UniqueIdentifier>{56bb191b-54a5-4e65-9764-7f14a2cfe724}</UniqueIdentifier>
     </Filter>
+    <Filter Include="States">
+      <UniqueIdentifier>{21eecc50-2f79-41b1-aa74-dd3767a8ba8f}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Monster.cpp">
@@ -41,8 +44,11 @@
     <ClCompile Include="DynaGame.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="GameState.cpp">
+      <Filter>States</Filter>
+    </ClCompile>
     <ClCompile Include="State.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>States</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -75,6 +81,11 @@
     <ClInclude Include="Powers.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="State.h" />
+    <ClInclude Include="State.h">
+      <Filter>States</Filter>
+    </ClInclude>
+    <ClInclude Include="GameState.h">
+      <Filter>States</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

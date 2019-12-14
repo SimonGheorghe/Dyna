@@ -1,7 +1,7 @@
 #pragma once
 #include "Monster.h"
 #include "Powers.h"
-#include "State.h"
+#include "GameState.h"
 
 class DynaGame
 {
@@ -17,12 +17,15 @@ public:
 	
 private:
 	void InitWindow();
+	void initStates();
 	sf::Clock m_dtClock;
 	float m_deltaTime;
 
 private:
 	sf::RenderWindow* m_window;
 	sf::Event m_sfEvent;
+
+	std::stack<State*> states;
 
 private:
 	void ReadMapsDimensions();

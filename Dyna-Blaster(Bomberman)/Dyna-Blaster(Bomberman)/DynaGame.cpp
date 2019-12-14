@@ -11,13 +11,24 @@ void DynaGame::InitWindow()
 {
 	m_window = new sf::RenderWindow(sf::VideoMode(800, 600), "Dyna Blaster");
 }
+void DynaGame::initStates()
+{
+	this->states.push(new GameState(this->m_window));
+}
 DynaGame::DynaGame()
 {
 	InitWindow();
+	this->initStates();
 }
 DynaGame::~DynaGame()
 {
-	delete m_window;
+	delete this->m_window;
+	while (!this->states.empty())
+	{
+		delete this->states.top();
+		this->states.pop();
+	}
+
 }
 void DynaGame::UpdateDt()
 {
@@ -34,12 +45,21 @@ void DynaGame::UpdateSFMLEvents()
 void DynaGame::Update()
 {
 	UpdateSFMLEvents();
+
+	if (!this->states.empty())
+		this->states.top()->Update(this->m_deltaTime);
+
 }
 void DynaGame::Render()
 {
 	m_window->clear();
+
+	if (!this->states.empty())
+		this->states.top()->Render();
+
 	m_window->display();
 }
+
 void DynaGame::ReadMapsDimensions()
 {
 	std::ifstream file("levels'Size.txt");//get map size for all levels

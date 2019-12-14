@@ -2,6 +2,10 @@
 
 #include <ctime>
 #include <stdlib.h>
+#include<stack>
+#include<map>
+#include<iostream>
+
 
 #include "SFML/System.hpp"
 #include "SFML/Window.hpp"
@@ -12,13 +16,14 @@
 class State
 {
 public:
-	State();
-	~State();
-
-	virtual void Update() = 0;
-	virtual void Render() = 0;
+	State(sf::RenderWindow* window);
+	virtual ~State();
+	virtual void endStates() = 0;
+	virtual void Update(const float& dt) = 0;
+	virtual void Render(sf::RenderTarget* target = nullptr) = 0;
 
 private:
+	sf::RenderWindow* window;
 	std::vector<sf::Texture> m_textures;
 };
 

@@ -41,6 +41,9 @@
     <ClCompile Include="DynaGame.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="State.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Text Include="levels%27Size.txt">
@@ -72,5 +75,6 @@
     <ClInclude Include="Powers.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="State.h" />
   </ItemGroup>
 </Project>

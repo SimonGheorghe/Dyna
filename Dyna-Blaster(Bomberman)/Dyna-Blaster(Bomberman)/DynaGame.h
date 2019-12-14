@@ -1,15 +1,7 @@
 #pragma once
 #include "Monster.h"
 #include "Powers.h"
-
-#include <ctime>
-#include <stdlib.h>
-
-#include "SFML/System.hpp"
-#include "SFML/Window.hpp"
-#include "SFML/Graphics.hpp"
-#include "SFML/Audio.hpp"
-#include "SFML/Network.hpp"
+#include "State.h"
 
 class DynaGame
 {
@@ -17,6 +9,7 @@ public:
 	DynaGame();
 	~DynaGame();
 
+	void UpdateDt();
 	void UpdateSFMLEvents();
 	void Update();
 	void Render();
@@ -24,6 +17,8 @@ public:
 	
 private:
 	void InitWindow();
+	sf::Clock m_dtClock;
+	float m_deltaTime;
 
 private:
 	sf::RenderWindow* m_window;

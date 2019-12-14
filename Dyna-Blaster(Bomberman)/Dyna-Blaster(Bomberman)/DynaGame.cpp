@@ -19,6 +19,10 @@ DynaGame::~DynaGame()
 {
 	delete m_window;
 }
+void DynaGame::UpdateDt()
+{
+	m_deltaTime = m_dtClock.restart().asSeconds();
+}
 void DynaGame::UpdateSFMLEvents()
 {
 	while (m_window->pollEvent(m_sfEvent))
@@ -642,6 +646,7 @@ void DynaGame::Run()
 
 	while (m_window->isOpen())
 	{
+		UpdateDt();
 		Update();
 		Render();
 	}

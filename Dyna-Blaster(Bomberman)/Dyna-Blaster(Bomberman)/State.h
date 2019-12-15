@@ -1,18 +1,5 @@
 #pragma once
-
-#include <ctime>
-#include <stdlib.h>
-#include<stack>
-#include<map>
-#include<iostream>
-
-
-#include "SFML/System.hpp"
-#include "SFML/Window.hpp"
-#include "SFML/Graphics.hpp"
-#include "SFML/Audio.hpp"
-#include "SFML/Network.hpp"
-
+#include"Entity2.h"
 class State
 {
 public:
@@ -26,7 +13,7 @@ public:
 	virtual void Update(const float& dt) = 0;
 	virtual void Render(sf::RenderTarget* target = nullptr) = 0;
 
-private:
+protected:
 	bool quit;
 	sf::RenderWindow* window;
 	std::vector<sf::Texture> m_textures;

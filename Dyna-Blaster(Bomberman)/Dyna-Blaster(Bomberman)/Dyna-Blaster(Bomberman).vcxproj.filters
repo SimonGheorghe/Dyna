@@ -15,6 +15,9 @@
     <Filter Include="States">
       <UniqueIdentifier>{21eecc50-2f79-41b1-aa74-dd3767a8ba8f}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Entitys">
+      <UniqueIdentifier>{9a8b0ae2-08ed-4414-9159-8d65762179aa}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Monster.cpp">
@@ -49,6 +52,9 @@
     </ClCompile>
     <ClCompile Include="State.cpp">
       <Filter>States</Filter>
+    </ClCompile>
+    <ClCompile Include="Entity2.cpp">
+      <Filter>Entitys</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -86,6 +92,9 @@
     </ClInclude>
     <ClInclude Include="GameState.h">
       <Filter>States</Filter>
+    </ClInclude>
+    <ClInclude Include="Entity2.h">
+      <Filter>Entitys</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

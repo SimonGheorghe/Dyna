@@ -11,13 +11,29 @@ void DynaGame::InitWindow()
 {
 	m_window = new sf::RenderWindow(sf::VideoMode(800, 600), "Dyna Blaster");
 }
+void DynaGame::initKeys()
+{
+	this->suportedKeys.emplace("ESC", sf::Keyboard::Key::Escape);
+
+	this->suportedKeys.emplace("A", sf::Keyboard::Key::A);
+	this->suportedKeys.emplace("D", sf::Keyboard::Key::D);
+	this->suportedKeys.emplace("W", sf::Keyboard::Key::W);
+	this->suportedKeys.emplace("S", sf::Keyboard::Key::S);
+
+	std::cout << this->suportedKeys.at("A") << std::endl;
+}
 void DynaGame::initStates()
 {
-	this->states.push(new GameState(this->m_window));
+	this->states.push(new MainMenuState(this->m_window, &this->suportedKeys));
+
+	this->states.push(new GameState(this->m_window, &this->suportedKeys));
 }
+
 DynaGame::DynaGame()
 {
-	InitWindow();
+	this->InitWindow();
+	this->initKeys();
+
 	this->initStates();
 }
 DynaGame::~DynaGame()

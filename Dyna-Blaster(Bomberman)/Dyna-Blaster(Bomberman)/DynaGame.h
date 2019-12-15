@@ -1,7 +1,7 @@
 #pragma once
 #include "Monster.h"
 #include "Powers.h"
-#include "GameState.h"
+#include "MainMenuState.h"
 
 class DynaGame
 {
@@ -19,6 +19,7 @@ public:
 	
 private:
 	void InitWindow();
+	void initKeys();
 	void initStates();
 	sf::Clock m_dtClock;
 	float m_deltaTime;
@@ -28,6 +29,8 @@ private:
 	sf::Event m_sfEvent;
 
 	std::stack<State*> states;
+	std::map<std::string, int> suportedKeys;
+
 
 private:
 	void ReadMapsDimensions();

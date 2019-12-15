@@ -56,6 +56,9 @@
     <ClCompile Include="Entity2.cpp">
       <Filter>Entitys</Filter>
     </ClCompile>
+    <ClCompile Include="MainMenuState.cpp">
+      <Filter>States</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Text Include="levels%27Size.txt">
@@ -95,6 +98,9 @@
     </ClInclude>
     <ClInclude Include="Entity2.h">
       <Filter>Entitys</Filter>
+    </ClInclude>
+    <ClInclude Include="MainMenuState.h">
+      <Filter>States</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

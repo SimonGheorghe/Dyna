@@ -484,7 +484,6 @@ bool Player::ExplodeBomb(Map& map, uint16_t bomb)
 	return playerIsHit;
 }
 
-
 Bomb* Player::operator[](int index)
 {
 	return m_placedBombs[index];

@@ -44,5 +44,22 @@ namespace DynaTests
 
 			Assert::IsTrue(dynamic_cast<Block*>(map[{1, 1}])->GetType() == Block::Type::NoneBlock);
 		}
+		TEST_METHOD(MapCreate)
+		{
+			Map map(Map::Stage::TheWall, 0);
+			map.SetWidth(Map::Width::Narrow);
+			map.SetLength(Map::Length::Short);
+			map.Create();
+			bool ok = 1;
+			for (int index1 = 0; index1 < map.GetLength(); ++index1)
+			{
+				for (int index2 = 0; index2 < map.GetWidth(); ++index2)
+				{
+					if (map[{index1, index2}] == nullptr)
+						ok = 0;
+				}
+			}
+			Assert::IsTrue(ok == 1);
+		}
 	};
 }

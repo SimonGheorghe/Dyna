@@ -95,7 +95,7 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>$(VCInstallDir)UnitTest\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)External\SFML\include;$(VCInstallDir)UnitTest\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <UseFullPaths>true</UseFullPaths>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
@@ -103,8 +103,8 @@
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
-      <AdditionalLibraryDirectories>$(SolutionDir)Dyna-Blaster(Bomberman)\x64\$(Configuration)\;$(VCInstallDir)UnitTest\lib</AdditionalLibraryDirectories>
-      <AdditionalDependencies>Block.obj;Bomb.obj;DynaGame.obj;Entity.obj;Map.obj;Player.obj;Powers.obj;Monster.obj;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(SolutionDir)External\SFML\lib;$(SolutionDir)Dyna-Blaster(Bomberman)\x64\$(Configuration)\;$(VCInstallDir)UnitTest\lib</AdditionalLibraryDirectories>
+      <AdditionalDependencies>Block.obj;Bomb.obj;Entity.obj;Map.obj;Player.obj;Powers.obj;Monster.obj;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
@@ -113,7 +113,7 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>$(VCInstallDir)UnitTest\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)External\SFML\include;$(VCInstallDir)UnitTest\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>WIN32;_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <UseFullPaths>true</UseFullPaths>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
@@ -121,8 +121,8 @@
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
-      <AdditionalLibraryDirectories>$(SolutionDir)Dyna-Blaster(Bomberman)\x64\$(Configuration)\;$(VCInstallDir)UnitTest\lib</AdditionalLibraryDirectories>
-      <AdditionalDependencies>Block.obj;Bomb.obj;DynaGame.obj;Entity.obj;Map.obj;Player.obj;Powers.obj;Monster.obj;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(SolutionDir)External\SFML\lib;$(SolutionDir)Dyna-Blaster(Bomberman)\x64\$(Configuration)\;$(VCInstallDir)UnitTest\lib</AdditionalLibraryDirectories>
+      <AdditionalDependencies>Block.obj;Bomb.obj;Entity.obj;Map.obj;Player.obj;Powers.obj;Monster.obj;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -133,7 +133,7 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>$(VCInstallDir)UnitTest\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)External\SFML\include;$(VCInstallDir)UnitTest\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>WIN32;NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <UseFullPaths>true</UseFullPaths>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
@@ -143,8 +143,8 @@
       <SubSystem>Windows</SubSystem>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
-      <AdditionalLibraryDirectories>$(SolutionDir)Dyna-Blaster(Bomberman)\x64\$(Configuration)\;$(VCInstallDir)UnitTest\lib</AdditionalLibraryDirectories>
-      <AdditionalDependencies>Block.obj;Bomb.obj;DynaGame.obj;Entity.obj;Map.obj;Player.obj;Powers.obj;Monster.obj;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(SolutionDir)External\SFML\lib;$(SolutionDir)Dyna-Blaster(Bomberman)\x64\$(Configuration)\;$(VCInstallDir)UnitTest\lib</AdditionalLibraryDirectories>
+      <AdditionalDependencies>Block.obj;Bomb.obj;Entity.obj;Map.obj;Player.obj;Powers.obj;Monster.obj;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -155,7 +155,7 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>$(VCInstallDir)UnitTest\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)External\SFML\include;$(VCInstallDir)UnitTest\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <UseFullPaths>true</UseFullPaths>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
@@ -165,8 +165,8 @@
       <SubSystem>Windows</SubSystem>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
-      <AdditionalLibraryDirectories>$(SolutionDir)Dyna-Blaster(Bomberman)\x64\$(Configuration)\;$(VCInstallDir)UnitTest\lib</AdditionalLibraryDirectories>
-      <AdditionalDependencies>Block.obj;Bomb.obj;DynaGame.obj;Entity.obj;Map.obj;Player.obj;Powers.obj;Monster.obj;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(SolutionDir)External\SFML\lib;$(SolutionDir)Dyna-Blaster(Bomberman)\x64\$(Configuration)\;$(VCInstallDir)UnitTest\lib</AdditionalLibraryDirectories>
+      <AdditionalDependencies>Block.obj;Bomb.obj;Entity.obj;Map.obj;Player.obj;Powers.obj;Monster.obj;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>

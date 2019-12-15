@@ -141,5 +141,52 @@ namespace DynaTests
 			player.PlaceBomb(map);
 			Assert::IsTrue(player.IsOnBomb());
 		}
+		TEST_METHOD(ExplodeBomb)
+		{
+			uint16_t playerFire = 5;
+			uint16_t playerNoOfBombs = 1;
+			uint16_t playerHealth = 5;
+			uint16_t playerScore = 0;
+			uint16_t playerSpeed = 2;
+			Player player(playerFire, playerNoOfBombs, playerHealth, playerScore, playerSpeed);
+		
+			Map map(Map::Stage::TheWall, 0);
+			map.SetWidth(Map::Width::Narrow);
+			map.SetLength(Map::Length::Short);
+			map.Create();
+
+			uint16_t x = 1, y = 3;
+			player.Place(map, x, y);
+			player.PlaceBomb(map);
+			player.ExplodeBomb(map, 0);
+			uint16_t fire;
+			bool ok = 1;
+			fire = player.GetFire();
+			while (dynamic_cast<Block*>(map[{x, --y}]) &&
+				dynamic_cast<Block*>(map[{x, y}])->GetType() == Block::Type::HorizontalFire)
+				fire--;
+			if (fire != 0 && dynamic_cast<Block*>(map[{x, y}])->GetType() == Block::Type::NoneBlock)
+				ok = 0;
+
+			while (dynamic_cast<Block*>(map[{x, ++y}]) &&
+				dynamic_cast<Block*>(map[{x, y}])->GetType() == Block::Type::HorizontalFire)
+				fire--;
+			if (fire != 0 && dynamic_cast<Block*>(map[{x, y}])->GetType() == Block::Type::NoneBlock)
+				ok = 0;
+
+			while (dynamic_cast<Block*>(map[{--x, y}]) &&
+				dynamic_cast<Block*>(map[{x, y}])->GetType() == Block::Type::VerticalFire)
+				fire--;
+			if (fire != 0 && dynamic_cast<Block*>(map[{x, y}])->GetType() == Block::Type::NoneBlock)
+				ok = 0;
+
+			while (dynamic_cast<Block*>(map[{++x, y}]) &&
+				dynamic_cast<Block*>(map[{x, y}])->GetType() == Block::Type::VerticalFire)
+				fire--;
+			if (fire != 0 && dynamic_cast<Block*>(map[{x, y}])->GetType() == Block::Type::NoneBlock)
+				ok = 0;
+
+			Assert::IsTrue(ok == 1);
+		}
 	};
 }

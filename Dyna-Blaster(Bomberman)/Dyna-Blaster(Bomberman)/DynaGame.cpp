@@ -1,4 +1,4 @@
-#include<iostream>
+#include <iostream>
 #include <fstream>
 #include <time.h>
 #include <conio.h>
@@ -11,6 +11,7 @@ void DynaGame::InitWindow()
 {
 	m_window = new sf::RenderWindow(sf::VideoMode(800, 600), "Dyna Blaster");
 }
+
 void DynaGame::initKeys()
 {
 	this->suportedKeys.emplace("ESC", sf::Keyboard::Key::Escape);
@@ -22,11 +23,12 @@ void DynaGame::initKeys()
 
 	std::cout << this->suportedKeys.at("A") << std::endl;
 }
+
 void DynaGame::initStates()
 {
 	this->states.push(new MainMenuState(this->m_window, &this->suportedKeys));
 
-	this->states.push(new GameState(this->m_window, &this->suportedKeys));
+	//this->states.push(new GameState(this->m_window, &this->suportedKeys));
 }
 
 DynaGame::DynaGame()
@@ -36,6 +38,7 @@ DynaGame::DynaGame()
 
 	this->initStates();
 }
+
 DynaGame::~DynaGame()
 {
 	delete this->m_window;
@@ -46,10 +49,12 @@ DynaGame::~DynaGame()
 	}
 
 }
+
 void DynaGame::UpdateDt()
 {
 	m_deltaTime = m_dtClock.restart().asSeconds();
 }
+
 void DynaGame::UpdateSFMLEvents()
 {
 	while (m_window->pollEvent(m_sfEvent))
@@ -58,6 +63,7 @@ void DynaGame::UpdateSFMLEvents()
 			m_window->close();
 	}
 }
+
 void DynaGame::Update()
 {
 	UpdateSFMLEvents();
@@ -78,6 +84,7 @@ void DynaGame::Update()
 		this->m_window->close();
 	}
 }
+
 void DynaGame::Render()
 {
 	m_window->clear();
@@ -95,6 +102,7 @@ void DynaGame::ReadMapsDimensions()
 		for (int index2 = 0; index2 < noOfStagesAndLevels; ++index2)
 			file >> mapsDimensions[index1][index2];
 }
+
 void RandomEnemiesGenerator(std::vector<Monster*>& enemies, std::vector<uint16_t> possibleEnemies, uint16_t noOfEnemies)
 {
 	enemies.resize(noOfEnemies);
@@ -105,6 +113,7 @@ void RandomEnemiesGenerator(std::vector<Monster*>& enemies, std::vector<uint16_t
 		enemies[index] = new Monster(Monster::Type(possibleEnemies[random]));
 	}
 }
+
 void GenerateMonster(std::vector<Monster*>& enemies, const Map& map)
 {
 	uint16_t noOfEnemies=5;
@@ -481,6 +490,7 @@ void GenerateMonster(std::vector<Monster*>& enemies, const Map& map)
 		break;
 	}
 }
+
 void SetMapDimensions(Map& map, std::string mapDimensions)
 {
 	if (mapDimensions[0] == 'N')
@@ -490,6 +500,7 @@ void SetMapDimensions(Map& map, std::string mapDimensions)
 		map.SetLength(Map::Length::Short);
 	else map.SetLength(Map::Length::Long);
 }
+
 void PlayerMove(Player& player, Map& map, std::vector<Monster*>& enemies, uint16_t time)
 {
 	uint16_t noOfMoves = 0;
@@ -527,6 +538,7 @@ void PlayerMove(Player& player, Map& map, std::vector<Monster*>& enemies, uint16
 					player.Move(map, ch);
 	}
 }
+
 void PrintMap(Map& map, const Player& player, std::vector<Monster*>& enemies)
 {
 	std::cout << "Score: " << player.GetScore() << std::endl;
@@ -577,6 +589,7 @@ void PrintMap(Map& map, const Player& player, std::vector<Monster*>& enemies)
 		std::cout << std::endl;
 	}
 }
+
 void DeleteDeadMonsters(std::vector<Monster*>& enemies, Map& map, Player& player)
 {
 	for (int index = 0; index < enemies.size(); ++index)
@@ -589,6 +602,7 @@ void DeleteDeadMonsters(std::vector<Monster*>& enemies, Map& map, Player& player
 			enemies.erase(enemies.begin() + index--);
 		}
 }
+
 void MonsterMove(std::vector<Monster*>& enemies, Map& map, Player& player, uint16_t time)
 {
 	for (int index = 0; index < enemies.size(); ++index)
@@ -623,6 +637,7 @@ void MonsterMove(std::vector<Monster*>& enemies, Map& map, Player& player, uint1
 			}
 	}
 }
+
 void CreateMap(Map& map, uint16_t stage, const Player& player, std::string mapDimensions)
 {
 
@@ -640,6 +655,7 @@ void CreateMap(Map& map, uint16_t stage, const Player& player, std::string mapDi
 			map.GeneratePower();
 		}
 }
+
 bool PlaceExit(Map& map)
 {
 	uint16_t coordX;
@@ -651,6 +667,7 @@ bool PlaceExit(Map& map)
 	map.SetBlock(Block::Type::Exit, coordX, coordY);
 	return 1;
 }
+
 bool BombsTicksDown(Player& player, Map& map)
 {
 	if (!player.GetHasRemoteControl())
@@ -662,6 +679,7 @@ bool BombsTicksDown(Player& player, Map& map)
 		}
 	return 0;
 }
+
 void DropMontsersHitPoints(std::vector<Monster*>& enemies, Map& map)
 {
 	for (int index = 0; index < enemies.size(); ++index)
@@ -675,6 +693,7 @@ void DropMontsersHitPoints(std::vector<Monster*>& enemies, Map& map)
 				enemies[index]->DropHitPoints();
 	}
 }
+
 void DynaGame::Run()
 {
 	srand((int)time(NULL));
@@ -812,5 +831,3 @@ void DynaGame::endAplication()
 {
 	std::cout << "Ending APlication";
 }
-
-

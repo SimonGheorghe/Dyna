@@ -43,9 +43,9 @@ void GameState::UpdateInput(const float& dt)
 
 void GameState::Update(const float& dt)
 {
+	this->updateMousePositions();
 	this->UpdateInput(dt);
 	this->player.Update(dt);
-
 }
 
 void GameState::Render(sf::RenderTarget* target)

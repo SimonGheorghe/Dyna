@@ -16,8 +16,8 @@ class Entity2
 private:
 
 protected:
-	sf::RectangleShape shape;
-	float movemedSpeed;
+	sf::RectangleShape m_shape;
+	float m_movemedSpeed;
 
 public : 
 	Entity2();

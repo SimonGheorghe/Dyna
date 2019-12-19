@@ -1,9 +1,9 @@
 #pragma once
 #include"Entity2.h"
+
 class State
 {
 public:
-
 	State(sf::RenderWindow* window, std::map<std::string,int>* suportedKeys, std::stack<State*>* states);
 	virtual ~State();
 
@@ -16,13 +16,13 @@ public:
 	virtual void Render(sf::RenderTarget* target = nullptr) = 0;
 
 protected:
-	std::stack<State*>* m_states;
-	sf::RenderWindow* window;
-	std::map<std::string, int>* suportedKeys;
-	std::map<std::string, int> keyBinds;
-	bool quit;
-
 	virtual void InitKeyBinds() = 0;
+
+	std::stack<State*>* m_states;
+	sf::RenderWindow* m_window;
+	std::map<std::string, int>* m_suportedKeys;
+	std::map<std::string, int> m_keyBinds;
+	bool m_quit;
 
 	sf::Vector2i m_mousePosScreen;
 	sf::Vector2i m_mousePosWindow;

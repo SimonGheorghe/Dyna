@@ -2,11 +2,10 @@
 
 State::State(sf::RenderWindow* window, std::map<std::string, int>* suportedKeys, std::stack<State*>* states)
 {
-	this->window = window;
-	this->suportedKeys = suportedKeys;
+	m_window = window;
+	m_suportedKeys = suportedKeys;
 	m_states = states;
-	this->quit = false;
-
+	m_quit = false;
 }
 
 State::~State()
@@ -16,20 +15,20 @@ State::~State()
 
 const bool& State::GetQuit() const
 {
-	return this->quit;
+	return m_quit;
 }
 
 void State::CheckForQuit()
 {
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Escape))
 	{
-		this->quit = true;
+		m_quit = true;
 	}
 }
 
 void State::updateMousePositions()
 {
 	m_mousePosScreen = sf::Mouse::getPosition();
-	m_mousePosWindow = sf::Mouse::getPosition(*this->window);
-	m_mousePosView = this->window->mapPixelToCoords(sf::Mouse::getPosition(*this->window));
+	m_mousePosWindow = sf::Mouse::getPosition(*m_window);
+	m_mousePosView = m_window->mapPixelToCoords(sf::Mouse::getPosition(*m_window));
 }

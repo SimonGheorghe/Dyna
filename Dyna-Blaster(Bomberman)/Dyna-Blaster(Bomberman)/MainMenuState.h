@@ -6,7 +6,7 @@ class MainMenuState :
 	public State
 {
 private:
-	sf::RectangleShape background;
+	sf::RectangleShape m_background;
 	sf::Font m_font;
 
 	std::map<std::string, Button*> m_buttons;

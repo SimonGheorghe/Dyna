@@ -5,7 +5,7 @@ class GameState :
 	public State
 {
 private:
-	Entity2 player;
+	Entity2 m_player;
 
 	void InitKeyBinds();
 public :

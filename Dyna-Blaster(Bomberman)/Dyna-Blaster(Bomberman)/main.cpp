@@ -15,21 +15,21 @@ void main()
 //#include"SFML\Graphics.hpp"
 //int main()
 //	{
-//		sf::RenderWindow window(sf::VideoMode(1800, 1000), "SFML works!");
+//		sf::RenderWindow m_window(sf::VideoMode(1800, 1000), "SFML works!");
 //		sf::CircleShape shape(100.f);
 //		shape.setFillColor(sf::Color::Green);
 //
-//		while (window.isOpen())
+//		while (m_window.isOpen())
 //		{
 //			sf::Event event;
-//			while (window.pollEvent(event))
+//			while (m_window.pollEvent(event))
 //			{
 //				if (event.type == sf::Event::Closed)
-//					window.close();
+//					m_window.close();
 //			}
 //
-//			//window.clear();
-//			window.draw(shape);
-//			window.display();
+//			//m_window.clear();
+//			m_window.draw(shape);
+//			m_window.display();
 //		}
 //	}

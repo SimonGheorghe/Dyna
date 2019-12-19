@@ -26,7 +26,7 @@ void DynaGame::initKeys()
 
 void DynaGame::initStates()
 {
-	this->states.push(new MainMenuState(this->m_window, &this->suportedKeys));
+	this->states.push(new MainMenuState(this->m_window, &this->suportedKeys, &this->states));
 
 	//this->states.push(new GameState(this->m_window, &this->suportedKeys));
 }

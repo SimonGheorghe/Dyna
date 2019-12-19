@@ -9,7 +9,7 @@ private:
 
 	void InitKeyBinds();
 public :
-	GameState(sf::RenderWindow* window, std::map<std::string, int>* suportedKeys);
+	GameState(sf::RenderWindow* window, std::map<std::string, int>* suportedKeys, std::stack<State*>* states);
 	virtual ~GameState();
 	void endState();
 	//void endStates();

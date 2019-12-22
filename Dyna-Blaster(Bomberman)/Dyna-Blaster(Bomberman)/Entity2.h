@@ -4,6 +4,8 @@
 #include<stack>
 #include<map>
 #include<iostream>
+#include<sstream>
+#include<string>
 
 
 #include "SFML/System.hpp"
@@ -11,6 +13,7 @@
 #include "SFML/Graphics.hpp"
 #include "SFML/Audio.hpp"
 #include "SFML/Network.hpp"
+
 class Entity2
 {
 private:

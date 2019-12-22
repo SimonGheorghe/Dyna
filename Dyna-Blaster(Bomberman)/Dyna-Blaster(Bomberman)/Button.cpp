@@ -8,10 +8,10 @@ Button::Button(float x, float y, float width, float height,
 	m_shape.setPosition(sf::Vector2f(x, y));
 	m_shape.setSize(sf::Vector2f(width, height));
 
-	//m_font = font;
-	//m_text.setFont(*m_font);
+	/*m_font = font;
+	m_text.setFont(*m_font);*/
 	m_text.setString("New Game");
-	m_text.setFillColor(sf::Color::Black);
+	m_text.setFillColor(sf::Color::Red);
 	m_text.setCharacterSize(12);
 	m_text.setPosition(
 		m_shape.getPosition().x+ m_shape.getPosition().x / 2.f - m_text.getGlobalBounds().width / 2.f,

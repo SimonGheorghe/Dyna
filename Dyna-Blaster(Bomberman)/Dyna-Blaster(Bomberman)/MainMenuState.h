@@ -6,11 +6,14 @@ class MainMenuState :
 	public State
 {
 private:
+	sf::Texture backgroundTexture;
 	sf::RectangleShape m_background;
 	sf::Font m_font;
 
 	std::map<std::string, Button*> m_buttons;
 
+	void initVariables();
+	void initBackground();
 	void initFonts();
 	void InitKeyBinds();
 	void InitButtons();

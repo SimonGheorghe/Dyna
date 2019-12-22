@@ -11,7 +11,6 @@ private:
 public :
 	GameState(sf::RenderWindow* window, std::map<std::string, int>* suportedKeys, std::stack<State*>* states);
 	virtual ~GameState();
-	void endState();
 	//void endStates();
 
 	void UpdateInput(const float& dt);

@@ -21,7 +21,6 @@ private:
 public:
 	MainMenuState(sf::RenderWindow* window, std::map<std::string, int>* suportedKeys, std::stack<State*>* states);
 	virtual ~MainMenuState();
-	void endState();
 	//void endStates();
 	void UpdateInput(const float& dt);
 	void UpdateButtons();

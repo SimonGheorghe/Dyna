@@ -19,14 +19,10 @@ GameState::~GameState()
 
 }
 
-void GameState::endState()
-{
-	std::cout << "Ending game states!" << std::endl;
-}
+
 
 void GameState::UpdateInput(const float& dt)
 {
-	this->CheckForQuit();
 
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::A))
 		m_player.move(dt, -1.f, 0.f);
@@ -36,6 +32,8 @@ void GameState::UpdateInput(const float& dt)
 		m_player.move(dt, 0.f, -1.f);
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::S))
 		m_player.move(dt, 0.f, 1.f);
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::C))
+		endState();
 }
 
 void GameState::Update(const float& dt)

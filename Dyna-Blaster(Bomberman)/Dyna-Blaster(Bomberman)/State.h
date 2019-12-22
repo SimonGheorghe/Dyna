@@ -8,8 +8,9 @@ public:
 	virtual ~State();
 
 	const bool& GetQuit() const;
-	virtual void CheckForQuit();
-	virtual void endState() = 0;
+
+
+	void endState();
 	virtual void updateMousePositions();
 
 	virtual void UpdateInput(const float& dt) = 0;

@@ -17,15 +17,10 @@ const bool& State::GetQuit() const
 {
 	return m_quit;
 }
-
-void State::CheckForQuit()
+void State::endState()
 {
-	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Escape))
-	{
-		m_quit = true;
-	}
+	m_quit = true;
 }
-
 void State::updateMousePositions()
 {
 	m_mousePosScreen = sf::Mouse::getPosition();

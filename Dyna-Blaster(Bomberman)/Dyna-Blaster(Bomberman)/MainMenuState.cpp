@@ -75,14 +75,10 @@ MainMenuState::~MainMenuState()
 	}
 }
 
-void MainMenuState::endState()
-{
-	std::cout << "Ending MainMenuStates!" << std::endl;
-}
+
 
 void MainMenuState::UpdateInput(const float& dt)
 {
-	this->CheckForQuit();
 }
 
 void MainMenuState::UpdateButtons()
@@ -94,7 +90,7 @@ void MainMenuState::UpdateButtons()
 
 	if (m_buttons["GAME_STATE"]->isPressed())
 	{
-		m_states->push(new GameState(m_window, m_suportedKeys, m_states));
+		endState();
 	}
 }
 

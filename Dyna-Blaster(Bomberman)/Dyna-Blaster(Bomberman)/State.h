@@ -9,9 +9,10 @@ public:
 
 	const bool& GetQuit() const;
 	virtual void CheckForQuit();
-	virtual void endState()=0;
+	virtual void endState() = 0;
 	virtual void updateMousePositions();
-	virtual void UpdateInput(const float& dt) = 0;;
+
+	virtual void UpdateInput(const float& dt) = 0;
 	virtual void Update(const float& dt) = 0;
 	virtual void Render(sf::RenderTarget* target = nullptr) = 0;
 

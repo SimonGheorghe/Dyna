@@ -2,10 +2,10 @@
 
 void MainMenuState::initFonts()
 {
-	if (m_font.loadFromFile("Fonts/Dosis-Light.ttf"))
+	/*if (!m_font.loadFromFile("Fonts\Dosis-Light.ttf"))
 	{
-		throw("ERROR::MAINMENUSTATE::COULD NOT LOAD FOONT");
-	}
+		throw("ERROR::MAINMENUSTATE::COULD NOT LOAD FONT");
+	}*/
 }
 
 void MainMenuState::InitKeyBinds()
@@ -19,19 +19,19 @@ void MainMenuState::InitKeyBinds()
 void MainMenuState::InitButtons()
 {
 	m_buttons["GAME_STATE"] = new Button(m_window->getSize().x / 2 - 75, m_window->getSize().y / 2 + 30, 150, 50,
-		m_font, "New Game",
+		&m_font, "New Game",
 		sf::Color(10, 10, 10, 200), sf::Color(150, 150, 150, 255), sf::Color(20, 20, 20, 200));
 
 	m_buttons["BATTLE_STATE"] = new Button(m_window->getSize().x / 2 - 75, m_window->getSize().y / 2 + 81, 150, 50,
-		m_font, "Battle",
+		&m_font, "Battle",
 		sf::Color(10, 10, 10, 200), sf::Color(150, 150, 150, 255), sf::Color(20, 20, 20, 200));
 
 	m_buttons["SETUP_STATE"] = new Button(m_window->getSize().x / 2 - 75, m_window->getSize().y / 2 + 132, 150, 50,
-		m_font, "Setup",
+		&m_font, "Setup",
 		sf::Color(10, 10, 10, 200), sf::Color(150, 150, 150, 255), sf::Color(20, 20, 20, 200));
 
 	m_buttons["PASSWORD_STATE"] = new Button(m_window->getSize().x / 2 - 75, m_window->getSize().y / 2 + 183, 150, 50,
-		m_font, "Password",
+		&m_font, "Password",
 		sf::Color(10, 10, 10, 200), sf::Color(150, 150, 150, 255), sf::Color(20, 20, 20, 200));
 }
 
@@ -43,13 +43,12 @@ MainMenuState::MainMenuState(sf::RenderWindow* window, std::map<std::string, int
 	this->InitButtons();
 
 	m_background.setSize(sf::Vector2f(window->getSize().x, window->getSize().y));
-	m_background.setFillColor(sf::Color::Magenta);
+	m_background.setFillColor(sf::Color::Blue);
 }
 
 MainMenuState::~MainMenuState()
 {
-	auto it = m_buttons.begin();
-	for (it = m_buttons.begin(); it != m_buttons.end(); ++it)
+	for (auto it = m_buttons.begin(); it != m_buttons.end(); ++it)
 	{
 		delete it->second;
 	}

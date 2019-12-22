@@ -7,12 +7,31 @@
 
 #include "DynaGame.h"
 
-void DynaGame::InitWindow()
+void DynaGame::InitVariables()
 {
-	m_window = new sf::RenderWindow(sf::VideoMode(800, 600), "Dyna Blaster");
+	m_window = NULL;
+	m_deltaTime = 0.f;
 }
 
-void DynaGame::initKeys()
+void DynaGame::InitWindow()
+{
+	m_videoModes = sf::VideoMode::getFullscreenModes();	
+	bool fullscreen = false;
+	unsigned framerate_limit = 120;
+	bool vertical_sync_enabled = false;
+	unsigned antialiasing_level = 0;
+
+	m_windowsSettings.antialiasingLevel = antialiasing_level;
+	if(fullscreen)
+		m_window = new sf::RenderWindow(sf::VideoMode(1920, 1080), "Dyna Blaster", sf::Style::Fullscreen, m_windowsSettings);
+	else
+		m_window = new sf::RenderWindow(sf::VideoMode(800, 600), "Dyna Blaster", sf::Style::Titlebar | sf::Style::Close, m_windowsSettings);
+
+	m_window->setFramerateLimit(framerate_limit);
+	m_window->setVerticalSyncEnabled(vertical_sync_enabled);
+}
+
+void DynaGame::InitKeys()
 {
 	this->suportedKeys.emplace("ESC", sf::Keyboard::Key::Escape);
 
@@ -24,7 +43,7 @@ void DynaGame::initKeys()
 	std::cout << this->suportedKeys.at("A") << std::endl;
 }
 
-void DynaGame::initStates()
+void DynaGame::InitStates()
 {
 	this->states.push(new MainMenuState(this->m_window, &this->suportedKeys, &this->states));
 
@@ -34,14 +53,14 @@ void DynaGame::initStates()
 DynaGame::DynaGame()
 {
 	this->InitWindow();
-	this->initKeys();
+	this->InitKeys();
 
-	this->initStates();
+	this->InitStates();
 }
 
 DynaGame::~DynaGame()
 {
-	delete this->m_window;
+	delete m_window;
 	while (!this->states.empty())
 	{
 		delete this->states.top();

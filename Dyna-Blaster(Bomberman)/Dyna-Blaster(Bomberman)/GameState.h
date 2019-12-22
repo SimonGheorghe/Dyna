@@ -13,6 +13,7 @@ public :
 	virtual ~GameState();
 	void endState();
 	//void endStates();
+
 	void UpdateInput(const float& dt);
 	void Update(const float& dt);
 	void Render(sf::RenderTarget* target = nullptr);

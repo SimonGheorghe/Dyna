@@ -18,15 +18,19 @@ public:
 
 	
 private:
+	void InitVariables();
 	void InitWindow();
-	void initKeys();
-	void initStates();
+	void InitKeys();
+	void InitStates();
+
+private:
 	sf::Clock m_dtClock;
 	float m_deltaTime;
 
-private:
 	sf::RenderWindow* m_window;
 	sf::Event m_sfEvent;
+	std::vector<sf::VideoMode> m_videoModes;
+	sf::ContextSettings m_windowsSettings;
 
 	std::stack<State*> states;
 	std::map<std::string, int> suportedKeys;

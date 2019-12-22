@@ -4,6 +4,7 @@
 #include <ctime>
 #include <stdlib.h>
 #include <sstream>
+#include <string>
 
 #include "SFML/System.hpp"
 #include "SFML/Window.hpp"
@@ -34,7 +35,7 @@ protected:
 
 public:
 	Button(float x, float y, float width, float height,
-		sf::Font font, std::string text,
+		sf::Font* font, std::string text,
 		sf::Color idleColor, sf::Color hoverColor, sf::Color activeColor);
 	virtual ~Button();
 

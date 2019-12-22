@@ -1,5 +1,5 @@
 #pragma once
-#include"Entity2.h"
+#include"Player.h"
 
 class State
 {
@@ -30,6 +30,6 @@ protected:
 	sf::Vector2i m_mousePosWindow;
 	sf::Vector2f m_mousePosView;
 
-	std::vector<sf::Texture> m_textures;
+	std::map<std::string, sf::Texture> m_textures;
 };
 

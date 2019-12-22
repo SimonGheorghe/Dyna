@@ -14,10 +14,10 @@ void MainMenuState::initBackground()
 		)
 	);
 
-	if (!this->backgroundTexture.loadFromFile("Resources/Images/Backgrounds/dyna.png"))
+	if (!this->backgroundTexture.loadFromFile("test.png"))
 	{
 		std::cout<< " ERROR::MAIN_MENU_STATE::FALIED_TO_LOAD_BACKGROUND_TEXTURE";
-		this->m_background.setFillColor(sf::Color::Black);
+		this->m_background.setFillColor(sf::Color::Blue);
 
 	}
 	m_background.setTexture(&backgroundTexture);
@@ -63,8 +63,8 @@ MainMenuState::MainMenuState(sf::RenderWindow* window, std::map<std::string, int
 	this->InitKeyBinds();
 	this->InitButtons();
 
-	m_background.setSize(sf::Vector2f(window->getSize().x, window->getSize().y));
-	m_background.setFillColor(sf::Color::Blue);
+	/*m_background.setSize(sf::Vector2f(window->getSize().x, window->getSize().y));
+	m_background.setFillColor(sf::Color::Blue);*/
 }
 
 MainMenuState::~MainMenuState()
@@ -90,7 +90,7 @@ void MainMenuState::UpdateButtons()
 
 	if (m_buttons["GAME_STATE"]->isPressed())
 	{
-		endState();
+		m_states->push(new GameState(m_window, m_suportedKeys, m_states));
 	}
 }
 

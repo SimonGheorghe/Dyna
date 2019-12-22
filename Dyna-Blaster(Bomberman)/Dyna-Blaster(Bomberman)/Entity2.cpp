@@ -18,10 +18,16 @@ Entity2::~Entity2()
 	delete sprite;
 }
 
-void Entity2::createSPrite(sf::Texture* texture)
+void Entity2::createSprite(sf::Texture* texture)
 {
 	texture = texture;
-	sprite->setTexture(*texture);
+	sprite = new sf::Sprite(*this->texture);
+}
+
+void Entity2::SetPosition(const float x, const float y)
+{
+	if (sprite)
+		sprite->setPosition(x, y);
 }
 
 void Entity2::move(const float& dt,const float dir_x, const float dir_y)

@@ -3,13 +3,17 @@
 #include<string>
 #include "Powers.h"
 #include "Map.h"
+#include "Entity2.h"
 
 using pair = std::pair<uint8_t, uint8_t>;
-class Player
+
+class Player:
+	public Entity2
 {
 public:
 
 	Player(uint16_t fire, uint16_t numberBombs, uint16_t health, uint32_t score, uint16_t speed);
+	Player(const float x, const float y, sf::Texture* textures);
 
 	uint16_t GetFire() const;
 	uint16_t GetNoOfBombs() const;
@@ -51,6 +55,8 @@ public:
 
 private:
 	void playerIsHitt(Map& map, uint16_t index1, uint16_t index2, uint16_t flame, bool& playerIsHit, uint16_t op);
+	void InitVariables();
+	void InitComponents();
 
 private:
 	uint16_t m_coordX;

@@ -3,6 +3,7 @@
 Player::Player(uint16_t fire, uint16_t numberBombs, uint16_t health, uint32_t score, uint16_t speed) :
 	m_fire(fire), m_noOfBombs(numberBombs), m_health(health), m_score(score), m_speed(speed)
 {
+	
 	m_coordX = 1;
 	m_coordY = 1;
 	m_lastX = 1;
@@ -11,6 +12,20 @@ Player::Player(uint16_t fire, uint16_t numberBombs, uint16_t health, uint32_t sc
 	m_bombPass = false;
 	m_vest = false;
 	m_remoteControl = false;
+}
+
+Player::Player(const float x, const float y, sf::Texture* textures)
+{
+	InitVariables();
+	InitComponents();
+	createSprite(textures);
+	SetPosition(x, y);
+}
+void Player::InitVariables()
+{
+}
+void Player::InitComponents()
+{
 }
 
 void Player::SetFire(uint16_t up)
@@ -388,7 +403,6 @@ void Player::AddScore(uint16_t value)
 {
 	m_score += value;
 }
-
 
 void Player::playerIsHitt(Map& map, uint16_t index1, uint16_t index2, uint16_t flame, bool& playerIsHit, uint16_t op)
 {

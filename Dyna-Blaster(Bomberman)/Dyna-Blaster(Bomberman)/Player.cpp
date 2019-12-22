@@ -26,6 +26,7 @@ void Player::InitVariables()
 }
 void Player::InitComponents()
 {
+	CreateMovementComponent(100.f);
 }
 
 void Player::SetFire(uint16_t up)

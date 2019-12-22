@@ -61,5 +61,23 @@ namespace DynaTests
 			}
 			Assert::IsTrue(ok == 1);
 		}
+
+		TEST_METHOD(GeneratePower)
+		{
+			uint16_t playerFire = 5;
+			uint16_t playerNoOfBombs = 1;
+			uint16_t playerHealth = 5;
+			uint16_t playerScore = 0;
+			uint16_t playerSpeed = 2;
+			Player player(playerFire, playerNoOfBombs, playerHealth, playerScore, playerSpeed);
+
+			Map map(Map::Stage::TheWall, 0);
+			map.SetWidth(Map::Width::Narrow);
+			map.SetLength(Map::Length::Short);
+			map.Create();
+
+			map.GeneratePower();
+			Assert::IsTrue(dynamic_cast<Powers*>(map[{map.GetPowerX(), map.GetPowerY()}]));
+		}
 	};
 }

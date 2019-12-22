@@ -14,11 +14,11 @@ Player::Player(uint16_t fire, uint16_t numberBombs, uint16_t health, uint32_t sc
 	m_remoteControl = false;
 }
 
-Player::Player(const float x, const float y, sf::Texture* textures)
+Player::Player(const float x, const float y, sf::Texture& textures)
 {
 	InitVariables();
 	InitComponents();
-	createSprite(textures);
+	SetTexture(textures);
 	SetPosition(x, y);
 }
 void Player::InitVariables()

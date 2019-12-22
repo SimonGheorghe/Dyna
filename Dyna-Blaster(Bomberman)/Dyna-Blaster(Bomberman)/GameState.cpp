@@ -18,7 +18,7 @@ void GameState::InitTextures()
 
 void GameState::InitPlayers()
 {
-	m_player = new Player(0, 0, &m_textures["PLAYER_IDLE"]);
+	m_player = new Player(0, 0, m_textures["PLAYER_IDLE"]);
 }
 
 GameState::GameState(sf::RenderWindow* window, std::map<std::string, int>* suportedKeys, std::stack<State*>* states)

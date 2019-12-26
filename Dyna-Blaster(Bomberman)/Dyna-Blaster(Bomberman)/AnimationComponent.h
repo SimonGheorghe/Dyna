@@ -26,20 +26,23 @@ private:
 		sf::IntRect m_currentRect;
 		sf::IntRect m_endRect;
 
-		Animation(sf::Sprite& sprite, sf::Texture& textureSheet, float animationTimer, int startX, int startY, int endX, int endY, int width, int height)
-			: m_sprite(sprite), m_textureSheet(textureSheet), m_animationTimer(animationTimer), m_width(width), m_height(height)
+		Animation(sf::Sprite& sprite, sf::Texture& textureSheet,
+			float animationTimer,
+			int startFrameX, int startFrameY, int framesX, int framesY, int width, int height)
+			: m_sprite(sprite), m_textureSheet(textureSheet), 
+			m_animationTimer(animationTimer), m_width(width), m_height(height)
 		{
-
-			m_startRect = sf::IntRect(startX, startY, width, height);
+			m_timer = 0.f;
+			m_startRect = sf::IntRect(startFrameX * width, startFrameY * height, width, height);
 			m_currentRect = m_startRect;
-			m_endRect = sf::IntRect(endX, endY, width, height);
+			m_endRect = sf::IntRect(framesX * width, framesY * height, width, height);
 			m_sprite.setTexture(m_textureSheet, true);
 			m_sprite.setTextureRect(m_startRect);
 		}
 
-		void Update(const float& dt)
+		void Play(const float& dt)
 		{
-			m_timer = 10.f * dt;
+			m_timer += 100.f * dt;
 			if (m_timer = m_animationTimer)
 			{
 				m_timer = 0.f;
@@ -52,23 +55,26 @@ private:
 					m_currentRect.left = m_startRect.left;
 
 				}
+				m_sprite.setTextureRect(m_currentRect);
 			}
 		}
-		void pause();
-		void reset();
+		void Reset()
+		{
+			m_timer = 0.f;
+			m_currentRect = m_startRect;
+		}
 	};
 
 	sf::Sprite& m_sprite;
 	sf::Texture& m_textureSheet;
-	std::map<std::string, Animation> m_animation;
+	std::map<std::string, Animation*> m_animation;
 
 public:
 	AnimationComponent(sf::Sprite sprite, sf::Texture textureSheet);
 	virtual ~AnimationComponent();
-	void AddAnimation(const std::string key);
-	void StartAnimation(const std::string animation);
-	void PauseAnimation(const std::string animation);
-	void ResetAnimation(const std::string animation);
-	void Update(const float& dt);
+	void AddAnimation(const std::string key,
+		float animationTimer,
+		int startFrameX, int startFrameY, int framesX, int framesY, int width, int height);
+	void Play(const std::string key, const float& dt);
 };
 

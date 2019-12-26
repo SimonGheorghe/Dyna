@@ -13,6 +13,7 @@ Entity2::Entity2()
 Entity2::~Entity2()
 {
 	delete m_movementComponent;
+	delete m_animationComponent;
 } 
 
 void Entity2::SetTexture(sf::Texture& texture)
@@ -23,6 +24,11 @@ void Entity2::SetTexture(sf::Texture& texture)
 void Entity2::CreateMovementComponent(const float maxVelocity, const float acceleration, const float deceleration)
 {
 	m_movementComponent = new MovementComponent(m_sprite, maxVelocity, acceleration, deceleration);
+}
+
+void Entity2::CreateAnimationComponent(sf::Texture& textureSheet)
+{
+	m_animationComponent = new AnimationComponent(m_sprite, textureSheet);
 }
 
 void Entity2::SetPosition(const float x, const float y)
@@ -40,8 +46,7 @@ void Entity2::move(const float dir_x, const float dir_y, const float& dt)
 
 void Entity2::Update(const float& dt)
 {
-	if (m_movementComponent)
-		m_movementComponent->update(dt);
+
 }
 
 void Entity2::Render(sf::RenderTarget* target)

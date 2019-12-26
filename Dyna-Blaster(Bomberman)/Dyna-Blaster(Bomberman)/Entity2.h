@@ -1,6 +1,7 @@
 #pragma once
 
 #include "MovementComponent.h"
+#include "AnimationComponent.h"
 
 class Entity2
 {
@@ -11,6 +12,7 @@ protected:
 	sf::Sprite m_sprite;
 	
 	MovementComponent* m_movementComponent;
+	AnimationComponent* m_animationComponent;
 
 public : 
 	Entity2();
@@ -18,6 +20,7 @@ public :
 
 	void SetTexture(sf::Texture& texture);
 	void CreateMovementComponent(const float maxVelocity, const float acceleration, const float deceleration);
+	void CreateAnimationComponent(sf::Texture& textureSheet);
 
 	virtual void SetPosition(const float x, const float y);
 	virtual void move(const float dir_x, const float dir_y, const float& dt);

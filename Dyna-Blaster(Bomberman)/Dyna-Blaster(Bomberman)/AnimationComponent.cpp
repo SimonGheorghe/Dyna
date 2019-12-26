@@ -8,10 +8,24 @@ AnimationComponent::AnimationComponent(sf::Sprite sprite, sf::Texture textureShe
 
 AnimationComponent::~AnimationComponent()
 {
-
+	for (auto& i : m_animation)
+	{
+		delete i.second;
+	}
 }
 
-void AnimationComponent::Update(const float& dt)
+void AnimationComponent::AddAnimation(
+	const std::string key,
+	float animationTimer,
+	int startFrameX, int startFrameY, int framesX, int framesY, int width, int height)
 {
+	m_animation[key] =new Animation(
+		m_sprite, m_textureSheet, 
+		animationTimer, 
+		startFrameX, startFrameY, framesX, framesY, width, height);
+}
 
+void AnimationComponent::Play(const std::string key, const float& dt)
+{
+	m_animation[key]->Play(dt);
 }

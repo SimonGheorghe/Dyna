@@ -14,19 +14,28 @@ Player::Player(uint16_t fire, uint16_t numberBombs, uint16_t health, uint32_t sc
 	m_remoteControl = false;
 }
 
-Player::Player(const float x, const float y, sf::Texture& textures)
+Player::Player(const float x, const float y, sf::Texture& textureSheet)
 {
 	InitVariables();
-	InitComponents();
-	SetTexture(textures);
 	SetPosition(x, y);
+	CreateMovementComponent(300.f, 15.f, 5.f);
+	CreateAnimationComponent(textureSheet);
+	//InitComponents();
+	m_animationComponent->AddAnimation("IDLE_LEFT", 100.f, 0, 0, 2, 3, 60, 64);
+}
+void Player::Update(const float& dt)
+{
+	if (m_movementComponent)
+		m_movementComponent->update(dt);
+
+	m_animationComponent->Play("IDLE_LEFT", dt);
 }
 void Player::InitVariables()
 {
 }
 void Player::InitComponents()
 {
-	CreateMovementComponent(300.f, 15.f, 5.f);
+
 }
 
 void Player::SetFire(uint16_t up)

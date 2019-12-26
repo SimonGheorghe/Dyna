@@ -10,7 +10,7 @@ void GameState::InitKeyBinds()
 
 void GameState::InitTextures()
 {
-	if (!m_textures["PLAYER_IDLE"].loadFromFile(""))
+	if (!m_textures["PLAYER_SHEET"].loadFromFile("Resources/Images/Sprites/Player/player.png"))
 	{
 		std::cout << "ERROR::GAME_STATE::COULD_NOT_LOAD_PLAYER_TEXTURE";
 	}
@@ -18,7 +18,7 @@ void GameState::InitTextures()
 
 void GameState::InitPlayers()
 {
-	m_player = new Player(0, 0, m_textures["PLAYER_IDLE"]);
+	m_player = new Player(0, 0, m_textures["PLAYER_SHEET"]);
 }
 
 GameState::GameState(sf::RenderWindow* window, std::map<std::string, int>* suportedKeys, std::stack<State*>* states)

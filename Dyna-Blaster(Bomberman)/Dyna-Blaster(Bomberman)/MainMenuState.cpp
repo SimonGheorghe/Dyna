@@ -6,6 +6,7 @@ void MainMenuState::initVariables()
 
 void MainMenuState::initBackground()
 {
+	//Background
 	m_background.setSize(
 		sf::Vector2f
 		(
@@ -14,13 +15,12 @@ void MainMenuState::initBackground()
 		)
 	);
 
-	if (!this->backgroundTexture.loadFromFile("test.png"))
+	if (!this->backgroundTexture.loadFromFile("../Resources/Images/Backgrounds/b1.png"))
 	{
 		std::cout<< " ERROR::MAIN_MENU_STATE::FALIED_TO_LOAD_BACKGROUND_TEXTURE";
 		this->m_background.setFillColor(sf::Color::Blue);
-
 	}
-	m_background.setTexture(&backgroundTexture);
+	m_background.setTexture(&this->backgroundTexture);
 }
 
 void MainMenuState::initFonts()
@@ -42,17 +42,24 @@ void MainMenuState::InitKeyBinds()
 void MainMenuState::InitButtons()
 {
 	m_buttons["GAME_STATE"] = new Button(m_window->getSize().x / 2 - 75, m_window->getSize().y / 2 + 30, 150, 50,
-		&m_font, "New Game",
-		sf::Color(10, 10, 10, 200), sf::Color(150, 150, 150, 255), sf::Color(20, 20, 20, 200));
+		&m_font, "N", 12,
+		sf::Color(70, 70, 70, 200), sf::Color(250, 250, 250, 250), sf::Color(20, 20, 20, 50),
+		sf::Color(70, 70, 70, 100), sf::Color(150, 150, 150, 0), sf::Color(20, 20, 20, 0));
+
 	m_buttons["BATTLE_STATE"] = new Button(m_window->getSize().x / 2 - 75, m_window->getSize().y / 2 + 81, 150, 50,
-		&m_font, "Battle",
-		sf::Color(10, 10, 10, 200), sf::Color(150, 150, 150, 255), sf::Color(20, 20, 20, 200));
+		&m_font, "Battle", 12,
+		sf::Color(70, 70, 70, 200), sf::Color(250, 250, 250, 250), sf::Color(20, 20, 20, 50),
+		sf::Color(70, 70, 70, 100), sf::Color(150, 150, 150, 0), sf::Color(20, 20, 20, 0));
+
 	m_buttons["SETUP_STATE"] = new Button(m_window->getSize().x / 2 - 75, m_window->getSize().y / 2 + 132, 150, 50,
-		&m_font, "Setup",
-		sf::Color(10, 10, 10, 200), sf::Color(150, 150, 150, 255), sf::Color(20, 20, 20, 200));
+		&m_font, "Setup", 12,
+		sf::Color(70, 70, 70, 200), sf::Color(250, 250, 250, 250), sf::Color(20, 20, 20, 50),
+		sf::Color(70, 70, 70, 100), sf::Color(150, 150, 150, 0), sf::Color(20, 20, 20, 0));
+
 	m_buttons["PASSWORD_STATE"] = new Button(m_window->getSize().x / 2 - 75, m_window->getSize().y / 2 + 183, 150, 50,
-		&m_font, "Password",
-		sf::Color(10, 10, 10, 200), sf::Color(150, 150, 150, 255), sf::Color(20, 20, 20, 200));
+		&m_font, "Password", 12,
+		sf::Color(70, 70, 70, 200), sf::Color(250, 250, 250, 250), sf::Color(20, 20, 20, 50),
+		sf::Color(70, 70, 70, 100), sf::Color(150, 150, 150, 0), sf::Color(20, 20, 20, 0));
 }
 
 MainMenuState::MainMenuState(sf::RenderWindow* window, std::map<std::string, int>* suportedKeys, std::stack<State*>* states)

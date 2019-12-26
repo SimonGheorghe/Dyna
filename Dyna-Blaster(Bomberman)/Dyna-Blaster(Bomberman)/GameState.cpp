@@ -40,13 +40,13 @@ void GameState::UpdateInput(const float& dt)
 {
 
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::A))
-		m_player->move(dt, -1.f, 0.f);
+		m_player->move(-1.f, 0.f, dt);
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::D))
-		m_player->move(dt, 1.f, 0.f);
+		m_player->move(1.f, 0.f, dt);
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::W))
-		m_player->move(dt, 0.f, -1.f);
+		m_player->move(0.f, -1.f, dt);
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::S))
-		m_player->move(dt, 0.f, 1.f);
+		m_player->move(0.f, 1.f, dt);
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::C))
 		endState();
 }

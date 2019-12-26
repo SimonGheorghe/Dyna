@@ -68,6 +68,9 @@
     <ClCompile Include="MovementComponent.cpp">
       <Filter>Components</Filter>
     </ClCompile>
+    <ClCompile Include="AnimationComponent.cpp">
+      <Filter>Components</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Text Include="levels%27Size.txt">
@@ -115,6 +118,9 @@
       <Filter>Resource Files</Filter>
     </ClInclude>
     <ClInclude Include="MovementComponent.h">
+      <Filter>Components</Filter>
+    </ClInclude>
+    <ClInclude Include="AnimationComponent.h">
       <Filter>Components</Filter>
     </ClInclude>
   </ItemGroup>

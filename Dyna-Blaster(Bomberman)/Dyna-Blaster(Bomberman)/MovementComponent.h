@@ -1,11 +1,11 @@
 #pragma once
 #include <ctime>
 #include <stdlib.h>
-#include<stack>
-#include<map>
-#include<iostream>
-#include<sstream>
-#include<string>
+#include <iostream>
+#include <sstream>
+#include <string>
+#include <stack>
+#include <map>
 
 #include "SFML/System.hpp"
 #include "SFML/Window.hpp"

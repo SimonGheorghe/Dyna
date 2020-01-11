@@ -1,7 +1,7 @@
 #include "Button.h"
 
 Button::Button(float x, float y, float width, float height,
-	sf::Font* font, std::string text, unsigned characterSize,
+	sf::Font* font, sf::String text, unsigned characterSize,
 	sf::Color textIdleColor, sf::Color textHoverColor, sf::Color textActiveColor,
 	sf::Color idleColor, sf::Color hoverColor, sf::Color activeColor)
 {
@@ -11,12 +11,13 @@ Button::Button(float x, float y, float width, float height,
 
 	m_font = font;
 	m_text.setFont(*m_font);
-	//m_text.setString(text);
-	m_text.setFillColor(sf::Color::Red);
+	m_text.setString(text);
+	m_text.setFillColor(sf::Color::White);
 	m_text.setCharacterSize(characterSize);
+	m_text.setStyle(sf::Text::Bold);
 	m_text.setPosition(
-		m_shape.getPosition().x+ m_shape.getPosition().x / 2.f - m_text.getGlobalBounds().width / 2.f,
-		m_shape.getPosition().y + m_shape.getPosition().y / 2.f - m_text.getGlobalBounds().height / 2.f
+		m_shape.getPosition().x + m_shape.getGlobalBounds().width / 2.f - m_text.getGlobalBounds().width / 2.f,
+		m_shape.getPosition().y + m_shape.getGlobalBounds().height / 2.f - m_text.getGlobalBounds().height / 2.f
 	);
 
 	m_textIdleColor = textIdleColor;

@@ -40,7 +40,7 @@ void DynaGame::InitKeys()
 	this->suportedKeys.emplace("W", sf::Keyboard::Key::W);
 	this->suportedKeys.emplace("S", sf::Keyboard::Key::S);
 
-	std::cout << this->suportedKeys.at("A") << std::endl;
+	//std::cout << this->suportedKeys.at("A") << std::endl;
 }
 
 void DynaGame::InitStates()

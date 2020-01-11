@@ -10,7 +10,7 @@ void GameState::InitKeyBinds()
 
 void GameState::InitTextures()
 {
-	if (!m_textures["PLAYER_SHEET"].loadFromFile("Resources/Images/Sprites/Player/PLAYER_SHEET.png"))
+	if (!m_textures["PLAYER_SHEET"].loadFromFile("./Resources/Images/Sprites/Player/PLAYER_SHEET.png"))
 	{
 		std::cout << "ERROR::GAME_STATE::COULD_NOT_LOAD_PLAYER_TEXTURE";
 	}

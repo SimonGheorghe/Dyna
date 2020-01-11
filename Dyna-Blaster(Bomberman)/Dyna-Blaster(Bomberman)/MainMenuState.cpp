@@ -15,7 +15,7 @@ void MainMenuState::initBackground()
 		)
 	);
 
-	if (!this->backgroundTexture.loadFromFile("../Resources/Images/Backgrounds/b1.png"))
+	if (!this->backgroundTexture.loadFromFile("./Resources/Images/Backgrounds/Start.png"))
 	{
 		std::cout<< " ERROR::MAIN_MENU_STATE::FALIED_TO_LOAD_BACKGROUND_TEXTURE";
 		this->m_background.setFillColor(sf::Color::Blue);
@@ -25,10 +25,10 @@ void MainMenuState::initBackground()
 
 void MainMenuState::initFonts()
 {
-	/*if (!m_font.loadFromFile("Fonts\Dosis-Light.ttf"))
+	if (!m_font.loadFromFile("./Fonts/Dosis-Light.ttf"))
 	{
 		throw("ERROR::MAINMENUSTATE::COULD NOT LOAD FONT");
-	}*/
+	}
 }
 
 void MainMenuState::InitKeyBinds()
@@ -42,22 +42,22 @@ void MainMenuState::InitKeyBinds()
 void MainMenuState::InitButtons()
 {
 	m_buttons["GAME_STATE"] = new Button(m_window->getSize().x / 2 - 75, m_window->getSize().y / 2 + 30, 150, 50,
-		&m_font, "N", 12,
+		&m_font, "NEW GAME", 20,
 		sf::Color(70, 70, 70, 200), sf::Color(250, 250, 250, 250), sf::Color(20, 20, 20, 50),
 		sf::Color(70, 70, 70, 100), sf::Color(150, 150, 150, 0), sf::Color(20, 20, 20, 0));
 
 	m_buttons["BATTLE_STATE"] = new Button(m_window->getSize().x / 2 - 75, m_window->getSize().y / 2 + 81, 150, 50,
-		&m_font, "Battle", 12,
+		&m_font, "BATTLE", 20,
 		sf::Color(70, 70, 70, 200), sf::Color(250, 250, 250, 250), sf::Color(20, 20, 20, 50),
 		sf::Color(70, 70, 70, 100), sf::Color(150, 150, 150, 0), sf::Color(20, 20, 20, 0));
 
 	m_buttons["SETUP_STATE"] = new Button(m_window->getSize().x / 2 - 75, m_window->getSize().y / 2 + 132, 150, 50,
-		&m_font, "Setup", 12,
+		&m_font, "SETUP", 20,
 		sf::Color(70, 70, 70, 200), sf::Color(250, 250, 250, 250), sf::Color(20, 20, 20, 50),
 		sf::Color(70, 70, 70, 100), sf::Color(150, 150, 150, 0), sf::Color(20, 20, 20, 0));
 
 	m_buttons["PASSWORD_STATE"] = new Button(m_window->getSize().x / 2 - 75, m_window->getSize().y / 2 + 183, 150, 50,
-		&m_font, "Password", 12,
+		&m_font, "PASSWORD", 20,
 		sf::Color(70, 70, 70, 200), sf::Color(250, 250, 250, 250), sf::Color(20, 20, 20, 50),
 		sf::Color(70, 70, 70, 100), sf::Color(150, 150, 150, 0), sf::Color(20, 20, 20, 0));
 }

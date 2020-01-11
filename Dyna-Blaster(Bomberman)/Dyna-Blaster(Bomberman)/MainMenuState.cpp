@@ -99,6 +99,21 @@ void MainMenuState::UpdateButtons()
 	{
 		m_states->push(new GameState(m_window, m_suportedKeys, m_states));
 	}
+
+	if (m_buttons["BATTLE_STATE"]->isPressed())
+	{
+		m_states->push(new EditorState(m_window, m_suportedKeys, m_states));
+	}
+
+	if (m_buttons["SETUP_STATE"]->isPressed())
+	{
+		m_states->push(new EditorState(m_window, m_suportedKeys, m_states));
+	}
+
+	if (m_buttons["PASSWORD_STATE"]->isPressed())
+	{
+		m_states->push(new EditorState(m_window, m_suportedKeys, m_states));
+	}
 }
 
 void MainMenuState::Update(const float& dt)

@@ -68,6 +68,7 @@ private:
 	sf::Sprite& m_sprite;
 	sf::Texture& m_textureSheet;
 	std::map<std::string, Animation*> m_animation;
+	Animation* lastAnimation;
 
 public:
 	AnimationComponent(sf::Sprite sprite, sf::Texture textureSheet);

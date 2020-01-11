@@ -3,6 +3,7 @@
 void Entity2::initVariables()
 {
 	m_movementComponent = NULL;
+	m_animationComponent = NULL;
 }
 
 Entity2::Entity2()

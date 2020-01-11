@@ -1,7 +1,7 @@
 #include "AnimationComponent.h"
 
 AnimationComponent::AnimationComponent(sf::Sprite sprite, sf::Texture textureSheet):
-	m_sprite(sprite), m_textureSheet(textureSheet)
+	m_sprite(sprite), m_textureSheet(textureSheet), lastAnimation(NULL)
 {
 
 }
@@ -27,5 +27,15 @@ void AnimationComponent::AddAnimation(
 
 void AnimationComponent::Play(const std::string key, const float& dt)
 {
+	if (this->lastAnimation != m_animation[key])
+	{
+		if(this->lastAnimation == NULL)
+			this->lastAnimation = m_animation[key];
+		else
+		{
+			this->lastAnimation->Reset();
+			this->lastAnimation = m_animation[key];
+		}
+	}
 	m_animation[key]->Play(dt);
 }

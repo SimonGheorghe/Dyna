@@ -687,19 +687,18 @@ bool PlaceExit(Map& map)
 	return 1;
 }
 
-bool BombsTicksDown(Player& player, Map& map)
+void BombsTicksDown(Player& player, Map& map)
 {
 	if (!player.GetHasRemoteControl())
 		for (int index = 0; index < player.GetNoOfPlacedBombs(); ++index)
 		{
 			player[index]->SetTicks(player[index]->GetTicks() - 1);
 			if (player[index]->GetTicks() == 0)
-				return player.ExplodeBomb(map, index);
+				player.ExplodeBomb(map, index);
 		}
-	return 0;
 }
 
-void DropMontsersHitPoints(std::vector<Monster*>& enemies, Map& map)
+bool DropEntitiesHitPoints(std::vector<Monster*>& enemies, Map& map, Player& player)
 {
 	for (int index = 0; index < enemies.size(); ++index)
 	{
@@ -711,6 +710,11 @@ void DropMontsersHitPoints(std::vector<Monster*>& enemies, Map& map)
 				dynamic_cast<Block*>(map[{x, y}])->GetType() == Block::Type::VerticalFire)
 				enemies[index]->DropHitPoints();
 	}
+	if (dynamic_cast<Block*>(map[{player.GetCoordX(), player.GetCoordY()}]))
+		if (dynamic_cast<Block*>(map[{player.GetCoordX(), player.GetCoordY()}])->GetType() == Block::Type::HorizontalFire ||
+			dynamic_cast<Block*>(map[{player.GetCoordX(), player.GetCoordY()}])->GetType() == Block::Type::ExplodedBomb ||
+			dynamic_cast<Block*>(map[{player.GetCoordX(), player.GetCoordY()}])->GetType() == Block::Type::VerticalFire)
+			return 1;
 }
 
 void DynaGame::Run()
@@ -808,10 +812,10 @@ void DynaGame::Run()
 
 					PlayerMove(player, map, enemies, time);
 
-					playerIsHit = BombsTicksDown(player, map);
+					BombsTicksDown(player, map);
 
 					//if monsters are hit
-					DropMontsersHitPoints(enemies, map);
+					playerIsHit = DropEntitiesHitPoints(enemies, map, player);
 
 					MonsterMove(enemies, map, player, time);
 

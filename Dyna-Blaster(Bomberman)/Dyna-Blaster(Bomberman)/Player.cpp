@@ -425,7 +425,7 @@ void Player::AddScore(uint16_t value)
 	m_score += value;
 }
 
-void Player::playerIsHitt(Map& map, uint16_t index1, uint16_t index2, uint16_t flame, bool& playerIsHit, uint16_t op)
+void Player::playerIsHitt(Map& map, uint16_t index1, uint16_t index2, uint16_t flame, uint16_t op)
 {
 	while (!dynamic_cast<Powers*>(map[{index1, index2}]) &&
 		dynamic_cast<Block*>(map[{index1, index2}])->GetType() == Block::Type::NoneBlock &&
@@ -438,8 +438,6 @@ void Player::playerIsHitt(Map& map, uint16_t index1, uint16_t index2, uint16_t f
 				ExplodeBomb(map, m_placedBombs[index]->GetID());
 				ok = 1;
 			}
-		if (m_coordX == index1 && m_coordY == index2)
-			playerIsHit = 1;
 		if(!ok)
 		switch (op)
 		{
@@ -502,21 +500,17 @@ void Player::playerIsHitt(Map& map, uint16_t index1, uint16_t index2, uint16_t f
 				map.SetBlock(Block::Type::Exit, index1, index2);
 
 }
-bool Player::ExplodeBomb(Map& map, uint16_t bomb)
+void Player::ExplodeBomb(Map& map, uint16_t bomb)
 {
 	map.SetBlock(Block::Type::ExplodedBomb, m_placedBombs[bomb]->GetCoordX(), m_placedBombs[bomb]->GetCoordY());
 	uint16_t index1 = m_placedBombs[bomb]->GetCoordX();
 	uint16_t index2 = m_placedBombs[bomb]->GetCoordY();
-	bool playerIsHit = 0;
-	if (m_coordX == index1 && m_coordY == index2)
-		playerIsHit = 1;
-	playerIsHitt(map, index1 - 1, index2, m_fire, playerIsHit, 0);
-	playerIsHitt(map, index1 + 1, index2, m_fire, playerIsHit, 1);
-	playerIsHitt(map, index1, index2 - 1, m_fire, playerIsHit, 2);
-	playerIsHitt(map, index1, index2 + 1, m_fire, playerIsHit, 3);
+	
+	playerIsHitt(map, index1 - 1, index2, m_fire, 0);
+	playerIsHitt(map, index1 + 1, index2, m_fire, 1);
+	playerIsHitt(map, index1, index2 - 1, m_fire, 2);
+	playerIsHitt(map, index1, index2 + 1, m_fire, 3);
 	DeleteBomb(bomb);
-
-	return playerIsHit;
 }
 
 Bomb* Player::operator[](int index)

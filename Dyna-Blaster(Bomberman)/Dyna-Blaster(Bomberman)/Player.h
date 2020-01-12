@@ -48,7 +48,7 @@ public:
 	void UpdatePlayerPower(Powers::Type power);
 	bool IsOnBomb();
 	void AddScore(uint16_t value);
-	bool ExplodeBomb(Map& map, uint16_t bomb);
+	void ExplodeBomb(Map& map, uint16_t bomb);
 
 
 	Bomb* operator[](int index);
@@ -56,7 +56,7 @@ public:
 	friend std::ostream& operator<<(std::ostream& out, const Player& player);
 
 private:
-	void playerIsHitt(Map& map, uint16_t index1, uint16_t index2, uint16_t flame, bool& playerIsHit, uint16_t op);
+	void playerIsHitt(Map& map, uint16_t index1, uint16_t index2, uint16_t flame, uint16_t op);
 	void InitVariables();
 	void InitComponents();
 

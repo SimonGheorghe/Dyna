@@ -32,6 +32,7 @@ GameState::GameState(sf::RenderWindow* window, std::map<std::string, int>* supor
 	InitKeyBinds();
 	InitTextures();
 	InitPlayers();
+	
 }
 
 GameState::~GameState()

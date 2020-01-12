@@ -24,6 +24,13 @@ void Entity2::SetTexture(sf::Texture& texture)
 	m_sprite.setTexture(texture);
 }
 
+void Entity2::CreateHitBoxComponent(sf::Sprite& sprite, float offset_x, float offset_y,float width, float height)
+{
+	m_hitboxComponent = new HitboxComponent(sprite, offset_x, offset_y, width,height);
+
+	
+}
+
 void Entity2::CreateMovementComponent(const float maxVelocity, const float acceleration, const float deceleration)
 {
 	m_movementComponent = new MovementComponent(m_sprite, maxVelocity, acceleration, deceleration);
@@ -52,7 +59,12 @@ void Entity2::Update(const float& dt)
 
 }
 
-void Entity2::Render(sf::RenderTarget* target)
+void Entity2::Render(sf::RenderTarget& target)
 {
-	target->draw(m_sprite);
+	target.draw(m_sprite);
+
+	if (m_hitboxComponent)
+	{
+		m_hitboxComponent->Render(target);
+	}
 }

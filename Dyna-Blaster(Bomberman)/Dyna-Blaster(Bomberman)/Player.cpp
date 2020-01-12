@@ -17,11 +17,12 @@ Player::Player(const float x, const float y, sf::Texture& textureSheet)
 {
 	InitVariables();
 	SetPosition(x, y);
+	CreateHitBoxComponent(m_sprite, 96.f, 96.f, 96.f, 96.f);
 	CreateMovementComponent(300.f, 15.f, 5.f);
 	CreateAnimationComponent(textureSheet);
-	//InitComponents();
+	InitComponents();
 	m_animationComponent->AddAnimation("IDLE", 15.f, 0, 0, 2, 3, 60, 64);
-	//m_animationComponent->AddAnimation("WALK_LEFT", 100.f, 0, 0, 2, 3, 60, 64);
+	m_animationComponent->AddAnimation("WALK_LEFT", 100.f, 0, 0, 2, 3, 60, 64);
 }
 void Player::Update(const float& dt)
 {
@@ -32,6 +33,7 @@ void Player::Update(const float& dt)
 		m_animationComponent->Play("IDLE_LEFT", dt);
 	else if(m_movementComponent->getState(MOVING_LEFT))
 		m_animationComponent->Play("WALK_LEFT", dt);
+	 m_hitboxComponent->Update();
 }
 void Player::InitVariables()
 {

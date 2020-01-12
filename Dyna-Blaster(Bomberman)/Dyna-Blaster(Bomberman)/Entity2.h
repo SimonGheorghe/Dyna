@@ -21,11 +21,13 @@ public :
 	virtual ~Entity2();
 
 	void SetTexture(sf::Texture& texture);
+	void CreateHitBoxComponent(sf::Sprite& sprite, float offset_x, float offset_y,float width, float height);
+
 	void CreateMovementComponent(const float maxVelocity, const float acceleration, const float deceleration);
 	void CreateAnimationComponent(sf::Texture& textureSheet);
 
 	virtual void SetPosition(const float x, const float y);
 	virtual void move(const float dir_x, const float dir_y, const float& dt);
 	virtual void Update(const float& dt);
-	virtual void Render(sf::RenderTarget* target);
+	virtual void Render(sf::RenderTarget& target);
 };

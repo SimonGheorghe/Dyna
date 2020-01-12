@@ -123,7 +123,7 @@ void MainMenuState::Update(const float& dt)
 	this->UpdateButtons();
 }
 
-void MainMenuState::RenderButtons(sf::RenderTarget* target)
+void MainMenuState::RenderButtons(sf::RenderTarget& target)
 {
 	for (auto& it : m_buttons)
 	{
@@ -136,7 +136,7 @@ void MainMenuState::Render(sf::RenderTarget* target)
 	if (!target)
 		target = m_window;
 	target->draw(m_background);
-	RenderButtons(target);
+	RenderButtons(*target);
 
 	/*sf::Text mouseText;
 	mouseText.setPosition(m_mousePosView.x,m_mousePosView.y);

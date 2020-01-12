@@ -36,21 +36,21 @@ void Player::Update(const float& dt)
 	{
 		m_sprite.setOrigin(0.f, 0.f);
 		m_sprite.setScale(1.f, 1.f);
-		m_animationComponent->Play("WALK", dt);
+		m_animationComponent->Play("WALK", dt, m_movementComponent->GetVelocity().x, m_movementComponent->getMaxVelocity());
 	}
 	else if (m_movementComponent->getState(MOVING_RIGHT))
 	{
 		m_sprite.setOrigin(258.f, 0.f);
 		m_sprite.setScale(-1.f, 1.f);
-		m_animationComponent->Play("WALK", dt);
+		m_animationComponent->Play("WALK", dt,m_movementComponent->GetVelocity().x, m_movementComponent->getMaxVelocity());
 	}
 	else if (m_movementComponent->getState(MOVING_UP))
 	{
-		m_animationComponent->Play("WALK", dt);
+		m_animationComponent->Play("WALK", dt, m_movementComponent->GetVelocity().y, m_movementComponent->getMaxVelocity());
 	}
 	else if (m_movementComponent->getState(MOVING_DOWN))
 	{
-		m_animationComponent->Play("WALK", dt);
+		m_animationComponent->Play("WALK", dt, m_movementComponent->GetVelocity().y, m_movementComponent->getMaxVelocity());
 	}
 
 	 m_hitboxComponent->Update();

@@ -22,6 +22,7 @@ public:
 	~MovementComponent();
 
 public:
+	const float& getMaxVelocity() const;
 	const sf::Vector2f& GetVelocity() const;
 
 	const bool getState(const short unsigned state) const;

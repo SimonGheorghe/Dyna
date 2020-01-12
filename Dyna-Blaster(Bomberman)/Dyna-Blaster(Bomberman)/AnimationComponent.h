@@ -58,6 +58,25 @@ private:
 				m_sprite.setTextureRect(m_currentRect);
 			}
 		}
+
+		void Play(const float& dt, const float& modifier, const float& modifier_max)
+		{
+			m_timer += (modifier / modifier_max) * 100.f * dt;
+			if (m_timer = m_animationTimer)
+			{
+				m_timer = 0.f;
+				if (m_currentRect != m_endRect)
+				{
+					m_currentRect.left += m_width;
+				}
+				else
+				{
+					m_currentRect.left = m_startRect.left;
+
+				}
+				m_sprite.setTextureRect(m_currentRect);
+			}
+		}
 		void Reset()
 		{
 			m_timer = 0.f;
@@ -77,4 +96,5 @@ public:
 		float animationTimer,
 		int startFrameX, int startFrameY, int framesX, int framesY, int width, int height);
 	void Play(const std::string key, const float& dt);
+	void Play(const std::string key, const float& dt, const float & modifier, const float& modifier_max  );
 };

@@ -1,7 +1,7 @@
 #include "AnimationComponent.h"
 
 AnimationComponent::AnimationComponent(sf::Sprite sprite, sf::Texture textureSheet):
-	m_sprite(sprite), m_textureSheet(textureSheet), lastAnimation(NULL)
+	m_sprite(sprite), m_textureSheet(textureSheet), lastAnimation(NULL), priorityAnimation(NULL)
 {
 
 }
@@ -25,7 +25,7 @@ void AnimationComponent::AddAnimation(
 		startFrameX, startFrameY, framesX, framesY, width, height);
 }
 
-void AnimationComponent::Play(const std::string key, const float& dt)
+void AnimationComponent::Play(const std::string key, const float& dt, const bool priority)
 {
 	if (this->lastAnimation != m_animation[key])
 	{
@@ -40,17 +40,28 @@ void AnimationComponent::Play(const std::string key, const float& dt)
 	m_animation[key]->Play(dt);
 }
 
-void AnimationComponent::Play(const std::string key, const float& dt, const float& modifier, const float& modifier_max)
+void AnimationComponent::Play(const std::string key, const float& dt, const float& modifier, const float& modifier_max, const bool priority)
 {
-	if (this->lastAnimation != m_animation[key])
+	if (this->priorityAnimation)
 	{
-		if (this->lastAnimation == NULL)
-			this->lastAnimation = m_animation[key];
-		else
+		if (this->priorityAnimation == m_animation[key])
 		{
-			this->lastAnimation->Reset();
-			this->lastAnimation = m_animation[key];
+			if (this->lastAnimation != m_animation[key])
+			{
+				if (this->lastAnimation == NULL)
+					this->lastAnimation = m_animation[key];
+				else
+				{
+					this->lastAnimation->Reset();
+					this->lastAnimation = m_animation[key];
+				}
+			}
+
+			if (m_animation[key]->Play(dt))
+			{
+				this->priorityAnimation = NULL;
+			}
 		}
 	}
-	m_animation[key]->Play(dt);
+	m_animation[key]->Play(dt, abs(modifier/ modifier_max));
 }

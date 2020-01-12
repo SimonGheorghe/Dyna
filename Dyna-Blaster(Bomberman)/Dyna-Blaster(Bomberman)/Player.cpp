@@ -23,15 +23,17 @@ Player::Player(uint16_t fire, uint16_t numberBombs, uint16_t health, uint32_t sc
 	CreateMovementComponent(300.f, 15.f, 5.f);
 	CreateAnimationComponent(textureSheet);
 	InitComponents();
-	m_animationComponent->AddAnimation("IDLE", 10.f, 0, 0, 2, 3, 60, 64);
-	m_animationComponent->AddAnimation("WALK", 10.f, 0, 0, 2, 3, 60, 64);
+	m_animationComponent->AddAnimation("IDLE", 11.f, 0, 0, 2, 3, 60, 64);
+	m_animationComponent->AddAnimation("WALK", 7.f, 0, 0, 2, 3, 60, 64);
 }
 void Player::Update(const float& dt)
 {
 	m_movementComponent->update(dt);
 
 	if (m_movementComponent->getState(IDLE))
+	{
 		m_animationComponent->Play("IDLE", dt);
+	}
 	else if (m_movementComponent->getState(MOVING_LEFT))
 	{
 		m_sprite.setOrigin(0.f, 0.f);

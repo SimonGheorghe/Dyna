@@ -20,6 +20,7 @@ private:
 		sf::Texture& m_textureSheet;
 		float m_animationTimer;
 		float m_timer;
+		bool m_done;
 		int m_width;
 		int m_height;
 		sf::IntRect m_startRect;
@@ -30,9 +31,9 @@ private:
 			float animationTimer,
 			int startFrameX, int startFrameY, int framesX, int framesY, int width, int height)
 			: m_sprite(sprite), m_textureSheet(textureSheet), 
-			m_animationTimer(animationTimer), m_width(width), m_height(height)
+			m_animationTimer(animationTimer), m_timer(0.f), m_done(false),
+			m_width(width), m_height(height)
 		{
-			m_timer = 0.f;
 			m_startRect = sf::IntRect(startFrameX * width, startFrameY * height, width, height);
 			m_currentRect = m_startRect;
 			m_endRect = sf::IntRect(framesX * width, framesY * height, width, height);
@@ -40,8 +41,9 @@ private:
 			m_sprite.setTextureRect(m_startRect);
 		}
 
-		void Play(const float& dt)
+		const bool& Play(const float& dt)
 		{
+			m_done = false;
 			m_timer += 100.f * dt;
 			if (m_timer = m_animationTimer)
 			{
@@ -53,16 +55,20 @@ private:
 				else
 				{
 					m_currentRect.left = m_startRect.left;
-
+					m_done = true;
 				}
 				m_sprite.setTextureRect(m_currentRect);
 			}
+			return m_done;
 		}
 
-		void Play(const float& dt, const float& modifier, const float& modifier_max)
+		const bool& Play(const float& dt, float mod_percent)
 		{
-			m_timer += (modifier / modifier_max) * 100.f * dt;
-			if (m_timer = m_animationTimer)
+			m_done = false;
+			if (mod_percent < 0.5f)
+				mod_percent = 0.5f;
+			m_timer += mod_percent * 100.f * dt;
+			if (m_timer >= m_animationTimer)
 			{
 				m_timer = 0.f;
 				if (m_currentRect != m_endRect)
@@ -72,14 +78,16 @@ private:
 				else
 				{
 					m_currentRect.left = m_startRect.left;
-
+					m_done = true;
 				}
 				m_sprite.setTextureRect(m_currentRect);
 			}
+			return m_done;
 		}
+		
 		void Reset()
 		{
-			m_timer = 0.f;
+			m_timer = m_animationTimer;
 			m_currentRect = m_startRect;
 		}
 	};
@@ -88,6 +96,7 @@ private:
 	sf::Texture& m_textureSheet;
 	std::unordered_map<std::string, Animation*> m_animation;
 	Animation* lastAnimation;
+	Animation* priorityAnimation;
 
 public:
 	AnimationComponent(sf::Sprite sprite, sf::Texture textureSheet);
@@ -95,6 +104,8 @@ public:
 	void AddAnimation(const std::string key,
 		float animationTimer,
 		int startFrameX, int startFrameY, int framesX, int framesY, int width, int height);
-	void Play(const std::string key, const float& dt);
-	void Play(const std::string key, const float& dt, const float & modifier, const float& modifier_max  );
+
+	void Play(const std::string key, const float& dt, const bool priority = false);
+
+	void Play(const std::string key, const float& dt, const float & modifier, const float& modifier_max, const bool priority = false);
 };

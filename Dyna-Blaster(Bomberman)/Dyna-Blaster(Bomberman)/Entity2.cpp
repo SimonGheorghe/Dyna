@@ -2,6 +2,7 @@
 
 void Entity2::initVariables()
 {
+	m_hitboxComponent = NULL;
 	m_movementComponent = NULL;
 	m_animationComponent = NULL;
 }
@@ -13,6 +14,7 @@ Entity2::Entity2()
 
 Entity2::~Entity2()
 {
+	delete m_hitboxComponent;
 	delete m_movementComponent;
 	delete m_animationComponent;
 } 

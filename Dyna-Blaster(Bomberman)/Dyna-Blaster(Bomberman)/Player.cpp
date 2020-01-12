@@ -20,8 +20,8 @@ Player::Player(const float x, const float y, sf::Texture& textureSheet)
 	CreateMovementComponent(300.f, 15.f, 5.f);
 	CreateAnimationComponent(textureSheet);
 	//InitComponents();
-	m_animationComponent->AddAnimation("IDLE_LEFT", 100.f, 0, 0, 2, 3, 60, 64);
-	m_animationComponent->AddAnimation("WALK_LEFT", 100.f, 0, 0, 2, 3, 60, 64);
+	m_animationComponent->AddAnimation("IDLE", 15.f, 0, 0, 2, 3, 60, 64);
+	//m_animationComponent->AddAnimation("WALK_LEFT", 100.f, 0, 0, 2, 3, 60, 64);
 }
 void Player::Update(const float& dt)
 {

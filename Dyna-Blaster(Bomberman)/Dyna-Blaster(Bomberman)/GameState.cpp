@@ -18,7 +18,12 @@ void GameState::InitTextures()
 
 void GameState::InitPlayers()
 {
-	m_player = new Player(0, 0, m_textures["PLAYER_SHEET"]);
+	uint16_t playerFire = 2;
+	uint16_t playerNoOfBombs = 3;
+	uint16_t playerHealth = 6;
+	uint32_t playerScore = 0;
+	uint16_t playerSpeed = 2;
+	m_player = new Player(playerFire, playerNoOfBombs, playerHealth, playerScore, playerSpeed, 0, 0, m_textures["PLAYER_SHEET"]);
 }
 
 GameState::GameState(sf::RenderWindow* window, std::map<std::string, int>* suportedKeys, std::stack<State*>* states)

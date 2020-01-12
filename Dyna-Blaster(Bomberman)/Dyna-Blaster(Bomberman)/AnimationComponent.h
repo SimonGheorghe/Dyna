@@ -1,7 +1,7 @@
 #pragma once
 #include <iostream>
 #include <string>
-#include <map>
+#include <unordered_map>
 
 #include "SFML/System.hpp"
 #include "SFML/Window.hpp"
@@ -67,7 +67,7 @@ private:
 
 	sf::Sprite& m_sprite;
 	sf::Texture& m_textureSheet;
-	std::map<std::string, Animation*> m_animation;
+	std::unordered_map<std::string, Animation*> m_animation;
 	Animation* lastAnimation;
 
 public:

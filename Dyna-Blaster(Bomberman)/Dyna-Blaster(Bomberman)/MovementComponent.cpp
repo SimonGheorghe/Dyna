@@ -76,18 +76,18 @@ void MovementComponent::update(const float& deltaTime)
 		// Deceleration
 		m_velocity.x -= m_deceleration;
 		if (m_velocity.x < 0.f)
-			m_velocity.x = 0;
+			m_velocity.x = 0.f;
 	}
 	else if(m_velocity.x < 0.f) // Check for negative x
 	{
 		// Max velocity check
-		if (m_velocity.x < m_maxVelocity)
-			m_velocity.x = m_maxVelocity;
+		if (m_velocity.x < -m_maxVelocity)
+			m_velocity.x = -m_maxVelocity;
 
 		// Deceleration
 		m_velocity.x += m_deceleration;
 		if (m_velocity.x > 0.f)
-			m_velocity.x = 0;
+			m_velocity.x = 0.f;
 	}
 
 	if (m_velocity.y > 0.f) // Check for positive y
@@ -104,8 +104,8 @@ void MovementComponent::update(const float& deltaTime)
 	else if (m_velocity.y < 0.f) // Check for negative x
 	{
 		// Max velocity check
-		if (m_velocity.y < m_maxVelocity)
-			m_velocity.y = m_maxVelocity;
+		if (m_velocity.y < -m_maxVelocity)
+			m_velocity.y = -m_maxVelocity;
 
 		// Deceleration
 		m_velocity.y += m_deceleration;

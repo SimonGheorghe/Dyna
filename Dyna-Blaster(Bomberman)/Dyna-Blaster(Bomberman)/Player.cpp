@@ -13,8 +13,10 @@ Player::Player(uint16_t fire, uint16_t numberBombs, uint16_t health, uint32_t sc
 	m_vest = false;
 	m_remoteControl = false;
 }
-Player::Player(const float x, const float y, sf::Texture& textureSheet)
+Player::Player(uint16_t fire, uint16_t numberBombs, uint16_t health, uint32_t score, uint16_t speed, const float x, const float y, sf::Texture& textureSheet):
+	m_fire(fire), m_noOfBombs(numberBombs), m_health(health), m_score(score), m_speed(speed)
 {
+
 	InitVariables();
 	SetPosition(x, y);
 	CreateHitBoxComponent(m_sprite, 96.f, 96.f, 96.f, 96.f);
@@ -30,13 +32,17 @@ void Player::Update(const float& dt)
 		m_movementComponent->update(dt);
 
 	if (m_movementComponent->getState(IDLE))
-		m_animationComponent->Play("IDLE_LEFT", dt);
+		m_animationComponent->Play("IDLE", dt);
 	else if(m_movementComponent->getState(MOVING_LEFT))
 		m_animationComponent->Play("WALK_LEFT", dt);
 	 m_hitboxComponent->Update();
 }
 void Player::InitVariables()
 {
+	m_softBlockPass = false;
+	m_bombPass = false;
+	m_vest = false;
+	m_remoteControl = false;
 }
 void Player::InitComponents()
 {

@@ -19,7 +19,7 @@ void AnimationComponent::AddAnimation(
 	float animationTimer,
 	int startFrameX, int startFrameY, int framesX, int framesY, int width, int height)
 {
-	m_animation[key] =new Animation(
+	m_animation[key] = new Animation(
 		m_sprite, m_textureSheet, 
 		animationTimer, 
 		startFrameX, startFrameY, framesX, framesY, width, height);

@@ -50,7 +50,6 @@ public:
 	void AddScore(uint16_t value);
 	void ExplodeBomb(Map& map, uint16_t bomb);
 
-
 	Bomb* operator[](int index);
 	const Bomb* operator[](int index) const;
 	friend std::ostream& operator<<(std::ostream& out, const Player& player);
@@ -78,4 +77,3 @@ private:
 	bool m_vest;
 	bool m_remoteControl;
 };
-

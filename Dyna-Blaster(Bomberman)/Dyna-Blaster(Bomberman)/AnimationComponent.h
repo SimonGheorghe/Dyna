@@ -78,4 +78,3 @@ public:
 		int startFrameX, int startFrameY, int framesX, int framesY, int width, int height);
 	void Play(const std::string key, const float& dt);
 };
-

@@ -1,6 +1,5 @@
 #pragma once
-#include "Monster.h"
-#include "Powers.h"
+
 #include "MainMenuState.h"
 
 class DynaGame
@@ -36,11 +35,6 @@ private:
 	std::map<std::string, int> suportedKeys;
 
 
-private:
-	void ReadMapsDimensions();
 
-private:
-	static const uint16_t noOfStagesAndLevels = 8;
-	std::array<std::array<std::string, noOfStagesAndLevels>, noOfStagesAndLevels> mapsDimensions;
 };
 

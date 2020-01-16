@@ -113,6 +113,18 @@ void Map::DeletePower()
 	m_map[m_powerX][m_powerY] = new Block(Block::Type::NoneBlock);
 }
 
+void Map::Render(sf::RenderTarget& target)
+{
+	for (auto line = 0; line < m_map.size(); ++line)
+		for (auto column = 0; column < m_map[line].size(); ++column)
+		{
+			if (dynamic_cast<Block*>(m_map[line][column]))
+				dynamic_cast<Block*>(m_map[line][column])->Render(target, 0);
+			if (dynamic_cast<Powers*>(m_map[line][column]))
+				dynamic_cast<Powers*>(m_map[line][column])->Render(target, 0);
+		}
+}
+
 const Entity* Map::operator[](const Position& position) const
 {
 	//const auto& [line, column] = position;  ???

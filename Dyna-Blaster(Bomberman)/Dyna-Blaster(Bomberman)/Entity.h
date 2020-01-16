@@ -13,9 +13,10 @@ class Entity
 {
 public:
 	virtual void SetPosition(const float x, const float y);
-	virtual void Render(sf::RenderTarget& target);
+	virtual void Render(sf::RenderTarget& target, uint16_t state);
 
+	void SetTexture(std::vector<sf::Texture>& textures);
 protected:
-	sf::Sprite m_sprite;
+	std::vector<sf::Sprite> m_sprite;
 };
 

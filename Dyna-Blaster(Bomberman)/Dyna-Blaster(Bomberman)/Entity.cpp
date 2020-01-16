@@ -2,10 +2,21 @@
 
 void Entity::SetPosition(const float x, const float y)
 {
-	m_sprite.setPosition(x, y);
+	for(auto sprite: m_sprite)
+		sprite.setPosition(x, y);
 }
 
-void Entity::Render(sf::RenderTarget& target)
+void Entity::Render(sf::RenderTarget& target, uint16_t state)
 {
-	target.draw(m_sprite);
+	target.draw(m_sprite[state]);
+}
+
+void Entity::SetTexture(std::vector<sf::Texture>& textures)
+{
+	for (auto texture : textures)
+	{
+		sf::Sprite sprite;
+		sprite.setTexture(texture);
+		m_sprite.push_back(sprite);
+	}
 }

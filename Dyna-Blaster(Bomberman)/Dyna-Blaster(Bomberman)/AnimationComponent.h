@@ -41,6 +41,10 @@ private:
 			m_sprite.setTextureRect(m_startRect);
 		}
 
+		const bool& isDone() const
+		{
+			return m_done;
+		}
 		const bool& Play(const float& dt)
 		{
 			m_done = false;
@@ -101,11 +105,13 @@ private:
 public:
 	AnimationComponent(sf::Sprite sprite, sf::Texture textureSheet);
 	virtual ~AnimationComponent();
+	const bool& isDone(const std::string key);
+
 	void AddAnimation(const std::string key,
 		float animationTimer,
 		int startFrameX, int startFrameY, int framesX, int framesY, int width, int height);
 
-	void Play(const std::string key, const float& dt, const bool priority = false);
+	const bool& Play(const std::string key, const float& dt, const bool priority = false);
 
-	void Play(const std::string key, const float& dt, const float & modifier, const float& modifier_max, const bool priority = false);
+	const bool& Play(const std::string key, const float& dt, const float & modifier, const float& modifier_max, const bool priority = false);
 };

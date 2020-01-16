@@ -15,6 +15,8 @@ public:
 	Player(uint16_t fire, uint16_t numberBombs, uint16_t health, uint32_t score, uint16_t speed);
 	Player(uint16_t fire, uint16_t numberBombs, uint16_t health, uint32_t score, uint16_t speed, const float x, const float y, sf::Texture& textureSheet);
 
+
+	void updateAnimation(const float& dt);
 	virtual void Update(const float& dt);
 
 	uint16_t GetFire() const;
@@ -49,6 +51,7 @@ public:
 	bool IsOnBomb();
 	void AddScore(uint16_t value);
 	void ExplodeBomb(Map& map, uint16_t bomb);
+
 
 	Bomb* operator[](int index);
 	const Bomb* operator[](int index) const;

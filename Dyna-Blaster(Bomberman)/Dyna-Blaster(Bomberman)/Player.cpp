@@ -24,28 +24,32 @@ Player::Player(uint16_t fire, uint16_t numberBombs, uint16_t health, uint32_t sc
 	CreateMovementComponent(150.f, 15.f, 10.f);
 	CreateAnimationComponent(textureSheet);
 	InitComponents();
-	m_animationComponent->AddAnimation("IDLE", 11.f, 0, 0, 2, 3, 60, 64);
-	m_animationComponent->AddAnimation("WALK", 7.f, 0, 0, 2, 3, 60, 64);
+	m_animationComponent->AddAnimation("IDLE", 11.f, 0, 0, 2, 0, 64, 64);
+	//m_animationComponent->AddAnimation("WALK", 7.f, 0, 1, 2, 0, 64, 64);
 }
-void Player::Update(const float& dt)
+void Player::updateAnimation(const float& dt)
 {
-	m_movementComponent->update(dt);
-
 	if (m_movementComponent->getState(IDLE))
 	{
 		m_animationComponent->Play("IDLE", dt);
 	}
 	else if (m_movementComponent->getState(MOVING_LEFT))
 	{
-		m_sprite.setOrigin(0.f, 0.f);
-		m_sprite.setScale(1.f, 1.f);
+		if (m_sprite.getScale().x < 0.f)
+		{
+			m_sprite.setOrigin(0.f, 0.f);
+			m_sprite.setScale(1.f, 1.f);
+		}
 		m_animationComponent->Play("WALK", dt, m_movementComponent->GetVelocity().x, m_movementComponent->getMaxVelocity());
 	}
 	else if (m_movementComponent->getState(MOVING_RIGHT))
 	{
-		m_sprite.setOrigin(258.f, 0.f);
-		m_sprite.setScale(-1.f, 1.f);
-		m_animationComponent->Play("WALK", dt,m_movementComponent->GetVelocity().x, m_movementComponent->getMaxVelocity());
+		if (m_sprite.getScale().x > 0.f)
+		{
+			m_sprite.setOrigin(258.f, 0.f);
+			m_sprite.setScale(-1.f, 1.f);
+		}
+		m_animationComponent->Play("WALK", dt, m_movementComponent->GetVelocity().x, m_movementComponent->getMaxVelocity());
 	}
 	else if (m_movementComponent->getState(MOVING_UP))
 	{
@@ -56,7 +60,13 @@ void Player::Update(const float& dt)
 		m_animationComponent->Play("WALK", dt, m_movementComponent->GetVelocity().y, m_movementComponent->getMaxVelocity());
 	}
 
-	 m_hitboxComponent->Update();
+}
+void Player::Update(const float& dt)
+{
+	m_movementComponent->update(dt);
+
+	this->updateAnimation(dt);
+	m_hitboxComponent->Update();
 }
 void Player::InitVariables()
 {

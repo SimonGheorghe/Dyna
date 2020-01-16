@@ -6,8 +6,6 @@
 class Bomb: public Entity
 {
 public:
-	bool isBlock();
-public:
 	//this constructor is for blast, these are for the blast that travels  up down left and right of where it had detonated
 	  //these are to be created and destroyed and to kill the player on contact
 	Bomb(uint16_t coordX, uint16_t coordY, uint16_t id);

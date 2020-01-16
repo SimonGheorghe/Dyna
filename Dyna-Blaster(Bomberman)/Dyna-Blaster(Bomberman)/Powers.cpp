@@ -6,12 +6,6 @@ Powers::Powers(Type power):
 	//empty
 }
 
-
-bool Powers::isBlock()
-{
-	return false;
-}
-
 bool Powers::GetPowerStatus()
 {
 	return m_powersIsHidden;

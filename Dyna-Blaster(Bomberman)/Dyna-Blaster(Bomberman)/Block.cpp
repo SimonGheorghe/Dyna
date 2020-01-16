@@ -5,11 +5,6 @@ m_type(type)
 {
 }
 
-bool Block::isBlock()
-{
-	return true;
-}
-
 Block::Type Block::GetType() const
 {
 	return m_type;

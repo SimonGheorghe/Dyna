@@ -1,6 +1,11 @@
 #include "Entity.h"
 
-bool Entity::isBlock()
+void Entity::SetPosition(const float x, const float y)
 {
-	return false;
+	m_sprite.setPosition(x, y);
+}
+
+void Entity::Render(sf::RenderTarget& target)
+{
+	target.draw(m_sprite);
 }

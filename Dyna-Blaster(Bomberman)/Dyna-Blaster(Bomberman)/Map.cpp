@@ -230,5 +230,6 @@ std::ostream& operator<<(std::ostream& out, const Map& map)
 		break;
 	}
 	out << "Round " << map.m_level;
+	
 	return out;
 }

@@ -24,7 +24,6 @@ public:
 public:
 	Powers(Type power);
 	
-	bool isBlock();
 	friend std::ostream& operator<<(std::ostream& out, const Powers& power);
 
 	bool GetPowerStatus() ;

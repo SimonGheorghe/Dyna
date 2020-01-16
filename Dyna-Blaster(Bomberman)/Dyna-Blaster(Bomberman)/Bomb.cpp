@@ -1,10 +1,5 @@
 #include "Bomb.h"
 
-bool Bomb::isBlock()
-{
-	return false;
-}
-
 Bomb::Bomb(uint16_t coordX, uint16_t coordY, uint16_t id) :
 	m_coordX(coordX), m_coordY(coordY), m_id(id)
 {

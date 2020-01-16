@@ -19,8 +19,9 @@ Player::Player(uint16_t fire, uint16_t numberBombs, uint16_t health, uint32_t sc
 
 	InitVariables();
 	SetPosition(x, y);
-	CreateHitBoxComponent(m_sprite, 96.f, 96.f, 96.f, 96.f);
-	CreateMovementComponent(300.f, 15.f, 5.f);
+	//SetTexture(textureSheet);
+	CreateHitBoxComponent(m_sprite, 20.f, 20.f, 20.f, 20.f);
+	CreateMovementComponent(150.f, 15.f, 10.f);
 	CreateAnimationComponent(textureSheet);
 	InitComponents();
 	m_animationComponent->AddAnimation("IDLE", 11.f, 0, 0, 2, 3, 60, 64);

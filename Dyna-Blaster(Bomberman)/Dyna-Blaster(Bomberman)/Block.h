@@ -19,7 +19,6 @@ public:
 	};
 	
 public:
-	bool isBlock();
 	Block(Type type);
 	Type GetType() const;
 

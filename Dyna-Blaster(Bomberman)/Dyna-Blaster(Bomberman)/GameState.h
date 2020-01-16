@@ -6,7 +6,6 @@ class GameState :
 {
 private:
 	Player* m_player;
-
 	void InitKeyBinds();
 	void InitTextures();
 	void InitPlayers();

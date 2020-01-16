@@ -61,6 +61,9 @@ public:
 	void GeneratePower();
 	void DeletePower();
 
+public:
+	void Render(sf::RenderTarget& target);
+
 private:
 	void GenerateBlocks();
 

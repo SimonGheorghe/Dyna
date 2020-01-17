@@ -9,21 +9,22 @@ Map::Map(Stage Stage, uint16_t Level)
 	m_level = Level;
 }
 
-void Map::Create()
+void Map::Create(std::vector<sf::Texture> textures)
 {
 	m_map.resize((uint16_t)m_length);
 	for (int index = 0; index < m_map.size(); ++index)
 		m_map[index].resize((uint16_t)m_width);
 
-	GenerateBlocks();
+	GenerateBlocks(textures);
 }
 
-void Map::GenerateBlocks()
+void Map::GenerateBlocks(std::vector<sf::Texture> textures)
 {
+	
 	for (int index1 = 0; index1 < (uint16_t)m_length; ++index1)
 		for (int index2 = 0; index2 < (uint16_t)m_width; ++index2)
 			if (index1 == 0 || index2 == 0 || index1 == (uint16_t)m_length - 1 || index2 == (uint16_t)m_width - 1|| (index1 % 2 == 0 && index2 % 2 == 0))
-				m_map[index1][index2] = new Block(Block::Type::HardBlock); 
+				m_map[index1][index2] = new Block(Block::Type::HardBlock, index1 * blockSize, index2 * blockSize, textures);
 	//37% of the map is covered by hard blocks
 	if (m_level != 7)
 	{
@@ -37,13 +38,13 @@ void Map::GenerateBlocks()
 				coordX = rand() % (uint16_t)m_length;
 				coordY = rand() % (uint16_t)m_width;
 			} while (m_map[coordX][coordY] != nullptr);
-			m_map[coordX][coordY] = new Block(Block::Type::SoftBlock);
+			m_map[coordX][coordY] = new Block(Block::Type::SoftBlock, coordX * blockSize, coordY * blockSize, textures);
 		}
 		do {
 			coordX = rand() % (uint16_t)m_length;
 			coordY = rand() % (uint16_t)m_width;
 		} while (m_map[coordX][coordY] != nullptr || (coordX == 1 || coordX == 2) && (coordY == 1 || coordY == 2));//we dont want to place the exit in player's zone
-		m_map[coordX][coordY] = new Block(Block::Type::HiddenExit);
+		m_map[coordX][coordY] = new Block(Block::Type::HiddenExit, coordX * blockSize, coordY * blockSize, textures);
 	}
 
 	for (int index1 = 0; index1 < (uint16_t)m_length; ++index1)
@@ -51,7 +52,7 @@ void Map::GenerateBlocks()
 		{
 			if (!dynamic_cast<Block*>(m_map[index1][index2]) && !dynamic_cast<Powers*>(m_map[index1][index2]))
 			{
-				m_map[index1][index2] = new Block(Block::Type::NoneBlock);
+				m_map[index1][index2] = new Block(Block::Type::NoneBlock, index1 * blockSize, index2 * blockSize, textures);
 			}
 		}
 }
@@ -62,7 +63,7 @@ Powers::Type RandomPower()
 	return Powers::Type(rand() % noOfPowerTypes);
 }
 
-void Map::GeneratePower()
+void Map::GeneratePower(std::vector<sf::Texture> textures)
 {
 	do {
 		m_powerX = rand() % (uint16_t)m_length;
@@ -104,13 +105,13 @@ void Map::GeneratePower()
 		m_power = RandomPower();
 
 	delete m_map[m_powerX][m_powerY];
-	m_map[m_powerX][m_powerY] = new Powers(m_power);
+	m_map[m_powerX][m_powerY] = new Powers(m_power, m_powerX * blockSize, m_powerY * blockSize, textures);
 }
 
 void Map::DeletePower()
 {
 	delete m_map[m_powerX][m_powerY];
-	m_map[m_powerX][m_powerY] = new Block(Block::Type::NoneBlock);
+	//m_map[m_powerX][m_powerY] = new Block(Block::Type::NoneBlock, m_powerX * blockSize, m_powerY * blockSize, textures);
 }
 
 void Map::Render(sf::RenderTarget& target)
@@ -119,9 +120,9 @@ void Map::Render(sf::RenderTarget& target)
 		for (auto column = 0; column < m_map[line].size(); ++column)
 		{
 			if (dynamic_cast<Block*>(m_map[line][column]))
-				dynamic_cast<Block*>(m_map[line][column])->Render(target, 0);
+				dynamic_cast<Block*>(m_map[line][column])->Render(target);
 			if (dynamic_cast<Powers*>(m_map[line][column]))
-				dynamic_cast<Powers*>(m_map[line][column])->Render(target, 0);
+				dynamic_cast<Powers*>(m_map[line][column])->Render(target);
 		}
 }
 
@@ -186,14 +187,14 @@ void Map::SetBlock(Block::Type type, uint16_t coordX, uint16_t coordY)
 {
 	if (m_map[coordX][coordY] != nullptr)
 		delete m_map[coordX][coordY];
-	m_map[coordX][coordY] = new Block(type);
+	//m_map[coordX][coordY] = new Block(type);
 }
 
 void Map::SetBomb(Bomb* bomb)
 {
 	m_map[bomb->GetCoordX()][bomb->GetCoordY()] = bomb;
 }
-
+/*
 void Map::ClearMap(uint16_t index1, uint16_t index2)
 {
 	if (dynamic_cast<Block*>(m_map[index1][index2]))
@@ -208,7 +209,7 @@ void Map::ClearMap(uint16_t index1, uint16_t index2)
 			m_map[index1][index2] = new Block(Block::Type::NoneBlock);
 		}
 	}
-}
+}*/
 
 std::ostream& operator<<(std::ostream& out, const Map& map)
 {

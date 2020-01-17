@@ -529,8 +529,7 @@ void PlayerMove(Player& player, Map& map, std::vector<Monster*>& enemies, uint16
 					player.Move(map, ch);
 	}
 }
-
-void PrintMap(Map& map, const Player& player, std::vector<Monster*>& enemies)
+/*void PrintMap(Map& map, const Player& player, std::vector<Monster*>& enemies)
 {
 	std::cout << "Score: " << player.GetScore() << std::endl;
 
@@ -580,7 +579,7 @@ void PrintMap(Map& map, const Player& player, std::vector<Monster*>& enemies)
 		std::cout << std::endl;
 	}
 }
-
+*/
 void DeleteDeadMonsters(std::vector<Monster*>& enemies, Map& map, Player& player)
 {
 	for (int index = 0; index < enemies.size(); ++index)
@@ -631,10 +630,10 @@ void MonsterMove(std::vector<Monster*>& enemies, Map& map, Player& player, uint1
 
 void GameState::CreateMap(Map& map, uint16_t stage, const Player& player, std::string mapDimensions)
 {
-
+	std::vector<sf::Texture> textures({ m_textures["NONE_BLOCK"], m_textures["HARD_BLOCK"], m_textures["SOFT_BLOCK"] });
 	SetMapDimensions(map, mapDimensions);
-	map.Create();
-	map.GeneratePower();
+	map.Create(textures);
+	map.GeneratePower(textures);
 
 	if (stage != 0)
 		while (map.GetPowerType() == Powers::Type::BombPass && player.GetHasBombPass() ||
@@ -643,7 +642,7 @@ void GameState::CreateMap(Map& map, uint16_t stage, const Player& player, std::s
 			map.GetPowerType() == Powers::Type::Vest && player.GetHasVest())
 		{
 			map.DeletePower();
-			map.GeneratePower();
+			map.GeneratePower(textures);
 		}
 }
 

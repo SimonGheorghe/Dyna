@@ -37,6 +37,11 @@ void Bomb::SetBlast(bool i) {
 	IsBlast = i;
 }
 
+void Bomb::render(sf::RenderTarget& target)
+{
+	target.draw(m_sprite[0]);
+}
+
 bool Bomb::GetIgnite() const {
 
 	return Ignition;

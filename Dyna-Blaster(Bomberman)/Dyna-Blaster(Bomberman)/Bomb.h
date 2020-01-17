@@ -34,6 +34,8 @@ public:
 	bool GetBlast() const;
 	void SetBlast(bool i);
 
+	void render(sf::RenderTarget& target);
+		
 	friend std::ostream& operator<<(std::ostream& out, const Bomb& bomb);
 
 private:

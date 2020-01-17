@@ -1,13 +1,23 @@
 #include "Block.h"
 
-Block::Block(Type type):
+Block::Block(Type type, const float x, const float y, std::vector<sf::Texture>& textureSheet):
 m_type(type)
 {
+	SetPosition(x, y);
+	SetTexture(textureSheet);
 }
 
 Block::Type Block::GetType() const
 {
 	return m_type;
+}
+
+void Block::Render(sf::RenderTarget& target)
+{
+	if(m_type==Type::HiddenExit)
+		target.draw(m_sprite[1]);
+	else
+	target.draw(m_sprite[(uint16_t)m_type]);
 }
 
 std::ostream& operator<<(std::ostream& out, const Block& block)

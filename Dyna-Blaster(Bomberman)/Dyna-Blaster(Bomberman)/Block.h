@@ -7,20 +7,22 @@ class Block: public Entity
 public:
 	enum class Type
 	{
-		HardBlock,
+		HardBlock=0,
 		SoftBlock,
 		NoneBlock,
 		ExplodedBlock,
 		HorizontalFire,
 		VerticalFire,
 		ExplodedBomb,
-		HiddenExit,
-		Exit
+		Exit,
+		HiddenExit
 	};
 	
 public:
-	Block(Type type);
+	Block(Type type, const float x, const float y, std::vector<sf::Texture>& textureSheet);
 	Type GetType() const;
+
+	virtual void Render(sf::RenderTarget& target);
 
 	friend std::ostream& operator<<(std::ostream& out, const Block& block);
 

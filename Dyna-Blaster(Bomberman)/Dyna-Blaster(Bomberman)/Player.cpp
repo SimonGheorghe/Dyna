@@ -19,13 +19,13 @@ Player::Player(uint16_t fire, uint16_t numberBombs, uint16_t health, uint32_t sc
 
 	InitVariables();
 	SetPosition(x, y);
-	//SetTexture(textureSheet);
+	SetTexture(textureSheet);
 	CreateHitBoxComponent(m_sprite, 20.f, 20.f, 20.f, 20.f);
 	CreateMovementComponent(150.f, 15.f, 10.f);
 	CreateAnimationComponent(textureSheet);
 	InitComponents();
 	m_animationComponent->AddAnimation("IDLE", 11.f, 0, 0, 2, 0, 64, 64);
-	//m_animationComponent->AddAnimation("WALK", 7.f, 0, 1, 2, 0, 64, 64);
+	m_animationComponent->AddAnimation("WALK", 7.f, 0, 1, 2, 0, 64, 64);
 }
 void Player::updateAnimation(const float& dt)
 {

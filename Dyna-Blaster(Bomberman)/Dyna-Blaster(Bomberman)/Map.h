@@ -56,16 +56,16 @@ public:
 	void SetBlock(Block::Type type, uint16_t coordX, uint16_t coordY);
 	void SetBomb(Bomb* bomb);
 	
-	void Create();
-	void ClearMap(uint16_t index1, uint16_t index2);
-	void GeneratePower();
+	void Create(std::vector<sf::Texture> textures);
+	//void ClearMap(uint16_t index1, uint16_t index2);
+	void GeneratePower(std::vector<sf::Texture> textures);
 	void DeletePower();
 
 public:
 	void Render(sf::RenderTarget& target);
 
 private:
-	void GenerateBlocks();
+	void GenerateBlocks(std::vector<sf::Texture> textures);
 
 private:
 	Stage m_stage;
@@ -76,5 +76,6 @@ private:
 	Powers::Type m_power;
 	uint16_t m_powerX;
 	uint16_t m_powerY;
+	float blockSize = 64.f;
 };
 

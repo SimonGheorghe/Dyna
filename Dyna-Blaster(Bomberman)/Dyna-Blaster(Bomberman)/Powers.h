@@ -7,7 +7,7 @@ class Powers: public Entity
 public:
 	enum class Type
 	{
-		FireUp,
+		FireUp=0,
 		BombUp,
 		SkateUp,
 		SoftBlockPass,
@@ -22,9 +22,11 @@ public:
 	};
 
 public:
-	Powers(Type power);
+	Powers(Type power, const float x, const float y, std::vector<sf::Texture>& textureSheet);
 	
 	friend std::ostream& operator<<(std::ostream& out, const Powers& power);
+
+	virtual void Render(sf::RenderTarget& target);
 
 	bool GetPowerStatus() ;
 	Type GetPowerType() const;

@@ -2,7 +2,6 @@
 #include <cstdint>
 #include<string>
 #include "Powers.h"
-#include "Map.h"
 #include "Entity2.h"
 
 using pair = std::pair<uint8_t, uint8_t>;
@@ -12,7 +11,6 @@ class Player:
 {
 public:
 
-	Player(uint16_t fire, uint16_t numberBombs, uint16_t health, uint32_t score, uint16_t speed);
 	Player(uint16_t fire, uint16_t numberBombs, uint16_t health, uint32_t score, uint16_t speed, const float x, const float y, sf::Texture& textureSheet);
 
 

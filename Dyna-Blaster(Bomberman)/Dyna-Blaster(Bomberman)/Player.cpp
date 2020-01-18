@@ -8,28 +8,16 @@ void Player::InitComponents()
 	m_animationComponent->AddAnimation("WALK_UP", 7.f, 0, 1, 2, 1, 64, 64);
 
 }
-Player::Player(uint16_t fire, uint16_t numberBombs, uint16_t health, uint32_t score, uint16_t speed) :
-	m_fire(fire), m_noOfBombs(numberBombs), m_health(health), m_score(score), m_speed(speed)
-{
 
-	m_coordX = 1;
-	m_coordY = 1;
-	m_lastX = 1;
-	m_lastY = 1;
-	m_softBlockPass = false;
-	m_bombPass = false;
-	m_vest = false;
-	m_remoteControl = false;
-}
 Player::Player(uint16_t fire, uint16_t numberBombs, uint16_t health, uint32_t score, uint16_t speed, const float x, const float y, sf::Texture& textureSheet) :
 	m_fire(fire), m_noOfBombs(numberBombs), m_health(health), m_score(score), m_speed(speed)
 {
-
+	
 	InitVariables();
 	SetPosition(x, y);
 	SetTexture(textureSheet);
 	CreateHitBoxComponent(m_sprite, 16.f, 22.f, 30.f, 30.f);
-	CreateMovementComponent(150.f, 15.f, 10.f);
+	CreateMovementComponent(150.f, 50.f, 45.f);
 	CreateAnimationComponent(textureSheet);
 
 

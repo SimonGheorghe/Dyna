@@ -13,6 +13,11 @@ Block::Type Block::GetType() const
 	return m_type;
 }
 
+sf::FloatRect Block::GetGlobalBounds() const
+{
+	return m_sprite.getGlobalBounds();
+}
+
 void Block::Render(sf::RenderTarget& target)
 {
 	target.draw(m_sprite);

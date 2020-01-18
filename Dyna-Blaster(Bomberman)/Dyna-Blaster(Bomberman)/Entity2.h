@@ -3,6 +3,8 @@
 #include "HitboxComponent.h"
 #include "MovementComponent.h"
 #include "AnimationComponent.h"
+#include "Map.h"
+#include <math.h>
 
 class Entity2
 {
@@ -27,7 +29,7 @@ public :
 	void CreateAnimationComponent(sf::Texture& textureSheet);
 
 	virtual void SetPosition(const float x, const float y);
-	virtual void move(const float dir_x, const float dir_y, const float& dt);
+	virtual void move(const float dir_x, const float dir_y, const float& dt, Map& map);
 	virtual void Update(const float& dt);
 	virtual void Render(sf::RenderTarget& target);
 };

@@ -21,6 +21,7 @@ public:
 public:
 	Block(Type type, const float x, const float y,sf::Texture& textureSheet);
 	Type GetType() const;
+	sf::FloatRect GetGlobalBounds() const;
 
 	void Render(sf::RenderTarget& target);
 

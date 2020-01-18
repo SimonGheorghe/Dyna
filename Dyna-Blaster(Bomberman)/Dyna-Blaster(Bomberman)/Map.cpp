@@ -7,6 +7,8 @@ Map::Map(Stage Stage, uint16_t Level)
 {
 	m_stage = Stage;
 	m_level = Level;
+	srand((int)time(NULL));
+
 }
 
 void Map::Create(std::map<std::string, sf::Texture>& textures)

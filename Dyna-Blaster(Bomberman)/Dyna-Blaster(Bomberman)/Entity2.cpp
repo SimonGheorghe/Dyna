@@ -46,9 +46,32 @@ void Entity2::SetPosition(const float x, const float y)
 	m_sprite.setPosition(x, y);
 }
 
-void Entity2::move(const float dir_x, const float dir_y, const float& dt)
+void Entity2::move(const float dir_x, const float dir_y, const float& dt, Map& map)
 {
-	if (m_movementComponent)
+	float coordX, coordY;
+	uint16_t x = 0, y = 0;
+	sf::Vector2f coords =  m_sprite.getPosition();
+	coords.x += 16;
+	coords.y += 22;
+	std::modf(coords.x, &coordX);
+	std::modf(coords.y, &coordY);
+	if (int(coordX) % 32 > 16 && dir_x>0)
+		x = 1;
+	if (int(coordY) % 32 > 16 && dir_y>0)
+		y = 1;
+	coordX = int(coordX) / 32 + x;
+	coordY = int(coordY) / 32 + y;
+	if (dir_x > 0)
+		coordX += dir_x;
+	if (dir_y > 0)
+		coordY += dir_y;
+
+	if (m_movementComponent && 
+		dynamic_cast<Block*>(map[{int(coordX), int(coordY)}]) &&
+		(coordX>0 && coordY>0 && coordX<map.GetWidth() && coordY<map.GetLength()) &&
+		(dynamic_cast<Block*>(map[{int(coordX), int(coordY)}])->GetType()==Block::Type::NoneBlock ||
+		!m_hitboxComponent->CheckIntersect(dynamic_cast<Block*>(map[{int(coordX), int(coordY)}])->GetGlobalBounds()))
+		)
 	{
 		m_movementComponent->move(dir_x, dir_y, dt);
 	}

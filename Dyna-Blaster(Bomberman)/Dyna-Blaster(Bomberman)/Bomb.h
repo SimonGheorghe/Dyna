@@ -19,7 +19,7 @@ public:
 	//getters for returning ticks time and flame size
 	uint16_t GetFlame() const;
 
-	//sets timer on newbombs
+	//sets m_timer on newbombs
 	uint16_t GetTicks() const;
 	void SetTicks(uint16_t ticks);
 
@@ -40,7 +40,7 @@ public:
 
 private:
 
-	//Ticks is the original bombs timer flame is for how many blastlets to create after bomb has detonated
+	//Ticks is the original bombs m_timer flame is for how many blastlets to create after bomb has detonated
 	uint16_t m_coordX;
 	uint16_t m_coordY;
 	uint16_t m_ticks;

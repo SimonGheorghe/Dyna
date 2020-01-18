@@ -49,7 +49,7 @@ private:
 		{
 			m_done = false;
 			m_timer += 100.f * dt;
-			if (m_timer = m_animationTimer)
+			if (m_timer >= m_animationTimer)
 			{
 				m_timer = 0.f;
 				if (m_currentRect != m_endRect)
@@ -68,9 +68,11 @@ private:
 
 		const bool& Play(const float& dt, float mod_percent)
 		{
-			m_done = false;
+			//Update m_timer
 			if (mod_percent < 0.5f)
 				mod_percent = 0.5f;
+
+			m_done = false;
 			m_timer += mod_percent * 100.f * dt;
 			if (m_timer >= m_animationTimer)
 			{
@@ -88,7 +90,7 @@ private:
 			}
 			return m_done;
 		}
-		
+        
 		void Reset()
 		{
 			m_timer = m_animationTimer;
@@ -98,12 +100,12 @@ private:
 
 	sf::Sprite& m_sprite;
 	sf::Texture& m_textureSheet;
-	std::unordered_map<std::string, Animation*> m_animation;
+	std::map<std::string, Animation*> m_animations;
 	Animation* lastAnimation;
 	Animation* priorityAnimation;
 
 public:
-	AnimationComponent(sf::Sprite sprite, sf::Texture textureSheet);
+	AnimationComponent(sf::Sprite& sprite, sf::Texture& textureSheet);
 	virtual ~AnimationComponent();
 	const bool& isDone(const std::string key);
 
@@ -112,6 +114,5 @@ public:
 		int startFrameX, int startFrameY, int framesX, int framesY, int width, int height);
 
 	const bool& Play(const std::string key, const float& dt, const bool priority = false);
-
-	const bool& Play(const std::string key, const float& dt, const float & modifier, const float& modifier_max, const bool priority = false);
+	const bool& Play(const std::string key, const float& dt, const float& modifier, const float& modifier_max, const bool priority = false);
 };

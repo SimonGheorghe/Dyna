@@ -1,17 +1,17 @@
 #include "Powers.h"
 
-Powers::Powers(Type power, const float x, const float y, std::vector<sf::Texture>& textureSheet):
+Powers::Powers(Type power, const float x, const float y, std::map<std::string, sf::Texture>& textures):
 	m_power(power)
 {
 	SetPosition(x, y);
-	SetTexture(textureSheet);
+	//SetTexture(textures);
 }
 
 void Powers::Render(sf::RenderTarget& target)
 {
 	if(m_powersIsHidden==1)
-		target.draw(m_sprite[0]);
-	target.draw(m_sprite[(uint16_t)m_power]);
+		target.draw(m_sprites[0]);
+	target.draw(m_sprites[(uint16_t)m_power]);
 }
 
 bool Powers::GetPowerStatus()

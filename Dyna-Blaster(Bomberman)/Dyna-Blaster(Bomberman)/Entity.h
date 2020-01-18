@@ -15,8 +15,7 @@ public:
 	virtual void SetPosition(const float x, const float y);
 	virtual void Render(sf::RenderTarget& target, uint16_t state);
 
-	void SetTexture(std::vector<sf::Texture>& textures);
 protected:
-	std::vector<sf::Sprite> m_sprite;
+	std::vector<sf::Sprite> m_sprites;
 };
 

@@ -28,7 +28,7 @@ Player::Player(uint16_t fire, uint16_t numberBombs, uint16_t health, uint32_t sc
 	InitVariables();
 	SetPosition(x, y);
 	SetTexture(textureSheet);
-	CreateHitBoxComponent(m_sprite, 0.f, 0.f, 64.f, 64.f);
+	CreateHitBoxComponent(m_sprite, 16.f, 22.f, 30.f, 30.f);
 	CreateMovementComponent(150.f, 15.f, 10.f);
 	CreateAnimationComponent(textureSheet);
 

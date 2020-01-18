@@ -1,10 +1,11 @@
 #include "Block.h"
 
-Block::Block(Type type, const float x, const float y, std::vector<sf::Texture>& textureSheet):
+Block::Block(Type type, const float x, const float y, sf::Texture& texture):
 m_type(type)
 {
-	SetPosition(x, y);
-	SetTexture(textureSheet);
+	m_sprite.setSize(sf::Vector2f(32,32));
+	m_sprite.setTexture(&texture);
+	m_sprite.setPosition(x, y);
 }
 
 Block::Type Block::GetType() const
@@ -14,10 +15,7 @@ Block::Type Block::GetType() const
 
 void Block::Render(sf::RenderTarget& target)
 {
-	if(m_type==Type::HiddenExit)
-		target.draw(m_sprite[1]);
-	else
-	target.draw(m_sprite[(uint16_t)m_type]);
+	target.draw(m_sprite);
 }
 
 std::ostream& operator<<(std::ostream& out, const Block& block)

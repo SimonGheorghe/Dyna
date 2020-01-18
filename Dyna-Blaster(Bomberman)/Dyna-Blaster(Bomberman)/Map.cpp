@@ -9,7 +9,7 @@ Map::Map(Stage Stage, uint16_t Level)
 	m_level = Level;
 }
 
-void Map::Create(std::vector<sf::Texture> textures)
+void Map::Create(std::map<std::string, sf::Texture>& textures)
 {
 	m_map.resize((uint16_t)m_length);
 	for (int index = 0; index < m_map.size(); ++index)
@@ -18,13 +18,13 @@ void Map::Create(std::vector<sf::Texture> textures)
 	GenerateBlocks(textures);
 }
 
-void Map::GenerateBlocks(std::vector<sf::Texture> textures)
+void Map::GenerateBlocks(std::map<std::string, sf::Texture>& textures)
 {
 	
 	for (int index1 = 0; index1 < (uint16_t)m_length; ++index1)
 		for (int index2 = 0; index2 < (uint16_t)m_width; ++index2)
 			if (index1 == 0 || index2 == 0 || index1 == (uint16_t)m_length - 1 || index2 == (uint16_t)m_width - 1|| (index1 % 2 == 0 && index2 % 2 == 0))
-				m_map[index1][index2] = new Block(Block::Type::HardBlock, index1 * blockSize, index2 * blockSize, textures);
+				m_map[index1][index2] = new Block(Block::Type::HardBlock, index1 * blockSize, index2 * blockSize, textures["HARD_BLOCK"]);
 	//37% of the map is covered by hard blocks
 	if (m_level != 7)
 	{
@@ -38,13 +38,13 @@ void Map::GenerateBlocks(std::vector<sf::Texture> textures)
 				coordX = rand() % (uint16_t)m_length;
 				coordY = rand() % (uint16_t)m_width;
 			} while (m_map[coordX][coordY] != nullptr);
-			m_map[coordX][coordY] = new Block(Block::Type::SoftBlock, coordX * blockSize, coordY * blockSize, textures);
+			m_map[coordX][coordY] = new Block(Block::Type::SoftBlock, coordX * blockSize, coordY * blockSize, textures["SOFT_BLOCK"]);
 		}
 		do {
 			coordX = rand() % (uint16_t)m_length;
 			coordY = rand() % (uint16_t)m_width;
 		} while (m_map[coordX][coordY] != nullptr || (coordX == 1 || coordX == 2) && (coordY == 1 || coordY == 2));//we dont want to place the exit in player's zone
-		m_map[coordX][coordY] = new Block(Block::Type::HiddenExit, coordX * blockSize, coordY * blockSize, textures);
+		m_map[coordX][coordY] = new Block(Block::Type::HiddenExit, coordX * blockSize, coordY * blockSize, textures["SOFT_BLOCK"]);
 	}
 
 	for (int index1 = 0; index1 < (uint16_t)m_length; ++index1)
@@ -52,9 +52,10 @@ void Map::GenerateBlocks(std::vector<sf::Texture> textures)
 		{
 			if (!dynamic_cast<Block*>(m_map[index1][index2]) && !dynamic_cast<Powers*>(m_map[index1][index2]))
 			{
-				m_map[index1][index2] = new Block(Block::Type::NoneBlock, index1 * blockSize, index2 * blockSize, textures);
+				m_map[index1][index2] = new Block(Block::Type::NoneBlock, index1 * blockSize, index2 * blockSize, textures["NONE_BLOCK"]);
 			}
 		}
+
 }
 
 Powers::Type RandomPower()
@@ -63,7 +64,7 @@ Powers::Type RandomPower()
 	return Powers::Type(rand() % noOfPowerTypes);
 }
 
-void Map::GeneratePower(std::vector<sf::Texture> textures)
+void Map::GeneratePower(std::map<std::string, sf::Texture>& textures)
 {
 	do {
 		m_powerX = rand() % (uint16_t)m_length;
@@ -119,10 +120,11 @@ void Map::Render(sf::RenderTarget& target)
 	for (auto line = 0; line < m_map.size(); ++line)
 		for (auto column = 0; column < m_map[line].size(); ++column)
 		{
-			if (dynamic_cast<Block*>(m_map[line][column]))
-				dynamic_cast<Block*>(m_map[line][column])->Render(target);
-			if (dynamic_cast<Powers*>(m_map[line][column]))
-				dynamic_cast<Powers*>(m_map[line][column])->Render(target);
+			Block* block = dynamic_cast<Block*>(m_map[line][column]);
+			if (block)
+				block->Render(target);
+			/*if (dynamic_cast<Powers*>(m_map[line][column]))
+				dynamic_cast<Powers*>(m_map[line][column])->Render(target);*/
 		}
 }
 

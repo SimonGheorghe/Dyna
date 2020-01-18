@@ -23,7 +23,7 @@ public :
 
 private:
 	Player* m_player;
-	Map* m_map;
+	Map m_map = Map(Map::Stage(m_stage), m_round);;
 
 	void InitKeyBinds();
 	void InitTextures();
@@ -36,6 +36,6 @@ private:
 private:
 	static const uint16_t noOfStagesAndLevels = 8;
 	std::array<std::array<std::string, noOfStagesAndLevels>, noOfStagesAndLevels> mapsDimensions;
-	uint16_t m_stage, m_round;
+	uint16_t m_stage=0, m_round=0;
 };
 

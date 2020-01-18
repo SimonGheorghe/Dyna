@@ -39,7 +39,7 @@ void Bomb::SetBlast(bool i) {
 
 void Bomb::render(sf::RenderTarget& target)
 {
-	target.draw(m_sprite[0]);
+	target.draw(m_sprites[0]);
 }
 
 bool Bomb::GetIgnite() const {

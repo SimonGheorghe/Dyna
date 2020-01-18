@@ -22,7 +22,7 @@ public:
 	};
 
 public:
-	Powers(Type power, const float x, const float y, std::vector<sf::Texture>& textureSheet);
+	Powers(Type power, const float x, const float y, std::map<std::string, sf::Texture>& textures);
 	
 	friend std::ostream& operator<<(std::ostream& out, const Powers& power);
 

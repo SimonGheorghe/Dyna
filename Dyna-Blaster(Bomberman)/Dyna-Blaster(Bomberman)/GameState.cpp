@@ -11,7 +11,6 @@ void GameState::InitKeyBinds()
 void GameState::InitTextures()
 {
 	if (!m_textures["PLAYER_SHEET"].loadFromFile("./Resources/Images/Sprites/Player/PLAYER_SHEET.png"))
-		//if (!m_textures["PLAYER_SHEET"].loadFromFile("./Resources/Images/player.png"))
 	{
 		std::cout << "ERROR::GAME_STATE::COULD_NOT_LOAD_PLAYER_TEXTURE";
 	}
@@ -29,7 +28,7 @@ void GameState::InitPlayers()
 	uint16_t playerHealth = 6;
 	uint32_t playerScore = 0;
 	uint16_t playerSpeed = 2;
-	m_player = new Player(playerFire, playerNoOfBombs, playerHealth, playerScore, playerSpeed, 0, 0, m_textures["PLAYER_SHEET"]);
+	m_player = new Player(playerFire, playerNoOfBombs, playerHealth, playerScore, playerSpeed, 16, 10, m_textures["PLAYER_SHEET"]);
 }
 
 GameState::GameState(sf::RenderWindow* window, std::map<std::string, int>* suportedKeys, std::stack<State*>* states)
@@ -41,9 +40,8 @@ GameState::GameState(sf::RenderWindow* window, std::map<std::string, int>* supor
 	ReadMapsDimensions();
 	m_stage = 0;
 	m_round = 0;
-	m_map = new Map(Map::Stage(m_stage), m_round);
 	std::string mapDimensions = mapsDimensions[m_stage][m_round];
-	CreateMap(*m_map, m_stage, *m_player, mapDimensions);
+	CreateMap(m_map, m_stage, *m_player, mapDimensions);
 }
 
 GameState::~GameState()
@@ -81,8 +79,8 @@ void GameState::Render(sf::RenderTarget* target)
 	if (!target)
 		target = m_window;
 
+	m_map.Render(*target);
 	m_player->Render(*target);
-	m_map->Render(*target);
 }
 
 
@@ -630,10 +628,9 @@ void MonsterMove(std::vector<Monster*>& enemies, Map& map, Player& player, uint1
 
 void GameState::CreateMap(Map& map, uint16_t stage, const Player& player, std::string mapDimensions)
 {
-	std::vector<sf::Texture> textures({ m_textures["NONE_BLOCK"], m_textures["HARD_BLOCK"], m_textures["SOFT_BLOCK"] });
 	SetMapDimensions(map, mapDimensions);
-	map.Create(textures);
-	map.GeneratePower(textures);
+	map.Create(m_textures);
+	map.GeneratePower(m_textures);
 
 	if (stage != 0)
 		while (map.GetPowerType() == Powers::Type::BombPass && player.GetHasBombPass() ||
@@ -642,7 +639,7 @@ void GameState::CreateMap(Map& map, uint16_t stage, const Player& player, std::s
 			map.GetPowerType() == Powers::Type::Vest && player.GetHasVest())
 		{
 			map.DeletePower();
-			map.GeneratePower(textures);
+			map.GeneratePower(m_textures);
 		}
 }
 

@@ -62,7 +62,6 @@ void Entity2::Update(const float& dt)
 void Entity2::Render(sf::RenderTarget& target)
 {
 	target.draw(m_sprite);
-
 	if (m_hitboxComponent)
 	{
 		m_hitboxComponent->Render(target);

@@ -27,6 +27,24 @@ void Powers::SetPowerStatus(bool value)
 	m_powersIsHidden = value;
 }
 
+Powers& Powers::operator=(const Powers& other)
+{
+	 m_power=other.m_power;
+	 m_powersIsHidden = other.m_powersIsHidden;
+	 return *this;
+}
+
+Powers& Powers::operator=(Powers&& other)
+{
+	m_power = other.m_power;
+	m_powersIsHidden = other.m_powersIsHidden;
+
+
+	other.m_power= Powers::Type::FireUp;
+	other.m_powersIsHidden = false;
+	return *this;
+}
+
 std::ostream& operator<<(std::ostream& out, const Powers& power)
 {
 	if (power.m_powersIsHidden == 1)

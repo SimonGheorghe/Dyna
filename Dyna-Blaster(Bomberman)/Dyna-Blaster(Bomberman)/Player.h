@@ -55,6 +55,8 @@ public:
 	const Bomb* operator[](int index) const;
 	friend std::ostream& operator<<(std::ostream& out, const Player& player);
 
+	Player& operator=(const Player& other);
+	Player& operator=(Player&& other);
 private:
 	void playerIsHitt(Map& map, uint16_t index1, uint16_t index2, uint16_t flame, uint16_t op);
 	void InitVariables();

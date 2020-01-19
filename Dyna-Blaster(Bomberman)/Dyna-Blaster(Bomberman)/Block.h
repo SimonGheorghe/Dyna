@@ -26,6 +26,8 @@ public:
 	void Render(sf::RenderTarget& target);
 
 	friend std::ostream& operator<<(std::ostream& out, const Block& block);
+	Block& operator=(const Block& other);
+	Block& operator=(Block&& other);
 
 private:
 	Type m_type;

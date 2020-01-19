@@ -67,6 +67,9 @@ public:
 	void Place(Map& map, std::vector<Monster*>& enemies);
 	void Move(Map map, const Player& player);
 
+	Monster& operator=(const Monster& other);
+	Monster& operator=(Monster&& other);
+
 private:
 
 	void Alg1(Map map, const Player& player);

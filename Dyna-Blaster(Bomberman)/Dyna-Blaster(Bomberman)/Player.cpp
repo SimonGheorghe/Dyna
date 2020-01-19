@@ -547,6 +547,63 @@ const Bomb* Player::operator[](int index) const
 	return m_placedBombs[index];
 }
 
+Player& Player::operator=(const Player& other)
+{
+	m_coordX = other.m_coordX;
+	m_coordY = other.m_coordY;
+	m_score = other.m_score;
+	m_fire = other.m_fire;
+	m_noOfBombs = other.m_noOfBombs;
+	m_speed = other.m_speed;
+	m_health = other.m_health;
+	m_lastX = other.m_lastX;
+	m_lastY = other.m_lastY;
+	m_placedBombs = other.m_placedBombs;
+	m_softBlockPass = other.m_softBlockPass;
+	m_bombPass = other.m_bombPass;
+	m_vest = other.m_vest;
+	m_remoteControl = other.m_remoteControl;
+
+	return *this;
+}
+
+Player& Player::operator=(Player&& other)
+{
+	m_coordX = other.m_coordX;
+	m_coordY = other.m_coordY;
+	m_score = other.m_score;
+	m_fire = other.m_fire;
+	m_noOfBombs = other.m_noOfBombs;
+	m_speed = other.m_speed;
+	m_health = other.m_health;
+	m_lastX = other.m_lastX;
+	m_lastY = other.m_lastY;
+	m_placedBombs = other.m_placedBombs;
+	m_softBlockPass = other.m_softBlockPass;
+	m_bombPass = other.m_bombPass;
+	m_vest = other.m_vest;
+	m_remoteControl = other.m_remoteControl;
+
+
+
+	other.m_coordX = 0;
+	other.m_coordY = 0;
+	other.m_score = 0;
+	other.m_fire = 0;
+	other.m_noOfBombs = 0;
+	other.m_speed = 0;
+	other.m_health = 0;
+	other.m_lastX = 0;
+	other.m_lastY = 0;
+	other.m_placedBombs = { 0 };
+	other.m_softBlockPass = false;
+	other.m_bombPass = false;
+	other.m_vest = false;
+	other.m_remoteControl = false;
+
+	return *this;
+}
+
 std::ostream& operator<<(std::ostream& out, const Player& player)
 {
 	return out << "[]";

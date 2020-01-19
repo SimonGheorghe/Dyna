@@ -23,6 +23,22 @@ void Block::Render(sf::RenderTarget& target)
 	target.draw(m_sprite);
 }
 
+Block& Block::operator=(const Block& other)
+{
+	m_type = other.m_type;
+	std::cout << "Copy constr.\n";
+	return *this;
+}
+
+Block& Block::operator=(Block&& other)
+{
+	m_type = other.m_type;
+	other.m_type = Block::Type::NoneBlock;
+	std::cout << "Move constr.\n";
+	return *this;
+}
+
+
 std::ostream& operator<<(std::ostream& out, const Block& block)
 {
 	char ch;

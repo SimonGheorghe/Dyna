@@ -42,6 +42,33 @@ void Bomb::render(sf::RenderTarget& target)
 	target.draw(m_sprites[0]);
 }
 
+Bomb& Bomb::operator=(const Bomb& other)
+{
+	m_coordX = other.m_coordX;
+	m_coordY = other.m_coordY;
+	m_ticks = other.m_ticks;
+	m_flame = other.m_flame;
+	m_id = other.m_id;
+	return *this;
+}
+
+Bomb& Bomb::operator=(Bomb&& other)
+{
+	m_coordX = other.m_coordX;
+	m_coordY = other.m_coordY;
+	m_ticks = other.m_ticks;
+	m_flame = other.m_flame;
+	m_id = other.m_id;
+
+	other.m_coordX = 0;
+	other.m_coordY = 0;
+	other.m_ticks = 0;
+	other.m_flame = 0;
+	other.m_id = 0;
+
+	return *this;
+}
+
 bool Bomb::GetIgnite() const {
 
 	return Ignition;

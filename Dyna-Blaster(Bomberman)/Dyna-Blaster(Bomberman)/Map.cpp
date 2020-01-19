@@ -130,6 +130,44 @@ void Map::Render(sf::RenderTarget& target)
 		}
 }
 
+Map& Map::operator=(const Map& other)
+{
+	m_stage = other.m_stage;
+	m_level = other.m_level;
+	m_width = other.m_width;
+	m_length = other.m_length;
+	m_map = other.m_map;
+	m_power = other.m_power;
+	m_powerX = other.m_powerX;
+	m_powerY = other.m_powerY;
+	return *this;
+}
+
+Map& Map::operator=(Map&& other)
+{
+	m_stage = other.m_stage;
+	m_level = other.m_level;
+	m_width = other.m_width;
+	m_length = other.m_length;
+	m_map = other.m_map;
+	m_power = other.m_power;
+	m_powerX = other.m_powerX;
+	m_powerY = other.m_powerY;
+
+	other.m_stage = Stage::TheWall;
+	other.m_level = 0;
+	other.m_width = Width::None;
+	other.m_length = Length::None;
+	for (auto line : other.m_map)
+		line.clear();
+	other.m_map.clear();
+	other.m_power = Powers::Type::FireUp;
+	other.m_powerX = 0;
+	other.m_powerY = 0;
+	return *this;
+}
+
+
 const Entity* Map::operator[](const Position& position) const
 {
 	//const auto& [line, column] = position;  ???

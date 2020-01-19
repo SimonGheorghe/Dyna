@@ -38,6 +38,8 @@ public:
 		
 	friend std::ostream& operator<<(std::ostream& out, const Bomb& bomb);
 
+	Bomb& operator=(const Bomb& other);
+	Bomb& operator=(Bomb&& other);
 private:
 
 	//Ticks is the original bombs m_timer flame is for how many blastlets to create after bomb has detonated

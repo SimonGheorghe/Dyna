@@ -24,12 +24,14 @@ public:
 
 	enum class Width
 	{
+		None = 0,
 		Narrow = 15,
 		Wide = 31
 	};
 
 	enum class Length
 	{
+		None=0,
 		Short = 13,
 		Long = 29
 	};
@@ -40,6 +42,8 @@ public:
 	Map(Stage Stage, uint16_t Level);
 	friend std::ostream& operator<<(std::ostream& out, const Map& map);
 
+	Map& operator=(const Map& other);
+	Map& operator=(Map&& other);
 	const Entity* operator[](const Position& position) const;
 	Entity* operator[](const Position& position);
 

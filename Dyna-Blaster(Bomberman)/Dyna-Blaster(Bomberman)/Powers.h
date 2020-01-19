@@ -32,7 +32,8 @@ public:
 	Type GetPowerType() const;
 	void SetPowerStatus(bool value);
 
-
+	Powers& operator=(const Powers& other);
+	Powers& operator=(Powers&& other);
 
 private:
 	Type m_power;

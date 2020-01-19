@@ -42,6 +42,7 @@ GameState::GameState(sf::RenderWindow* window, std::map<std::string, int>* supor
 	m_round = 0;
 	std::string mapDimensions = mapsDimensions[m_stage][m_round];
 	CreateMap(m_map, m_stage, *m_player, mapDimensions);
+	
 }
 
 GameState::~GameState()

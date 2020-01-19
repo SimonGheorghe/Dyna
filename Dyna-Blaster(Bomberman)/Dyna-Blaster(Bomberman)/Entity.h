@@ -9,6 +9,13 @@
 #include "SFML/Graphics.hpp"
 #include "SFML/Audio.hpp"
 #include "SFML/Network.hpp"
+
+template<class T1, class T2>
+T1* instanceOf(T2 obj)
+{
+	return dynamic_cast<T1*>(obj);
+}
+
 class Entity
 {
 public:

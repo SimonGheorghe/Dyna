@@ -296,8 +296,8 @@ void Monster::Place(Map& map, std::vector<Monster*>& enemies)
 	do {
 		m_coordX = rand() % (map.GetLength() - 2) + 1;
 		m_coordY = rand() % (map.GetWidth() - 2) + 1;
-	} while (!dynamic_cast<Block*>(map[{m_coordX, m_coordY}]) ||
-		dynamic_cast<Block*>(map[{m_coordX, m_coordY}])->GetType() != Block::Type::NoneBlock ||
+	} while (!instanceOf<Block, Entity*>(map[{m_coordX, m_coordY}]) ||
+		instanceOf<Block, Entity*>(map[{m_coordX, m_coordY}])->GetType() != Block::Type::NoneBlock ||
 		(m_coordX == 1 || m_coordX == 2) && (m_coordY == 1 || m_coordY == 2));//we don't want monsters to spawn near player
 	m_lastX = m_coordX;
 	m_lastY = m_coordY;
@@ -473,14 +473,14 @@ bool Monster::MoveVerif(uint16_t step, Map map, const Player& player)
 	switch (step)
 	{
 	case 0:
-		if (dynamic_cast<Powers*>(map[{m_coordX, m_coordY - 1}]) &&
-			(dynamic_cast<Powers*>(map[{m_coordX, m_coordY - 1}])->GetPowerStatus() == 0 ||
-				dynamic_cast<Powers*>(map[{m_coordX, m_coordY - 1}])->GetPowerStatus() == 1 && m_passingAbility) ||
-			dynamic_cast<Block*>(map[{m_coordX, m_coordY - 1}]) &&
-			(dynamic_cast<Block*>(map[{m_coordX, m_coordY - 1}])->GetType() != Block::Type::SoftBlock &&
-				dynamic_cast<Block*>(map[{m_coordX, m_coordY - 1}])->GetType() != Block::Type::HiddenExit
+		if (instanceOf<Powers, Entity*>(map[{m_coordX, m_coordY - 1}]) &&
+			(instanceOf<Powers, Entity*>(map[{m_coordX, m_coordY - 1}])->GetPowerStatus() == 0 ||
+				instanceOf<Powers, Entity*>(map[{m_coordX, m_coordY - 1}])->GetPowerStatus() == 1 && m_passingAbility) ||
+			instanceOf<Block, Entity*>(map[{m_coordX, m_coordY - 1}]) &&
+			(instanceOf<Block, Entity*>(map[{m_coordX, m_coordY - 1}])->GetType() != Block::Type::SoftBlock &&
+				instanceOf<Block, Entity*>(map[{m_coordX, m_coordY - 1}])->GetType() != Block::Type::HiddenExit
 				|| m_passingAbility) &&
-			dynamic_cast<Block*>(map[{m_coordX, m_coordY - 1}])->GetType() != Block::Type::HardBlock)
+			instanceOf<Block, Entity*>(map[{m_coordX, m_coordY - 1}])->GetType() != Block::Type::HardBlock)
 		{
 			bool ok = 1;
 			for (int index = 0; index < player.GetNoOfPlacedBombs(); ++index)
@@ -496,14 +496,14 @@ bool Monster::MoveVerif(uint16_t step, Map map, const Player& player)
 		}
 		break;
 	case 1:
-		if (dynamic_cast<Powers*>(map[{m_coordX, m_coordY + 1}]) &&
-			(dynamic_cast<Powers*>(map[{m_coordX, m_coordY + 1}])->GetPowerStatus() == 0 ||
-				dynamic_cast<Powers*>(map[{m_coordX, m_coordY + 1}])->GetPowerStatus() == 1 && m_passingAbility) ||
-			dynamic_cast<Block*>(map[{m_coordX, m_coordY + 1}]) &&
-			(dynamic_cast<Block*>(map[{m_coordX, m_coordY + 1}])->GetType() != Block::Type::SoftBlock &&
-				dynamic_cast<Block*>(map[{m_coordX, m_coordY + 1}])->GetType() != Block::Type::HiddenExit
+		if (instanceOf<Powers, Entity*>(map[{m_coordX, m_coordY + 1}]) &&
+			(instanceOf<Powers, Entity*>(map[{m_coordX, m_coordY + 1}])->GetPowerStatus() == 0 ||
+				instanceOf<Powers, Entity*>(map[{m_coordX, m_coordY + 1}])->GetPowerStatus() == 1 && m_passingAbility) ||
+			instanceOf<Block, Entity*>(map[{m_coordX, m_coordY + 1}]) &&
+			(instanceOf<Block, Entity*>(map[{m_coordX, m_coordY + 1}])->GetType() != Block::Type::SoftBlock &&
+				instanceOf<Block, Entity*>(map[{m_coordX, m_coordY + 1}])->GetType() != Block::Type::HiddenExit
 				|| m_passingAbility) &&
-			dynamic_cast<Block*>(map[{m_coordX, m_coordY + 1}])->GetType() != Block::Type::HardBlock)
+			instanceOf<Block, Entity*>(map[{m_coordX, m_coordY + 1}])->GetType() != Block::Type::HardBlock)
 		{
 			bool ok = 1;
 			for (int index = 0; index < player.GetNoOfPlacedBombs(); ++index)
@@ -519,14 +519,14 @@ bool Monster::MoveVerif(uint16_t step, Map map, const Player& player)
 		}
 		break;
 	case 2:
-		if (dynamic_cast<Powers*>(map[{m_coordX - 1, m_coordY}]) &&
-			(dynamic_cast<Powers*>(map[{m_coordX - 1, m_coordY}])->GetPowerStatus() == 0 ||
-				dynamic_cast<Powers*>(map[{m_coordX - 1, m_coordY}])->GetPowerStatus() == 1 && m_passingAbility) ||
-			dynamic_cast<Block*>(map[{m_coordX - 1, m_coordY}]) &&
-			(dynamic_cast<Block*>(map[{m_coordX - 1, m_coordY}])->GetType() != Block::Type::SoftBlock &&
-				dynamic_cast<Block*>(map[{m_coordX - 1, m_coordY}])->GetType() != Block::Type::HiddenExit
+		if (instanceOf<Powers, Entity*>(map[{m_coordX - 1, m_coordY}]) &&
+			(instanceOf<Powers, Entity*>(map[{m_coordX - 1, m_coordY}])->GetPowerStatus() == 0 ||
+				instanceOf<Powers, Entity*>(map[{m_coordX - 1, m_coordY}])->GetPowerStatus() == 1 && m_passingAbility) ||
+			instanceOf<Block, Entity*>(map[{m_coordX - 1, m_coordY}]) &&
+			(instanceOf<Block, Entity*>(map[{m_coordX - 1, m_coordY}])->GetType() != Block::Type::SoftBlock &&
+				instanceOf<Block, Entity*>(map[{m_coordX - 1, m_coordY}])->GetType() != Block::Type::HiddenExit
 				|| m_passingAbility) &&
-			dynamic_cast<Block*>(map[{m_coordX - 1, m_coordY}])->GetType() != Block::Type::HardBlock)
+			instanceOf<Block, Entity*>(map[{m_coordX - 1, m_coordY}])->GetType() != Block::Type::HardBlock)
 		{
 			bool ok = 1;
 			for (int index = 0; index < player.GetNoOfPlacedBombs(); ++index)
@@ -542,14 +542,14 @@ bool Monster::MoveVerif(uint16_t step, Map map, const Player& player)
 		}
 		break;
 	case 3:
-		if (dynamic_cast<Powers*>(map[{m_coordX + 1, m_coordY}]) &&
-			(dynamic_cast<Powers*>(map[{m_coordX + 1, m_coordY}])->GetPowerStatus() == 0 ||
-				dynamic_cast<Powers*>(map[{m_coordX + 1, m_coordY}])->GetPowerStatus() == 1 && m_passingAbility) ||
-			dynamic_cast<Block*>(map[{m_coordX + 1, m_coordY}]) &&
-			(dynamic_cast<Block*>(map[{m_coordX + 1, m_coordY}])->GetType() != Block::Type::SoftBlock &&
-				dynamic_cast<Block*>(map[{m_coordX + 1, m_coordY}])->GetType() != Block::Type::HiddenExit
+		if (instanceOf<Powers, Entity*>(map[{m_coordX + 1, m_coordY}]) &&
+			(instanceOf<Powers, Entity*>(map[{m_coordX + 1, m_coordY}])->GetPowerStatus() == 0 ||
+				instanceOf<Powers, Entity*>(map[{m_coordX + 1, m_coordY}])->GetPowerStatus() == 1 && m_passingAbility) ||
+			instanceOf<Block, Entity*>(map[{m_coordX + 1, m_coordY}]) &&
+			(instanceOf<Block, Entity*>(map[{m_coordX + 1, m_coordY}])->GetType() != Block::Type::SoftBlock &&
+				instanceOf<Block, Entity*>(map[{m_coordX + 1, m_coordY}])->GetType() != Block::Type::HiddenExit
 				|| m_passingAbility) &&
-			dynamic_cast<Block*>(map[{m_coordX + 1, m_coordY}])->GetType() != Block::Type::HardBlock)
+			instanceOf<Block, Entity*>(map[{m_coordX + 1, m_coordY}])->GetType() != Block::Type::HardBlock)
 		{
 			bool ok = 1;
 			for (int index = 0; index < player.GetNoOfPlacedBombs(); ++index)

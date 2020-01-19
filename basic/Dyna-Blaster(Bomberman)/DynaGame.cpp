@@ -486,13 +486,15 @@ void PrintMap(Map& map, const Player& player, std::vector<Monster*>& enemies)
 						}
 					if (ok)
 					{
-						if (dynamic_cast<Block*>(map[{index1, index2}]))
+						//if (dynamic_cast<Block*>(map[{index1, index2}]))
+						if(instanceOf<Block, Entity*>(map[{index1,index2}]))
 						{
-							std::cout << *dynamic_cast<Block*>(map[{index1, index2}]);
+							std::cout << *instanceOf<Block, Entity*>(map[{index1, index2}]);
 							map.ClearMap(index1, index2);
 						}
-						if (dynamic_cast<Powers*>(map[{index1, index2}]))
-							std::cout << *dynamic_cast<Powers*>(map[{index1, index2}]);
+						//if (dynamic_cast<Powers*>(map[{index1, index2}]))
+						if (instanceOf<Powers, Entity*>(map[{index1, index2}]))
+						std::cout << *instanceOf<Powers, Entity*>(map[{index1, index2}]);
 					}
 				}
 			}
@@ -574,7 +576,8 @@ bool PlaceExit(Map& map)
 	do {
 		coordX = rand() % map.GetLength();
 		coordY = rand() % map.GetWidth();
-	} while (dynamic_cast<Block*>(map[{coordX, coordY}])->GetType() != Block::Type::NoneBlock);
+	} while (instanceOf<Block, Entity*>(map[{coordX, coordY}])->GetType() != Block::Type::NoneBlock);
+	/*while (dynamic_cast<Block*>(map[{coordX, coordY}])->GetType() != Block::Type::NoneBlock);*/
 	map.SetBlock(Block::Type::Exit, coordX, coordY);
 	return 1;
 }
@@ -597,10 +600,10 @@ void DropMontsersHitPoints(std::vector<Monster*>& enemies, Map& map)
 	{
 		int x = enemies[index]->GetCoordX();
 		int y = enemies[index]->GetCoordY();
-		if (dynamic_cast<Block*>(map[{x, y}]))
-			if (dynamic_cast<Block*>(map[{x, y}])->GetType() == Block::Type::HorizontalFire ||
-				dynamic_cast<Block*>(map[{x, y}])->GetType() == Block::Type::ExplodedBomb ||
-				dynamic_cast<Block*>(map[{x, y}])->GetType() == Block::Type::VerticalFire)
+		if (instanceOf<Block, Entity*>(map[{x, y}]))
+			if (instanceOf<Block, Entity*>(map[{x, y}])->GetType() == Block::Type::HorizontalFire ||
+				instanceOf<Block, Entity*>(map[{x, y}])->GetType() == Block::Type::ExplodedBomb ||
+				instanceOf<Block, Entity*>(map[{x, y}])->GetType() == Block::Type::VerticalFire)
 				enemies[index]->DropHitPoints();
 	}
 }
@@ -632,7 +635,7 @@ void DynaGame::Run()
 			endRound = 0;
 			while (endRound == 0)
 			{
-
+				system("cls");
 				Map map(Map::Stage(stage), round);
 				std::string mapDimensions = mapsDimensions[(uint16_t)stage][round];
 				CreateMap(map, stage, player, mapDimensions);
@@ -658,6 +661,7 @@ void DynaGame::Run()
 
 				while (true)
 				{
+					system("cls");
 					static uint16_t chrono = 0;
 					
 					PrintMap(map, player, enemies);
@@ -682,8 +686,8 @@ void DynaGame::Run()
 
 					//ends round if all requirements are met
 					if (enemies.size() == 0 && 
-						dynamic_cast<Block*>(map[{player.GetCoordX(), player.GetCoordY()}]) &&
-						dynamic_cast<Block*>(map[{player.GetCoordX(), player.GetCoordY()}])->GetType() == Block::Type::Exit)
+						instanceOf<Block, Entity*>(map[{player.GetCoordX(), player.GetCoordY()}]) &&
+						instanceOf<Block, Entity*>(map[{player.GetCoordX(), player.GetCoordY()}])->GetType() == Block::Type::Exit)
 					{
 						endRound = 1;
 						break;

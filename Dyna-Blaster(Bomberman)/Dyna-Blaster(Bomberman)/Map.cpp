@@ -52,7 +52,7 @@ void Map::GenerateBlocks(std::map<std::string, sf::Texture>& textures)
 	for (int index1 = 0; index1 < (uint16_t)m_length; ++index1)
 		for (int index2 = 0; index2 < (uint16_t)m_width; ++index2)
 		{
-			if (!dynamic_cast<Block*>(m_map[index1][index2]) && !dynamic_cast<Powers*>(m_map[index1][index2]))
+			if (!instanceOf<Block, Entity*>(m_map[index1][index2]) && !instanceOf<Powers, Entity*>(m_map[index1][index2]))
 			{
 				m_map[index1][index2] = new Block(Block::Type::NoneBlock, index1 * blockSize, index2 * blockSize, textures["NONE_BLOCK"]);
 			}
@@ -71,7 +71,7 @@ void Map::GeneratePower(std::map<std::string, sf::Texture>& textures)
 	do {
 		m_powerX = rand() % (uint16_t)m_length;
 		m_powerY = rand() % (uint16_t)m_width;
-	} while (dynamic_cast<Block*>(m_map[m_powerX][m_powerY])->GetType() != Block::Type::NoneBlock ||
+	} while (instanceOf<Block, Entity*>(m_map[m_powerX][m_powerY])->GetType() != Block::Type::NoneBlock ||
 		(m_powerX == 1 || m_powerX == 2) && (m_powerY == 1 || m_powerY == 2));
 	//we dont want to place the power in player's zone
 
@@ -122,11 +122,11 @@ void Map::Render(sf::RenderTarget& target)
 	for (auto line = 0; line < m_map.size(); ++line)
 		for (auto column = 0; column < m_map[line].size(); ++column)
 		{
-			Block* block = dynamic_cast<Block*>(m_map[line][column]);
+			Block* block = instanceOf<Block, Entity*>(m_map[line][column]);
 			if (block)
 				block->Render(target);
-			/*if (dynamic_cast<Powers*>(m_map[line][column]))
-				dynamic_cast<Powers*>(m_map[line][column])->Render(target);*/
+			/*if (instanceOf<Powers, Entity*>(m_map[line][column]))
+				instanceOf<Powers, Entity*>(m_map[line][column])->Render(target);*/
 		}
 }
 
@@ -201,9 +201,9 @@ void Map::SetBomb(Bomb* bomb)
 /*
 void Map::ClearMap(uint16_t index1, uint16_t index2)
 {
-	if (dynamic_cast<Block*>(m_map[index1][index2]))
+	if (instanceOf<Block, Entity*>(m_map[index1][index2]))
 	{
-		Block* block = dynamic_cast<Block*>(m_map[index1][index2]);
+		Block* block = instanceOf<Block, Entity*>(m_map[index1][index2]);
 		if (block->GetType() == Block::Type::ExplodedBlock ||
 			block->GetType() == Block::Type::ExplodedBomb ||
 			block->GetType() == Block::Type::HorizontalFire ||

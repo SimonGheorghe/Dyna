@@ -188,13 +188,13 @@ void Player::Place(Map& map, uint16_t coordX, uint16_t coordY)
 	m_coordX = coordX;
 	m_coordY = coordY;
 	map.SetBlock(Block::Type::NoneBlock, m_coordX, m_coordY);
-	if (dynamic_cast<Block*>(map[{m_coordX - 1, m_coordY}])->GetType() == Block::Type::SoftBlock)
+	if (instanceOf<Block, Entity*>(map[{m_coordX - 1, m_coordY}])->GetType() == Block::Type::SoftBlock)
 		map.SetBlock(Block::Type::NoneBlock, m_coordX - 1, m_coordY);
-	if (dynamic_cast<Block*>(map[{m_coordX + 1, m_coordY}])->GetType() == Block::Type::SoftBlock)
+	if (instanceOf<Block, Entity*>(map[{m_coordX + 1, m_coordY}])->GetType() == Block::Type::SoftBlock)
 		map.SetBlock(Block::Type::NoneBlock, m_coordX + 1, m_coordY);
-	if (dynamic_cast<Block*>(map[{m_coordX, m_coordY - 1}])->GetType() == Block::Type::SoftBlock)
+	if (instanceOf<Block, Entity*>(map[{m_coordX, m_coordY - 1}])->GetType() == Block::Type::SoftBlock)
 		map.SetBlock(Block::Type::NoneBlock, m_coordX, m_coordY - 1);
-	if (dynamic_cast<Block*>(map[{m_coordX, m_coordY + 1}])->GetType() == Block::Type::SoftBlock)
+	if (instanceOf<Block, Entity*>(map[{m_coordX, m_coordY + 1}])->GetType() == Block::Type::SoftBlock)
 		map.SetBlock(Block::Type::NoneBlock, m_coordX, m_coordY + 1);
 }
 
@@ -205,13 +205,13 @@ void Player::Move(Map& map, char ch)
 	case 'W':
 	case 'w':
 	{
-		if (dynamic_cast<Powers*>(map[{m_coordX - 1, m_coordY}]))
+		if (instanceOf<Powers, Entity*>(map[{m_coordX - 1, m_coordY}]))
 		{
-			if (dynamic_cast<Powers*>(map[{m_coordX - 1, m_coordY}])->GetPowerStatus() == 0 || m_softBlockPass)
+			if (instanceOf<Powers, Entity*>(map[{m_coordX - 1, m_coordY}])->GetPowerStatus() == 0 || m_softBlockPass)
 			{
-				if (dynamic_cast<Powers*>(map[{m_coordX - 1, m_coordY}])->GetPowerStatus() == 0)
+				if (instanceOf<Powers, Entity*>(map[{m_coordX - 1, m_coordY}])->GetPowerStatus() == 0)
 				{
-					UpdatePlayerPower(dynamic_cast<Powers*>(map[{m_coordX - 1, m_coordY}])->GetPowerType());
+					UpdatePlayerPower(instanceOf<Powers, Entity*>(map[{m_coordX - 1, m_coordY}])->GetPowerType());
 					map.SetBlock(Block::Type::NoneBlock, m_coordX - 1, m_coordY);
 				}
 				m_lastX = m_coordX;
@@ -220,10 +220,10 @@ void Player::Move(Map& map, char ch)
 			}
 		}
 		else
-			if (dynamic_cast<Block*>(map[{m_coordX - 1, m_coordY}])->GetType() == Block::Type::NoneBlock ||
-				dynamic_cast<Block*>(map[{m_coordX - 1, m_coordY}])->GetType() == Block::Type::SoftBlock && m_softBlockPass ||
-				dynamic_cast<Block*>(map[{m_coordX - 1, m_coordY}])->GetType() == Block::Type::Exit ||
-				dynamic_cast<Block*>(map[{m_coordX - 1, m_coordY}])->GetType() == Block::Type::HiddenExit && m_softBlockPass)
+			if (instanceOf<Block, Entity*>(map[{m_coordX - 1, m_coordY}])->GetType() == Block::Type::NoneBlock ||
+				instanceOf<Block, Entity*>(map[{m_coordX - 1, m_coordY}])->GetType() == Block::Type::SoftBlock && m_softBlockPass ||
+				instanceOf<Block, Entity*>(map[{m_coordX - 1, m_coordY}])->GetType() == Block::Type::Exit ||
+				instanceOf<Block, Entity*>(map[{m_coordX - 1, m_coordY}])->GetType() == Block::Type::HiddenExit && m_softBlockPass)
 			{
 				bool ok = 1;
 				if (!m_bombPass)
@@ -242,13 +242,13 @@ void Player::Move(Map& map, char ch)
 	case 'A':
 	case 'a':
 	{
-		if (dynamic_cast<Powers*>(map[{m_coordX, m_coordY - 1}]))
+		if (instanceOf<Powers, Entity*>(map[{m_coordX, m_coordY - 1}]))
 		{
-			if (dynamic_cast<Powers*>(map[{m_coordX, m_coordY - 1}])->GetPowerStatus() == 0 || m_softBlockPass)
+			if (instanceOf<Powers, Entity*>(map[{m_coordX, m_coordY - 1}])->GetPowerStatus() == 0 || m_softBlockPass)
 			{
-				if (dynamic_cast<Powers*>(map[{m_coordX, m_coordY - 1}])->GetPowerStatus() == 0)
+				if (instanceOf<Powers, Entity*>(map[{m_coordX, m_coordY - 1}])->GetPowerStatus() == 0)
 				{
-					UpdatePlayerPower(dynamic_cast<Powers*>(map[{m_coordX, m_coordY - 1}])->GetPowerType());
+					UpdatePlayerPower(instanceOf<Powers, Entity*>(map[{m_coordX, m_coordY - 1}])->GetPowerType());
 					map.SetBlock(Block::Type::NoneBlock, m_coordX, m_coordY - 1);
 				}
 				m_lastX = m_coordX;
@@ -257,10 +257,10 @@ void Player::Move(Map& map, char ch)
 			}
 		}
 		else
-			if (dynamic_cast<Block*>(map[{m_coordX, m_coordY - 1}])->GetType() == Block::Type::NoneBlock ||
-				dynamic_cast<Block*>(map[{m_coordX, m_coordY - 1}])->GetType() == Block::Type::SoftBlock && m_softBlockPass ||
-				dynamic_cast<Block*>(map[{m_coordX, m_coordY - 1}])->GetType() == Block::Type::Exit ||
-				dynamic_cast<Block*>(map[{m_coordX, m_coordY - 1}])->GetType() == Block::Type::HiddenExit && m_softBlockPass)
+			if (instanceOf<Block, Entity*>(map[{m_coordX, m_coordY - 1}])->GetType() == Block::Type::NoneBlock ||
+				instanceOf<Block, Entity*>(map[{m_coordX, m_coordY - 1}])->GetType() == Block::Type::SoftBlock && m_softBlockPass ||
+				instanceOf<Block, Entity*>(map[{m_coordX, m_coordY - 1}])->GetType() == Block::Type::Exit ||
+				instanceOf<Block, Entity*>(map[{m_coordX, m_coordY - 1}])->GetType() == Block::Type::HiddenExit && m_softBlockPass)
 			{
 				bool ok = 1;
 				if (!m_bombPass)
@@ -279,13 +279,13 @@ void Player::Move(Map& map, char ch)
 	case 's':
 	case 'S':
 	{
-		if (dynamic_cast<Powers*>(map[{m_coordX + 1, m_coordY}]))
+		if (instanceOf<Powers, Entity*>(map[{m_coordX + 1, m_coordY}]))
 		{
-			if (dynamic_cast<Powers*>(map[{m_coordX + 1, m_coordY}])->GetPowerStatus() == 0 || m_softBlockPass)
+			if (instanceOf<Powers, Entity*>(map[{m_coordX + 1, m_coordY}])->GetPowerStatus() == 0 || m_softBlockPass)
 			{
-				if (dynamic_cast<Powers*>(map[{m_coordX + 1, m_coordY}])->GetPowerStatus() == 0)
+				if (instanceOf<Powers, Entity*>(map[{m_coordX + 1, m_coordY}])->GetPowerStatus() == 0)
 				{
-					UpdatePlayerPower(dynamic_cast<Powers*>(map[{m_coordX + 1, m_coordY}])->GetPowerType());
+					UpdatePlayerPower(instanceOf<Powers, Entity*>(map[{m_coordX + 1, m_coordY}])->GetPowerType());
 					map.SetBlock(Block::Type::NoneBlock, m_coordX + 1, m_coordY);
 				}
 				m_lastX = m_coordX;
@@ -294,10 +294,10 @@ void Player::Move(Map& map, char ch)
 			}
 		}
 		else
-			if (dynamic_cast<Block*>(map[{m_coordX + 1, m_coordY}])->GetType() == Block::Type::NoneBlock ||
-				dynamic_cast<Block*>(map[{m_coordX + 1, m_coordY}])->GetType() == Block::Type::SoftBlock && m_softBlockPass ||
-				dynamic_cast<Block*>(map[{m_coordX + 1, m_coordY}])->GetType() == Block::Type::Exit ||
-				dynamic_cast<Block*>(map[{m_coordX + 1, m_coordY}])->GetType() == Block::Type::HiddenExit && m_softBlockPass)
+			if (instanceOf<Block, Entity*>(map[{m_coordX + 1, m_coordY}])->GetType() == Block::Type::NoneBlock ||
+				instanceOf<Block, Entity*>(map[{m_coordX + 1, m_coordY}])->GetType() == Block::Type::SoftBlock && m_softBlockPass ||
+				instanceOf<Block, Entity*>(map[{m_coordX + 1, m_coordY}])->GetType() == Block::Type::Exit ||
+				instanceOf<Block, Entity*>(map[{m_coordX + 1, m_coordY}])->GetType() == Block::Type::HiddenExit && m_softBlockPass)
 			{
 				bool ok = 1;
 				if (!m_bombPass)
@@ -317,13 +317,13 @@ void Player::Move(Map& map, char ch)
 	case 'D':
 	case 'd':
 	{
-		if (dynamic_cast<Powers*>(map[{m_coordX, m_coordY + 1}]))
+		if (instanceOf<Powers, Entity*>(map[{m_coordX, m_coordY + 1}]))
 		{
-			if (dynamic_cast<Powers*>(map[{m_coordX, m_coordY + 1}])->GetPowerStatus() == 0 || m_softBlockPass)
+			if (instanceOf<Powers, Entity*>(map[{m_coordX, m_coordY + 1}])->GetPowerStatus() == 0 || m_softBlockPass)
 			{
-				if (dynamic_cast<Powers*>(map[{m_coordX, m_coordY + 1}])->GetPowerStatus() == 0)
+				if (instanceOf<Powers, Entity*>(map[{m_coordX, m_coordY + 1}])->GetPowerStatus() == 0)
 				{
-					UpdatePlayerPower(dynamic_cast<Powers*>(map[{m_coordX, m_coordY + 1}])->GetPowerType());
+					UpdatePlayerPower(instanceOf<Powers, Entity*>(map[{m_coordX, m_coordY + 1}])->GetPowerType());
 					map.SetBlock(Block::Type::NoneBlock, m_coordX, m_coordY + 1);
 				}
 				m_lastX = m_coordX;
@@ -332,10 +332,10 @@ void Player::Move(Map& map, char ch)
 			}
 		}
 		else
-			if (dynamic_cast<Block*>(map[{m_coordX, m_coordY + 1}])->GetType() == Block::Type::NoneBlock ||
-				dynamic_cast<Block*>(map[{m_coordX, m_coordY + 1}])->GetType() == Block::Type::SoftBlock && m_softBlockPass ||
-				dynamic_cast<Block*>(map[{m_coordX, m_coordY + 1}])->GetType() == Block::Type::Exit ||
-				dynamic_cast<Block*>(map[{m_coordX, m_coordY + 1}])->GetType() == Block::Type::HiddenExit && m_softBlockPass)
+			if (instanceOf<Block, Entity*>(map[{m_coordX, m_coordY + 1}])->GetType() == Block::Type::NoneBlock ||
+				instanceOf<Block, Entity*>(map[{m_coordX, m_coordY + 1}])->GetType() == Block::Type::SoftBlock && m_softBlockPass ||
+				instanceOf<Block, Entity*>(map[{m_coordX, m_coordY + 1}])->GetType() == Block::Type::Exit ||
+				instanceOf<Block, Entity*>(map[{m_coordX, m_coordY + 1}])->GetType() == Block::Type::HiddenExit && m_softBlockPass)
 			{
 				bool ok = 1;
 				if (!m_bombPass)
@@ -451,8 +451,8 @@ void Player::AddScore(uint16_t value)
 
 void Player::playerIsHitt(Map& map, uint16_t index1, uint16_t index2, uint16_t flame, uint16_t op)
 {
-	while (!dynamic_cast<Powers*>(map[{index1, index2}]) &&
-		dynamic_cast<Block*>(map[{index1, index2}])->GetType() == Block::Type::NoneBlock &&
+	while (!instanceOf<Powers, Entity*>(map[{index1, index2}]) &&
+		instanceOf<Block, Entity*>(map[{index1, index2}])->GetType() == Block::Type::NoneBlock &&
 		flame != 0)
 	{
 		bool ok = 0;
@@ -478,11 +478,11 @@ void Player::playerIsHitt(Map& map, uint16_t index1, uint16_t index2, uint16_t f
 			}
 		flame--;
 	}
-	if (dynamic_cast<Powers*>(map[{index1, index2}]))
+	if (instanceOf<Powers, Entity*>(map[{index1, index2}]))
 	{
 		if (flame != 0)
-			if (dynamic_cast<Powers*>(map[{index1, index2}])->GetPowerStatus() == 1)
-				dynamic_cast<Powers*>(map[{index1, index2}])->SetPowerStatus(0);
+			if (instanceOf<Powers, Entity*>(map[{index1, index2}])->GetPowerStatus() == 1)
+				instanceOf<Powers, Entity*>(map[{index1, index2}])->SetPowerStatus(0);
 			else
 			{
 				switch (op)
@@ -502,7 +502,7 @@ void Player::playerIsHitt(Map& map, uint16_t index1, uint16_t index2, uint16_t f
 
 	}
 	else
-		if (dynamic_cast<Block*>(map[{index1, index2}])->GetType() == Block::Type::SoftBlock && flame != 0)
+		if (instanceOf<Block, Entity*>(map[{index1, index2}])->GetType() == Block::Type::SoftBlock && flame != 0)
 		{
 			switch (op)
 			{
@@ -520,7 +520,7 @@ void Player::playerIsHitt(Map& map, uint16_t index1, uint16_t index2, uint16_t f
 		}
 
 		else
-			if (dynamic_cast<Block*>(map[{index1, index2}])->GetType() == Block::Type::HiddenExit && flame != 0)
+			if (instanceOf<Block, Entity*>(map[{index1, index2}])->GetType() == Block::Type::HiddenExit && flame != 0)
 				map.SetBlock(Block::Type::Exit, index1, index2);
 
 }

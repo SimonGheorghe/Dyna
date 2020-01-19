@@ -96,7 +96,7 @@ void Map::GenerateBlocks()
 	for (int index1 = 0; index1 < (uint16_t)m_length; ++index1)
 		for (int index2 = 0; index2 < (uint16_t)m_width; ++index2)
 		{
-			if (!dynamic_cast<Block*>(m_map[index1][index2]) && !dynamic_cast<Powers*>(m_map[index1][index2]))
+			if (!instanceOf<Block, Entity*>(m_map[index1][index2]) && !instanceOf<Powers, Entity*>(m_map[index1][index2]))
 			{
 				m_map[index1][index2] = new Block(Block::Type::NoneBlock);
 			}
@@ -114,7 +114,7 @@ void Map::GeneratePower()
 	do {
 		m_powerX = rand() % (uint16_t)m_length;
 		m_powerY = rand() % (uint16_t)m_width;
-	} while (dynamic_cast<Block*>(m_map[m_powerX][m_powerY])->GetType() != Block::Type::NoneBlock ||
+	} while (instanceOf<Block, Entity*>(m_map[m_powerX][m_powerY])->GetType() != Block::Type::NoneBlock ||
 		(m_powerX == 1 || m_powerX == 2) && (m_powerY == 1 || m_powerY == 2));
 	//we dont want to place the power in player's zone
 
@@ -231,9 +231,9 @@ void Map::SetBomb(Bomb* bomb)
 
 void Map::ClearMap(uint16_t index1, uint16_t index2)
 {
-	if (dynamic_cast<Block*>(m_map[index1][index2]))
+	if (instanceOf<Block, Entity*>(m_map[index1][index2]))
 	{
-		Block* block = dynamic_cast<Block*>(m_map[index1][index2]);
+		Block* block = instanceOf<Block, Entity*>(m_map[index1][index2]);
 		if (block->GetType() == Block::Type::ExplodedBlock ||
 			block->GetType() == Block::Type::ExplodedBomb ||
 			block->GetType() == Block::Type::HorizontalFire ||

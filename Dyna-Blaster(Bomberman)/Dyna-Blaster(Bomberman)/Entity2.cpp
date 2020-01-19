@@ -67,10 +67,10 @@ void Entity2::move(const float dir_x, const float dir_y, const float& dt, Map& m
 		coordY += dir_y;
 
 	if (m_movementComponent && 
-		dynamic_cast<Block*>(map[{int(coordX), int(coordY)}]) &&
+		instanceOf<Block, Entity*>(map[{int(coordX), int(coordY)}]) &&
 		(coordX>0 && coordY>0 && coordX<map.GetWidth() && coordY<map.GetLength()) &&
-		(dynamic_cast<Block*>(map[{int(coordX), int(coordY)}])->GetType()==Block::Type::NoneBlock ||
-		!m_hitboxComponent->CheckIntersect(dynamic_cast<Block*>(map[{int(coordX), int(coordY)}])->GetGlobalBounds()))
+		(instanceOf<Block, Entity*>(map[{int(coordX), int(coordY)}])->GetType()==Block::Type::NoneBlock ||
+		!m_hitboxComponent->CheckIntersect(instanceOf<Block, Entity*>(map[{int(coordX), int(coordY)}])->GetGlobalBounds()))
 		)
 	{
 		m_movementComponent->move(dir_x, dir_y, dt);

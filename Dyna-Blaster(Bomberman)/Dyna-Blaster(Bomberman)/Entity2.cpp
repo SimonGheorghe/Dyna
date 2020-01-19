@@ -55,9 +55,9 @@ void Entity2::move(const float dir_x, const float dir_y, const float& dt, Map& m
 	coords.y += 22;
 	std::modf(coords.x, &coordX);
 	std::modf(coords.y, &coordY);
-	if (int(coordX) % 32 > 16 && dir_x>0)
+	if (int(coordX) % 32 > 16 && (dir_x>0 || dir_y > 0))
 		x = 1;
-	if (int(coordY) % 32 > 16 && dir_y>0)
+	if (int(coordY) % 32 > 16 && (dir_x > 0 || dir_y > 0))
 		y = 1;
 	coordX = int(coordX) / 32 + x;
 	coordY = int(coordY) / 32 + y;

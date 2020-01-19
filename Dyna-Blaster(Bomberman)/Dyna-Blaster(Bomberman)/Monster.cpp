@@ -381,54 +381,47 @@ void Monster::Move(Map map, const Player& player)
 
 Monster& Monster::operator=(const Monster& other)
 {
-	// TODO: insert return statement here
-}
+	m_coordX = other.m_coordX;
+	m_coordY = other.m_coordY;
+	m_lastX = other.m_lastX;
+	m_lastY = other.m_lastY;
 
-Monster& Monster::operator=(Monster&& other)
-{Monster& Monster::operator=(const Monster& other)
-{
-	 m_coordX = other.m_coordX;
-	 m_coordY = other.m_coordY;
-	 m_lastX = other.m_lastX;
-	 m_lastY = other.m_lastY;
+	m_type = other.m_type;
+	m_speed = other.m_speed;
+	m_hitPoints = other.m_hitPoints;
+	m_score = other.m_score;
+	m_passingAbility = other.m_passingAbility;
 
-	 m_type= other.m_type;
-	 m_speed= other.m_speed;
-	 m_hitPoints= other.m_hitPoints;
-	 m_score= other.m_score;
-	 m_passingAbility= other.m_passingAbility;
-
-	 return *this;
+	return *this;
 }
 
 Monster& Monster::operator=(Monster&& other)
 {
 	m_coordX = other.m_coordX;
 	m_coordY = other.m_coordY;
-	m_lastX =  other.m_lastX;
-	m_lastY =  other.m_lastY;
+	m_lastX = other.m_lastX;
+	m_lastY = other.m_lastY;
 
-	m_type =   other.m_type;
-	m_speed =  other.m_speed;
- m_hitPoints = other.m_hitPoints;
-	 m_score = other.m_score;
-m_passingAbility = other.m_passingAbility;
+	m_type = other.m_type;
+	m_speed = other.m_speed;
+	m_hitPoints = other.m_hitPoints;
+	m_score = other.m_score;
+	m_passingAbility = other.m_passingAbility;
 
 
-	other.m_coordX=0;
+	other.m_coordX = 0;
 	other.m_coordY = 0;
 	other.m_lastX = 0;
 	other.m_lastY = 0;
-	
-	other.m_type= Monster::Type::Ballom;
-	other.m_speed=Monster::Speed::None;
-	other.m_hitPoints=0;
+
+	other.m_type = Monster::Type::Ballom;
+	other.m_speed = Monster::Speed::None;
+	other.m_hitPoints = 0;
 	other.m_score = 0;
-	other.m_passingAbility=false;
+	other.m_passingAbility = false;
 	return *this;
 }
-	// TODO: insert return statement here
-}
+
 
 
 

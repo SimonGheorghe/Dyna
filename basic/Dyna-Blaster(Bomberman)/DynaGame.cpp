@@ -4,7 +4,7 @@
 #include <conio.h>
 #include <chrono>
 #include <thread>
-
+#include <algorithm>
 #include "DynaGame.h"
 
 void DynaGame::ReadMapsDimensions()
@@ -18,12 +18,13 @@ void DynaGame::ReadMapsDimensions()
 void RandomEnemiesGenerator(std::vector<Monster*>& enemies, std::vector<uint16_t> possibleEnemies, uint16_t noOfEnemies)
 {
 	enemies.resize(noOfEnemies);
-	for (int index = 0; index < noOfEnemies; ++index)
-	{
+	auto generate = [&possibleEnemies](auto& enemy) {
 		uint16_t random;
 		random = rand() % possibleEnemies.size();
-		enemies[index] = new Monster(Monster::Type(possibleEnemies[random]));
-	}
+		enemy = new Monster(Monster::Type(possibleEnemies[random]));
+	};
+
+	std::for_each(enemies.begin(), enemies.end(), generate);
 }
 
 void GenerateMonster(std::vector<Monster*>& enemies, const Map& map)
@@ -466,10 +467,10 @@ void PrintMap(Map& map, const Player& player, std::vector<Monster*>& enemies)
 			else
 			{
 				bool ok = 1;
-				for (int index = 0; index < enemies.size(); ++index)
-					if (index1 == enemies[index]->GetCoordX() && index2 == enemies[index]->GetCoordY())
+				for (auto enemy : enemies)
+					if (index1 == enemy->GetCoordX() && index2 == enemy->GetCoordY())
 					{
-						std::cout << *enemies[index];
+						std::cout << *enemy;
 						map.ClearMap(index1, index2);
 						ok = 0;
 						break;
@@ -505,14 +506,15 @@ void PrintMap(Map& map, const Player& player, std::vector<Monster*>& enemies)
 
 void DeleteDeadMonsters(std::vector<Monster*>& enemies, Map& map, Player& player)
 {
-	for (int index = 0; index < enemies.size(); ++index)
-		if (enemies[index]->GetHitPoints() == 0)
+	for (auto enemy:enemies)
+		if (enemy->GetHitPoints() == 0)
 		{
-			int x = enemies[index]->GetCoordX();
-			int y = enemies[index]->GetCoordY();
+			int x = enemy->GetCoordX();
+			int y = enemy->GetCoordY();
 			map.SetBlock(Block::Type::NoneBlock, x, y);
-			player.AddScore(enemies[index]->GetScore());
-			enemies.erase(enemies.begin() + index--);
+			player.AddScore(enemy->GetScore());
+			enemies.erase(find(enemies.begin(), enemies.end(), enemy));
+			enemy--;
 		}
 }
 
@@ -621,9 +623,10 @@ void DynaGame::Run()
 	uint16_t playerSpeed = 2;
 	Player player(playerFire, playerNoOfBombs, playerHealth, playerScore, playerSpeed);
 
-	bool endRound = 0;
+	bool endRound = 0;//it ends when all enemies are dead and player is on exit
+
 	uint16_t stage = 0;
-	bool exit;
+	bool exitIsShown;
 
 	while (stage < 8)
 	{
@@ -631,7 +634,7 @@ void DynaGame::Run()
 		while (round < 8)
 		{
 			if (round == 7)
-				exit = 0;
+				exitIsShown = 0;
 			endRound = 0;
 			while (endRound == 0)
 			{
@@ -668,8 +671,8 @@ void DynaGame::Run()
 
 					DeleteDeadMonsters(enemies, map, player);
 
-					if (round == 7 && enemies.empty() && !exit)
-						exit = PlaceExit(map);
+					if (round == 7 && enemies.empty() && !exitIsShown)
+						exitIsShown = PlaceExit(map);
 
 					//kills player if bomb hit him
 					if (playerIsHit && !player.GetHasVest())

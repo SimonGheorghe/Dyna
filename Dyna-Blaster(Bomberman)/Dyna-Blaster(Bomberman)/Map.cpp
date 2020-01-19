@@ -11,6 +11,16 @@ Map::Map(Stage Stage, uint16_t Level)
 
 }
 
+Map::Map(const Map& other)
+{
+	*this = other;
+}
+
+Map::Map(Map&& other)
+{
+	*this = std::move(other);
+}
+
 void Map::Create(std::map<std::string, sf::Texture>& textures)
 {
 	m_map.resize((uint16_t)m_length);

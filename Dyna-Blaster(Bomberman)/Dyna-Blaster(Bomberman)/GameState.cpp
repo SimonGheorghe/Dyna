@@ -527,57 +527,7 @@ void PlayerMove(Player& player, Map& map, std::vector<Monster*>& enemies, uint16
 					player.Move(map, ch);
 	}
 }
-/*void PrintMap(Map& map, const Player& player, std::vector<Monster*>& enemies)
-{
-	std::cout << "Score: " << player.GetScore() << std::endl;
 
-	for (int index1 = 0; index1 < map.GetLength(); ++index1)
-	{
-		for (int index2 = 0; index2 < map.GetWidth(); ++index2)
-		{
-			if (index1 == player.GetCoordX() && index2 == player.GetCoordY())
-			{
-				std::cout << player;
-				map.ClearMap(index1, index2);
-			}
-			else
-			{
-				bool ok = 1;
-				for (int index = 0; index < enemies.size(); ++index)
-					if (index1 == enemies[index]->GetCoordX() && index2 == enemies[index]->GetCoordY())
-					{
-						std::cout << *enemies[index];
-						map.ClearMap(index1, index2);
-						ok = 0;
-						break;
-					}
-				if (ok)
-				{
-					bool ok = 1;
-					for (int index = 0; index < player.GetNoOfPlacedBombs(); ++index)
-						if (index1 == player[index]->GetCoordX() && index2 == player[index]->GetCoordY())
-						{
-							std::cout << *player[index];
-							map.ClearMap(index1, index2);
-							ok = 0;
-						}
-					if (ok)
-					{
-						if (instanceOf<Block, Entity*>(map[{index1, index2}]))
-						{
-							std::cout << *instanceOf<Block, Entity*>(map[{index1, index2}]);
-							map.ClearMap(index1, index2);
-						}
-						if (instanceOf<Powers, Entity*>(map[{index1, index2}]))
-							std::cout << *instanceOf<Powers, Entity*>(map[{index1, index2}]);
-					}
-				}
-			}
-		}
-		std::cout << std::endl;
-	}
-}
-*/
 void DeleteDeadMonsters(std::vector<Monster*>& enemies, Map& map, Player& player)
 {
 	for (int index = 0; index < enemies.size(); ++index)
